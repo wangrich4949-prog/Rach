@@ -835,6 +835,8 @@
 
   const reelFrames = [0,1,2].map(i => document.getElementById(`reel-frame-${i}`));
   const reelStrips = [0,1,2].map(i => document.getElementById(`reel-strip-${i}`));
+  const slotLightsBar = document.getElementById('slot-lights-bar');
+  const slotLights = [...document.querySelectorAll('.slot-light')];
 
   let isSpinning = false;
   let animFrameId = null;
@@ -878,6 +880,9 @@
 
   function runSpin(score) {
     isSpinning = true;
+    // 跑马灯追逐
+    slotLightsBar.classList.add('chasing');
+    slotLights.forEach(l => l.classList.remove('lit'));
     const digits = String(score).padStart(3, '0').split('').map(Number);
 
     reels.forEach((reel, i) => {
