@@ -8,579 +8,389 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
-  }
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 
   body {
-    background: linear-gradient(180deg, #1a0a2e 0%, #2d1060 30%, #1a0a2e 70%, #0d0420 100%);
-    min-height: 100vh;
-    min-height: 100dvh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: linear-gradient(180deg, #0d0015 0%, #1a0a2e 15%, #2d1060 40%, #1a0a2e 70%, #0d0015 100%);
+    min-height: 100vh; min-height: 100dvh;
+    display: flex; align-items: center; justify-content: center;
     font-family: 'Press Start 2P', monospace;
-    overflow-x: hidden;
-    user-select: none;
-    -webkit-user-select: none;
+    overflow-x: hidden; user-select: none; -webkit-user-select: none;
   }
 
   /* ===== 像素星星背景 ===== */
-  .stars {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-  }
+  .stars { position:fixed; inset:0; pointer-events:none; z-index:0; }
   .star {
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    background: #ffec8b;
-    box-shadow:
-      2px 0 0 #ffec8b,
-      4px 0 0 #ffd700,
-      0 2px 0 #ffec8b,
-      0 4px 0 #ffd700,
-      2px 2px 0 #fff;
-    animation: twinkle var(--dur) ease-in-out infinite;
-    animation-delay: var(--delay);
+    position:absolute; width:6px; height:6px; background:#ffec8b;
+    box-shadow: 2px 0 0 #ffec8b, 4px 0 0 #ffd700, 0 2px 0 #ffec8b, 0 4px 0 #ffd700, 2px 2px 0 #fff;
+    animation: twinkle var(--dur) ease-in-out infinite; animation-delay: var(--delay);
   }
-  @keyframes twinkle {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 1; }
+  @keyframes twinkle { 0%,100%{opacity:.3} 50%{opacity:1} }
+
+  /* ===== 金色光尘粒子 ===== */
+  .dust { position:fixed; pointer-events:none; z-index:0; }
+  .dust-particle {
+    position:absolute; width:3px; height:3px; background:#ffd700;
+    box-shadow: 0 0 4px #ffd700;
+    animation: floatUp var(--fdur) linear infinite; animation-delay: var(--fdelay);
+    opacity:0;
+  }
+  @keyframes floatUp {
+    0% { transform:translateY(0) scale(0); opacity:0; }
+    10% { opacity:1; }
+    90% { opacity:1; }
+    100% { transform:translateY(-100vh) scale(1); opacity:0; }
   }
 
   /* ===== 页面容器 ===== */
-  .page {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .page.hidden { display: none; }
+  .page { position:relative; z-index:1; width:100%; display:flex; flex-direction:column; align-items:center; }
+  .page.hidden { display:none; }
+  .container { width:100%; max-width:390px; padding:20px 14px; display:flex; flex-direction:column; align-items:center; gap:18px; }
 
-  .container {
-    width: 100%;
-    max-width: 380px;
-    padding: 24px 16px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-  }
-
-  /* ===== 像素装饰边框 ===== */
+  /* ===== 像素装饰边框 (华丽版) ===== */
   .corner-decor {
-    position: relative;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    padding: 20px 16px 28px;
-    border: 4px solid #c9a100;
+    position:relative; width:100%; display:flex; flex-direction:column; align-items:center;
+    gap:12px; padding:22px 16px 24px;
+    border:4px solid #c9a100;
     box-shadow:
-      -4px -4px 0 0 #1a0a2e,
-      4px -4px 0 0 #1a0a2e,
-      -4px 4px 0 0 #1a0a2e,
-      4px 4px 0 0 #1a0a2e,
+      -4px -4px 0 0 #1a0a2e, 4px -4px 0 0 #1a0a2e, -4px 4px 0 0 #1a0a2e, 4px 4px 0 0 #1a0a2e,
       0 0 0 8px #2d1060,
-      -8px -8px 0 0 #ffd700,
-      8px -8px 0 0 #ffd700,
-      -8px 8px 0 0 #ffd700,
-      8px 8px 0 0 #ffd700;
-    image-rendering: pixelated;
+      -8px -8px 0 0 #ffd700, 8px -8px 0 0 #ffd700, -8px 8px 0 0 #ffd700, 8px 8px 0 0 #ffd700,
+      0 0 0 10px #1a0a2e,
+      -10px -10px 0 0 #b8860b, 10px -10px 0 0 #b8860b, -10px 10px 0 0 #b8860b, 10px 10px 0 0 #b8860b;
+    image-rendering:pixelated;
+  }
+  /* 四角像素宝石 */
+  .corner-decor::before {
+    content:''; position:absolute; top:-6px; left:-6px;
+    width:8px; height:8px; background:#fff;
+    box-shadow:
+      8px 0 0 #ffd700, 0 8px 0 #ffd700, 8px 8px 0 #ffec8b,
+      0 0 0 2px #b8860b, 8px 0 0 2px #b8860b, 0 8px 0 2px #b8860b, 8px 8px 0 2px #b8860b;
+    z-index:2;
+  }
+  .corner-decor::after {
+    content:''; position:absolute; top:-6px; right:-6px;
+    width:8px; height:8px; background:#fff;
+    box-shadow:
+      -8px 0 0 #ffd700, 0 8px 0 #ffd700, -8px 8px 0 #ffec8b,
+      0 0 0 2px #b8860b, -8px 0 0 2px #b8860b, 0 8px 0 2px #b8860b, -8px 8px 0 2px #b8860b;
+    z-index:2;
   }
 
   /* ===== 标题 ===== */
   .title {
-    font-size: 20px;
-    color: #ffd700;
-    text-align: center;
-    letter-spacing: 2px;
-    line-height: 1.6;
-    text-shadow:
-      2px 2px 0 #c9a100,
-      -2px -2px 0 #c9a100,
-      0 0 10px #ffec8b,
-      0 0 20px #ffd700aa;
-    image-rendering: pixelated;
+    font-size:22px; color:#ffd700; text-align:center; letter-spacing:2px; line-height:1.6;
+    text-shadow: 2px 2px 0 #c9a100, -2px -2px 0 #c9a100, 0 0 12px #ffec8b, 0 0 24px #ffd700aa, 0 0 40px #ff8c0044;
+    image-rendering:pixelated;
   }
-  .title::before,
-  .title::after {
-    content: '✦';
-    color: #ffec8b;
-    text-shadow: 0 0 8px #ffd700;
-    font-size: 14px;
+  .title .icon-left, .title .icon-right {
+    color:#ffec8b; text-shadow:0 0 10px #ffd700; font-size:16px;
   }
-  .title::before { margin-right: 6px; }
-  .title::after  { margin-left: 6px; }
 
   .divider {
-    width: 80%;
-    height: 6px;
-    background: repeating-linear-gradient(
-      90deg,
-      #ffd700 0px,
-      #ffd700 8px,
-      transparent 8px,
-      transparent 16px
-    );
-    margin: 4px 0;
+    width:85%; height:6px;
+    background: repeating-linear-gradient(90deg, #ffd700 0px, #ffd700 8px, transparent 8px, transparent 16px);
+    margin:4px 0; image-rendering:pixelated;
   }
+  /* 分割线两侧点缀 */
+  .divider-ornament {
+    display:flex; align-items:center; justify-content:center; gap:0; width:85%;
+  }
+  .divider-ornament::before, .divider-ornament::after {
+    content:'◆'; color:#ffd700; font-size:8px; text-shadow:0 0 6px #ffd700;
+  }
+  .divider-ornament .divider { flex:1; }
 
   /* ===== 按钮组 ===== */
-  .btn-group {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    width: 100%;
-    padding: 0 8px;
-  }
+  .btn-group { display:flex; flex-direction:column; gap:18px; width:100%; padding:0 4px; }
 
   .pixel-btn {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding: 20px 0;
-    font-family: 'Press Start 2P', monospace;
-    font-size: 20px;
-    color: #ffec8b;
-    background: linear-gradient(180deg, #6b3fa0, #4a1d8a);
-    border: none;
-    cursor: pointer;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    text-shadow:
-      2px 2px 0 #2d1060,
-      0 0 6px #ffd70066;
+    position:relative; display:flex; align-items:center; justify-content:center;
+    width:100%; padding:22px 0;
+    font-family:'Press Start 2P',monospace; font-size:20px; color:#ffec8b;
+    background: linear-gradient(180deg, #6b3fa0 0%, #4a1d8a 50%, #3a1068 100%);
+    border:none; cursor:pointer; letter-spacing:2px;
+    text-shadow: 2px 2px 0 #2d1060, 0 0 8px #ffd70066;
     box-shadow:
-      -4px -4px 0 0 #ffd700,
-      4px -4px 0 0 #ffd700,
-      -4px 4px 0 0 #ffd700,
-      4px 4px 0 0 #ffd700,
-      0 0 0 4px #2d1060,
-      -8px 0 0 0 #1a0a2e,
-      8px 0 0 0 #1a0a2e;
-    transition: transform 0.06s, box-shadow 0.06s;
-    image-rendering: pixelated;
-    outline: none;
-    -webkit-tap-highlight-color: transparent;
+      -4px -4px 0 0 #ffd700, 4px -4px 0 0 #ffd700, -4px 4px 0 0 #ffd700, 4px 4px 0 0 #ffd700,
+      0 0 0 4px #2d1060, -8px 0 0 0 #1a0a2e, 8px 0 0 0 #1a0a2e,
+      0 0 0 6px #b8860b;
+    transition:transform .06s, box-shadow .06s; image-rendering:pixelated; outline:none;
   }
-
   .pixel-btn:active {
-    transform: translate(2px, 2px);
+    transform:translate(2px,2px);
     box-shadow:
-      -6px -6px 0 0 #ffd700,
-      2px -6px 0 0 #ffd700,
-      -6px 2px 0 0 #ffd700,
-      2px 2px 0 0 #ffd700,
-      0 0 0 4px #2d1060,
-      -8px 0 0 0 #1a0a2e,
-      8px 0 0 0 #1a0a2e;
+      -6px -6px 0 0 #ffd700, 2px -6px 0 0 #ffd700, -6px 2px 0 0 #ffd700, 2px 2px 0 0 #ffd700,
+      0 0 0 4px #2d1060, -8px 0 0 0 #1a0a2e, 8px 0 0 0 #1a0a2e, 0 0 0 6px #b8860b;
     background: linear-gradient(180deg, #5a2f8a, #3a1570);
   }
-
-  .pixel-btn::before,
-  .pixel-btn::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 8px;
-    height: 8px;
-    background: #ffd700;
-    box-shadow: 0 4px 0 #c9a100;
+  .pixel-btn::before, .pixel-btn::after {
+    content:''; position:absolute; top:50%; transform:translateY(-50%);
+    width:10px; height:10px; background:#ffd700;
+    box-shadow: 0 5px 0 #c9a100;
   }
-  .pixel-btn::before { left: 18px; }
-  .pixel-btn::after  { right: 18px; }
+  .pixel-btn::before { left:18px; }
+  .pixel-btn::after  { right:18px; }
+
+  /* 皇帝按钮特殊样式 - 金色边框更宽 */
+  .btn-emperor {
+    background: linear-gradient(180deg, #8b5e3c 0%, #6b3fa0 30%, #4a1d8a 70%, #3a1068 100%) !important;
+    box-shadow:
+      -4px -4px 0 0 #ffd700, 4px -4px 0 0 #ffd700, -4px 4px 0 0 #ffd700, 4px 4px 0 0 #ffd700,
+      0 0 0 4px #2d1060, -8px 0 0 0 #1a0a2e, 8px 0 0 0 #1a0a2e,
+      0 0 12px #ffd70044, 0 0 0 6px #b8860b !important;
+  }
+  .btn-emperor::before, .btn-emperor::after {
+    background:#ffd700 !important; box-shadow:0 5px 0 #c9a100, 0 0 8px #ffd70088 !important;
+  }
 
   /* ===== 像素皇帝小人 ===== */
-  .pixel-emperor {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .emperor-sprite {
-    position: relative;
-    width: 4px;
-    height: 4px;
-    margin: 0 4px;
-    flex-shrink: 0;
-  }
+  .pixel-emperor { display:inline-flex; align-items:center; gap:8px; }
+  .emperor-sprite { position:relative; width:4px; height:4px; margin:0 4px; flex-shrink:0; }
   .emperor-sprite::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 4px; height: 4px;
-    background: transparent;
-    /* 8x10 pixel emperor: crown + face + robe */
+    content:''; position:absolute; top:0; left:0; width:4px; height:4px; background:transparent;
     box-shadow:
-      /* crown top - gold */
-      8px  0px  0 #ffd700,  12px 0px  0 #ffd700,
-      4px  4px  0 #ffd700,  8px  4px  0 #ffe44d, 12px 4px  0 #ffe44d, 16px 4px  0 #ffd700,
-      0px  8px  0 #ffd700,  4px  8px  0 #ffe44d, 8px  8px  0 #fff,   12px 8px  0 #fff,   16px 8px  0 #ffe44d, 20px 8px  0 #ffd700,
-      /* face */
-      4px  12px 0 #ffe0bd,  8px  12px 0 #333,     12px 12px 0 #333,    16px 12px 0 #ffe0bd,
-      4px  16px 0 #ffe0bd,  8px  16px 0 #e88,     12px 16px 0 #e88,    16px 16px 0 #ffe0bd,
-      4px  20px 0 #ffe0bd,  8px  20px 0 #ffe0bd,  12px 20px 0 #ffe0bd, 16px 20px 0 #ffe0bd,
-      /* robe - gold */
-      4px  24px 0 #c9a100,  8px  24px 0 #ffd700,  12px 24px 0 #ffd700, 16px 24px 0 #c9a100,
-      0px  28px 0 #c9a100,  4px  28px 0 #ffd700,  8px  28px 0 #ffe44d, 12px 28px 0 #ffe44d, 16px 28px 0 #ffd700, 20px 28px 0 #c9a100,
-      0px  32px 0 #8b6914,  4px  32px 0 #c9a100,  8px  32px 0 #c9a100, 12px 32px 0 #c9a100, 16px 32px 0 #c9a100, 20px 32px 0 #8b6914;
+      8px 0px 0 #ffd700, 12px 0px 0 #ffd700,
+      4px 4px 0 #ffd700, 8px 4px 0 #ffe44d, 12px 4px 0 #ffe44d, 16px 4px 0 #ffd700,
+      0px 8px 0 #ffd700, 4px 8px 0 #ffe44d, 8px 8px 0 #fff, 12px 8px 0 #fff, 16px 8px 0 #ffe44d, 20px 8px 0 #ffd700,
+      4px 12px 0 #ffe0bd, 8px 12px 0 #333, 12px 12px 0 #333, 16px 12px 0 #ffe0bd,
+      4px 16px 0 #ffe0bd, 8px 16px 0 #e88, 12px 16px 0 #e88, 16px 16px 0 #ffe0bd,
+      4px 20px 0 #ffe0bd, 8px 20px 0 #ffe0bd, 12px 20px 0 #ffe0bd, 16px 20px 0 #ffe0bd,
+      4px 24px 0 #c9a100, 8px 24px 0 #ffd700, 12px 24px 0 #ffd700, 16px 24px 0 #c9a100,
+      0px 28px 0 #c9a100, 4px 28px 0 #ffd700, 8px 28px 0 #ffe44d, 12px 28px 0 #ffe44d, 16px 28px 0 #ffd700, 20px 28px 0 #c9a100,
+      0px 32px 0 #8b6914, 4px 32px 0 #c9a100, 8px 32px 0 #c9a100, 12px 32px 0 #c9a100, 16px 32px 0 #c9a100, 20px 32px 0 #8b6914;
   }
 
   /* ===== 底部信息 ===== */
-  .footer {
-    margin-top: 8px;
-    font-size: 8px;
-    color: #6b3fa0;
-    text-align: center;
-    letter-spacing: 1px;
-    animation: pulse 2s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 0.5; }
-    50% { opacity: 0.8; }
-  }
+  .footer { margin-top:6px; font-size:8px; color:#8b6fbf; text-align:center; letter-spacing:1px; animation:pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:.5} 50%{opacity:.9} }
 
   /* ===== 点击波纹 ===== */
   .ripple {
-    position: fixed;
-    width: 16px;
-    height: 16px;
-    background: #ffd700;
-    pointer-events: none;
-    z-index: 99;
-    animation: rippleOut 0.4s steps(4) forwards;
-    image-rendering: pixelated;
+    position:fixed; width:16px; height:16px; background:#ffd700; pointer-events:none; z-index:99;
+    animation:rippleOut .4s steps(4) forwards; image-rendering:pixelated;
   }
-  @keyframes rippleOut {
-    0% { transform: scale(1); opacity: 1; }
-    100% { transform: scale(6); opacity: 0; }
-  }
+  @keyframes rippleOut { 0%{transform:scale(1);opacity:1} 100%{transform:scale(6);opacity:0} }
 
   /* =========================================================== */
-  /*  老虎机计分机器  */
+  /*  输入分数页面  */
   /* =========================================================== */
 
-  .slot-title {
-    font-size: 16px;
-    color: #ffd700;
-    text-align: center;
-    text-shadow: 2px 2px 0 #c9a100, 0 0 10px #ffec8b;
-    image-rendering: pixelated;
+  .input-title {
+    font-size:16px; color:#ffd700; text-align:center;
+    text-shadow:2px 2px 0 #c9a100, 0 0 12px #ffec8b, 0 0 24px #ffd70066;
+    image-rendering:pixelated; letter-spacing:1px;
+  }
+  .input-hint {
+    font-size:12px; color:#c9a100; text-align:center; letter-spacing:1px;
+    text-shadow:0 0 8px #ffd70044;
   }
 
-  /* 滚轴机器外壳 */
-  .slot-cabinet {
-    position: relative;
-    width: 100%;
-    background: linear-gradient(180deg, #2a1050, #1a0a30);
-    border: 4px solid #ffd700;
-    padding: 16px 12px;
+  /* 分数显示框 */
+  .score-input-box {
+    width:100%; background:linear-gradient(180deg, #0d0420, #150530);
+    border:4px solid #ffd700; padding:14px;
     box-shadow:
-      -4px -4px 0 0 #1a0a2e,
-      4px -4px 0 0 #1a0a2e,
-      -4px 4px 0 0 #1a0a2e,
-      4px 4px 0 0 #1a0a2e,
-      0 0 0 8px #2d1060,
-      -8px -8px 0 0 #c9a100,
-      8px -8px 0 0 #c9a100,
-      -8px 8px 0 0 #c9a100,
-      8px 8px 0 0 #c9a100;
-    image-rendering: pixelated;
+      -4px -4px 0 0 #1a0a2e, 4px -4px 0 0 #1a0a2e, -4px 4px 0 0 #1a0a2e, 4px 4px 0 0 #1a0a2e,
+      0 0 0 8px #2d1060, -8px -8px 0 0 #c9a100, 8px -8px 0 0 #c9a100, -8px 8px 0 0 #c9a100, 8px 8px 0 0 #c9a100,
+      inset 0 0 20px #ffd70011;
+    image-rendering:pixelated;
+  }
+  .score-input-display {
+    font-family:'Press Start 2P',monospace; font-size:42px; color:#ffd700;
+    background:#0a0018; border:3px solid #c9a100;
+    padding:14px 16px; text-align:center;
+    text-shadow:0 0 12px #ffd70088, 0 0 24px #ffd70044;
+    image-rendering:pixelated; letter-spacing:4px;
+    margin-bottom:14px;
+  }
+
+  /* 数字键盘 */
+  .numpad-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; }
+  .numpad-key {
+    font-family:'Press Start 2P',monospace; font-size:20px; color:#ffec8b;
+    background:linear-gradient(180deg, #6b3fa0, #4a1d8a);
+    border:3px solid #c9a100; padding:14px 0; cursor:pointer; text-align:center;
+    box-shadow: -3px -3px 0 #ffd700, 3px -3px 0 #ffd700, -3px 3px 0 #ffd700, 3px 3px 0 #ffd700;
+    image-rendering:pixelated; outline:none; transition:transform .04s;
+    text-shadow:1px 1px 0 #2d1060;
+  }
+  .numpad-key:active { transform:translate(1px,1px); background:linear-gradient(180deg, #5a2f8a, #3a1570); }
+  .numpad-key.key-del { font-size:12px; background:linear-gradient(180deg, #8b3a3a, #6b2020); color:#ffaaaa; }
+  .numpad-key.key-go {
+    font-size:14px; background:linear-gradient(180deg, #ffd700, #c9a100) !important;
+    color:#1a0a2e !important; border-color:#8b6914 !important; text-shadow:none !important;
+    box-shadow: -3px -3px 0 #8b6914, 3px -3px 0 #8b6914, -3px 3px 0 #8b6914, 3px 3px 0 #8b6914, 0 0 12px #ffd70066 !important;
+  }
+
+  /* 输入页底部按钮行 */
+  .input-bottom-row { display:flex; gap:10px; width:100%; }
+  .input-bottom-row .pixel-btn { flex:1; font-size:11px; padding:14px 0; }
+
+  /* =========================================================== */
+  /*  老虎机展示页面  */
+  /* =========================================================== */
+
+  .slot-title-bar {
+    font-size:15px; color:#ffd700; text-align:center;
+    text-shadow:2px 2px 0 #c9a100, 0 0 12px #ffec8b, 0 0 24px #ffd70066;
+    image-rendering:pixelated; letter-spacing:1px;
+  }
+
+  /* 目标分数展示 */
+  .target-score-badge {
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    width:100%; padding:10px;
+    background:linear-gradient(180deg, #2a1050, #1a0a30);
+    border:3px solid #c9a100;
+    box-shadow:inset 0 0 12px #ffd70011, 0 0 16px #ffd70022;
+    image-rendering:pixelated;
+  }
+  .target-label { font-size:10px; color:#c9a100; text-shadow:0 0 6px #ffd70044; }
+  .target-value {
+    font-size:28px; color:#ffd700; letter-spacing:3px;
+    text-shadow:0 0 12px #ffd70088, 0 0 24px #ffd70044;
+  }
+
+  /* 老虎机机身 (华丽版) */
+  .slot-cabinet {
+    position:relative; width:100%;
+    background:linear-gradient(180deg, #2a1050 0%, #1a0a30 30%, #150528 60%, #1a0a30 100%);
+    border:4px solid #ffd700; padding:18px 14px 14px;
+    box-shadow:
+      -4px -4px 0 0 #1a0a2e, 4px -4px 0 0 #1a0a2e, -4px 4px 0 0 #1a0a2e, 4px 4px 0 0 #1a0a2e,
+      0 0 0 8px #2d1060, -8px -8px 0 0 #c9a100, 8px -8px 0 0 #c9a100, -8px 8px 0 0 #c9a100, 8px 8px 0 0 #c9a100,
+      0 0 20px #ffd70033, 0 0 40px #ffd70011;
+    image-rendering:pixelated;
+    overflow:visible;
+  }
+  /* 机身顶部装饰皇冠 */
+  .slot-crown {
+    position:absolute; top:-16px; left:50%; transform:translateX(-50%);
+    width:32px; height:16px;
+    background:#ffd700;
+    box-shadow:
+      0 -4px 0 #c9a100,
+      8px 4px 0 #ffd700, -8px 4px 0 #ffd700,
+      0 0 10px #ffd70088;
+    clip-path: polygon(0% 100%, 12.5% 0%, 25% 50%, 37.5% 0%, 50% 50%, 62.5% 0%, 75% 50%, 87.5% 0%, 100% 100%);
   }
 
   /* 顶部装饰灯 */
-  .slot-lights {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin-bottom: 14px;
-  }
+  .slot-lights { display:flex; justify-content:center; gap:10px; margin-bottom:16px; }
   .slot-light {
-    width: 10px;
-    height: 10px;
-    background: #ffd700;
-    box-shadow:
-      2px 0 0 #ffec8b,
-      0 2px 0 #ffec8b,
-      2px 2px 0 #fff,
-      0 0 8px #ffd700;
-    animation: lightBlink 0.8s steps(2) infinite;
-    image-rendering: pixelated;
+    width:10px; height:10px; background:#ffd700;
+    box-shadow:2px 0 0 #ffec8b, 0 2px 0 #ffec8b, 2px 2px 0 #fff, 0 0 10px #ffd700;
+    animation:lightBlink .7s steps(2) infinite; image-rendering:pixelated;
   }
-  .slot-light:nth-child(2) { animation-delay: 0.2s; }
-  .slot-light:nth-child(3) { animation-delay: 0.4s; }
-  .slot-light:nth-child(4) { animation-delay: 0.6s; }
-  .slot-light:nth-child(5) { animation-delay: 0.1s; }
+  .slot-light:nth-child(2){animation-delay:.15s}
+  .slot-light:nth-child(3){animation-delay:.3s}
+  .slot-light:nth-child(4){animation-delay:.45s}
+  .slot-light:nth-child(5){animation-delay:.1s}
+  .slot-light:nth-child(6){animation-delay:.25s}
+  .slot-light:nth-child(7){animation-delay:.4s}
 
   @keyframes lightBlink {
-    0%, 100% { opacity: 1; background: #ffd700; }
-    50% { opacity: 0.3; background: #c9a100; }
+    0%,100%{opacity:1;background:#ffd700;box-shadow:2px 0 0 #ffec8b,0 2px 0 #ffec8b,2px 2px 0 #fff,0 0 10px #ffd700}
+    50%{opacity:.25;background:#b8860b;box-shadow:2px 0 0 #8b6914,0 2px 0 #8b6914,2px 2px 0 #c9a100,0 0 4px #8b6914}
   }
 
   /* 滚轴容器 */
-  .reels-container {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    padding: 8px 0;
+  .reels-wrapper { position:relative; display:flex; justify-content:center; gap:10px; padding:6px 0; }
+  .reels-wrapper::before {
+    content:''; position:absolute; inset:-4px -2px;
+    border:2px solid #c9a10066;
+    pointer-events:none; z-index:0;
   }
 
   /* 单个滚轴框 */
   .reel-frame {
-    position: relative;
-    width: 72px;
-    height: 96px;
-    background: #0d0420;
-    border: 4px solid #ffd700;
-    overflow: hidden;
+    position:relative; width:76px; height:100px;
+    background:linear-gradient(180deg, #0a0018, #0d0420);
+    border:4px solid #ffd700; overflow:hidden;
     box-shadow:
-      inset 0 0 16px #00000088,
-      -2px -2px 0 #c9a100,
-      2px -2px 0 #c9a100,
-      -2px 2px 0 #c9a100,
-      2px 2px 0 #c9a100;
-    image-rendering: pixelated;
+      inset 0 0 20px #000000aa,
+      -2px -2px 0 #c9a100, 2px -2px 0 #c9a100, -2px 2px 0 #c9a100, 2px 2px 0 #c9a100,
+      0 0 0 2px #2d1060, -4px 0 0 #1a0a2e, 4px 0 0 #1a0a2e;
+    image-rendering:pixelated; z-index:1;
   }
-
-  /* 滚轴中间高光线 */
   .reel-frame::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 50%;
-    background: linear-gradient(180deg, #ffd70018 0%, transparent 100%);
-    z-index: 2;
-    pointer-events: none;
+    content:''; position:absolute; top:0;left:0;right:0; height:50%;
+    background:linear-gradient(180deg, #ffd70022 0%, transparent 100%);
+    z-index:3; pointer-events:none;
   }
-
-  /* 滚轴中轴线 */
   .reel-frame::after {
-    content: '';
-    position: absolute;
-    left: 0; right: 0;
-    top: 50%;
-    height: 2px;
-    background: #ffd70088;
-    box-shadow: 0 0 6px #ffd70044;
-    z-index: 2;
-    pointer-events: none;
+    content:''; position:absolute; left:0;right:0; top:50%;
+    height:2px; background:#ffd700aa;
+    box-shadow:0 0 8px #ffd70066, 0 1px 0 #00000044, 0 -1px 0 #00000044;
+    z-index:3; pointer-events:none;
   }
 
   /* 滚轴数字条 */
-  .reel-strip {
-    position: absolute;
-    left: 0;
-    width: 100%;
-    will-change: transform;
-  }
-
+  .reel-strip { position:absolute; left:0; width:100%; will-change:transform; }
   .reel-num {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 48px;
-    font-size: 32px;
-    color: #ffd700;
-    text-shadow:
-      2px 2px 0 #c9a100,
-      0 0 8px #ffd700;
-    image-rendering: pixelated;
+    display:flex; align-items:center; justify-content:center;
+    height:50px; font-size:36px; color:#ffd700;
+    text-shadow:2px 2px 0 #c9a100, 0 0 10px #ffd700;
+    image-rendering:pixelated;
   }
 
-  /* 分数输入区域 */
-  .score-input-area {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    width: 100%;
-    margin-top: 6px;
-  }
-
-  .score-input-btn {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 10px;
-    color: #ffec8b;
-    background: linear-gradient(180deg, #6b3fa0, #4a1d8a);
-    border: 3px solid #ffd700;
-    padding: 10px 12px;
-    cursor: pointer;
-    text-shadow: 1px 1px 0 #2d1060;
-    box-shadow:
-      -2px -2px 0 #c9a100,
-      2px -2px 0 #c9a100,
-      -2px 2px 0 #c9a100,
-      2px 2px 0 #c9a100;
-    image-rendering: pixelated;
-    outline: none;
-    transition: transform 0.06s;
-  }
-  .score-input-btn:active {
-    transform: translate(1px, 1px);
-  }
-
-  .score-display {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 28px;
-    color: #ffd700;
-    background: #0d0420;
-    border: 3px solid #c9a100;
-    padding: 8px 16px;
-    min-width: 100px;
-    text-align: center;
-    text-shadow: 0 0 10px #ffd70088;
-    image-rendering: pixelated;
-    letter-spacing: 2px;
-  }
-
-  /* 确认按钮 */
-  .confirm-btn {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 12px;
-    color: #1a0a2e;
-    background: linear-gradient(180deg, #ffd700, #c9a100);
-    border: 3px solid #8b6914;
-    padding: 10px 14px;
-    cursor: pointer;
-    box-shadow:
-      -2px -2px 0 #8b6914,
-      2px -2px 0 #8b6914,
-      -2px 2px 0 #8b6914,
-      2px 2px 0 #8b6914;
-    image-rendering: pixelated;
-    outline: none;
-    transition: transform 0.06s;
-    text-shadow: none;
-  }
-  .confirm-btn:active {
-    transform: translate(1px, 1px);
-  }
-  .confirm-btn:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-    pointer-events: none;
-  }
-
-  /* 返回按钮 */
-  .back-btn {
-    width: 100%;
-    margin-top: 4px;
-    font-size: 12px !important;
-    padding: 14px 0 !important;
-    background: linear-gradient(180deg, #4a1d8a, #2d1060) !important;
-    color: #c9a100 !important;
-  }
-
-  /* 滚轴闪烁效果 */
+  /* 旋转闪烁 */
   .reel-frame.spinning {
-    animation: reelGlow 0.15s steps(2) infinite;
+    animation:reelGlow .12s steps(2) infinite;
   }
   @keyframes reelGlow {
-    0%, 100% { border-color: #ffd700; box-shadow: inset 0 0 16px #00000088, -2px -2px 0 #c9a100, 2px -2px 0 #c9a100, -2px 2px 0 #c9a100, 2px 2px 0 #c9a100; }
-    50% { border-color: #fff; box-shadow: inset 0 0 24px #ffd70044, -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff, 2px 2px 0 #fff; }
+    0%,100%{border-color:#ffd700;box-shadow:inset 0 0 20px #000000aa,-2px -2px 0 #c9a100,2px -2px 0 #c9a100,-2px 2px 0 #c9a100,2px 2px 0 #c9a100,0 0 0 2px #2d1060,-4px 0 0 #1a0a2e,4px 0 0 #1a0a2e}
+    50%{border-color:#fff;box-shadow:inset 0 0 30px #ffd70055,-2px -2px 0 #fff,2px -2px 0 #fff,-2px 2px 0 #fff,2px 2px 0 #fff,0 0 0 2px #4a3fa0,-4px 0 0 #1a0a2e,4px 0 0 #1a0a2e,0 0 12px #ffd70044}
   }
 
-  /* 数字着陆闪烁 */
+  /* 着陆闪光 */
   .reel-frame.landed {
-    animation: landFlash 0.3s steps(3);
+    animation:landFlash .4s steps(3);
   }
   @keyframes landFlash {
-    0% { border-color: #fff; box-shadow: inset 0 0 32px #ffd70088, -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff, 2px 2px 0 #fff; }
-    100% { border-color: #ffd700; box-shadow: inset 0 0 16px #00000088, -2px -2px 0 #c9a100, 2px -2px 0 #c9a100, -2px 2px 0 #c9a100, 2px 2px 0 #c9a100; }
+    0%{border-color:#fff;box-shadow:inset 0 0 40px #ffd700aa,-2px -2px 0 #fff,2px -2px 0 #fff,-2px 2px 0 #fff,2px 2px 0 #fff,0 0 0 2px #2d1060,-4px 0 0 #1a0a2e,4px 0 0 #1a0a2e,0 0 20px #ffd70088}
+    100%{border-color:#ffd700;box-shadow:inset 0 0 20px #000000aa,-2px -2px 0 #c9a100,2px -2px 0 #c9a100,-2px 2px 0 #c9a100,2px 2px 0 #c9a100,0 0 0 2px #2d1060,-4px 0 0 #1a0a2e,4px 0 0 #1a0a2e}
   }
 
-  /* ===== 数字键盘弹窗 ===== */
-  .numpad-overlay {
-    position: fixed;
-    inset: 0;
-    background: #000000cc;
-    z-index: 50;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    animation: fadeIn 0.15s steps(3);
+  /* 结果显示 */
+  .result-display {
+    text-align:center; padding:10px;
+    background:linear-gradient(180deg, #1a0a2e, #2d1060);
+    border:3px solid #ffd700;
+    box-shadow:0 0 16px #ffd70033, inset 0 0 12px #ffd70011;
+    image-rendering:pixelated;
   }
-  .numpad-overlay.hidden { display: none; }
-  @keyframes fadeIn {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
+  .result-label { font-size:9px; color:#c9a100; margin-bottom:6px; letter-spacing:1px; }
+  .result-value {
+    font-size:36px; color:#ffd700; letter-spacing:4px;
+    text-shadow:0 0 12px #ffd70088, 0 0 24px #ffd70044;
   }
 
-  .numpad {
-    background: linear-gradient(180deg, #2a1050, #1a0a30);
-    border: 4px solid #ffd700;
-    padding: 16px;
-    box-shadow:
-      0 0 0 4px #2d1060,
-      0 0 0 8px #c9a100,
-      0 0 20px #ffd70044;
-    image-rendering: pixelated;
+  /* 黄金粒子爆发 */
+  .gold-burst {
+    position:fixed; pointer-events:none; z-index:100;
+    width:6px; height:6px; background:#ffd700;
+    animation:burstOut .6s steps(4) forwards;
+    image-rendering:pixelated;
+  }
+  @keyframes burstOut {
+    0%{transform:translate(0,0) scale(1);opacity:1}
+    100%{transform:translate(var(--bx),var(--by)) scale(0);opacity:0}
   }
 
-  .numpad-display {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 32px;
-    color: #ffd700;
-    background: #0d0420;
-    border: 3px solid #c9a100;
-    padding: 10px 16px;
-    text-align: center;
-    margin-bottom: 12px;
-    min-width: 140px;
-    text-shadow: 0 0 10px #ffd70088;
-    image-rendering: pixelated;
-  }
+  /* 返回 + 重新打分 按钮行 */
+  .slot-bottom-row { display:flex; gap:10px; width:100%; }
+  .slot-bottom-row .pixel-btn { flex:1; font-size:10px; padding:14px 0; }
 
-  .numpad-keys {
-    display: grid;
-    grid-template-columns: repeat(3, 56px);
-    gap: 8px;
-  }
+  /* 通用back按钮 */
+  .back-btn-sm { font-size:10px !important; padding:14px 0 !important; background:linear-gradient(180deg, #4a1d8a, #2d1060) !important; color:#c9a100 !important; }
 
-  .numpad-key {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 18px;
-    color: #ffec8b;
-    background: linear-gradient(180deg, #6b3fa0, #4a1d8a);
-    border: 3px solid #c9a100;
-    padding: 12px 0;
-    cursor: pointer;
-    text-align: center;
-    box-shadow:
-      -2px -2px 0 #ffd700,
-      2px -2px 0 #ffd700,
-      -2px 2px 0 #ffd700,
-      2px 2px 0 #ffd700;
-    image-rendering: pixelated;
-    outline: none;
-    transition: transform 0.04s;
-  }
-  .numpad-key:active {
-    transform: translate(1px, 1px);
-    background: linear-gradient(180deg, #5a2f8a, #3a1570);
-  }
-  .numpad-key.key-del {
-    font-size: 10px;
-    background: linear-gradient(180deg, #8b3a3a, #6b2020);
-  }
-  .numpad-key.key-ok {
-    font-size: 12px;
-    background: linear-gradient(180deg, #ffd700, #c9a100);
-    color: #1a0a2e;
-    border-color: #8b6914;
-    text-shadow: none;
+  /* 重新打分按钮 */
+  .retry-btn {
+    background:linear-gradient(180deg, #8b5e3c, #6b3fa0) !important;
+    color:#ffec8b !important; font-size:10px !important; padding:14px 0 !important;
   }
 </style>
 </head>
@@ -588,17 +398,21 @@
 
 <!-- 像素星星 -->
 <div class="stars" id="stars"></div>
+<!-- 金色光尘 -->
+<div class="dust" id="dust"></div>
 
 <!-- ========== 主页 ========== -->
 <div class="page" id="page-home">
   <div class="container">
     <div class="corner-decor">
-      <h1 class="title">Rach的宝盒</h1>
-      <div class="divider"></div>
+      <h1 class="title">
+        <span class="icon-left">✦</span> Rach的宝盒 <span class="icon-right">✦</span>
+      </h1>
+      <div class="divider-ornament"><div class="divider"></div></div>
     </div>
 
     <div class="btn-group">
-      <button class="pixel-btn" data-id="A" id="btn-emperor">
+      <button class="pixel-btn btn-emperor" data-id="emperor" id="btn-emperor">
         <span class="pixel-emperor">
           <span class="emperor-sprite"></span>
           小皇帝的评分
@@ -609,36 +423,73 @@
       <button class="pixel-btn" data-id="D">D</button>
     </div>
 
-    <div class="footer">PRESS START</div>
+    <div class="footer">✦ PRESS START ✦</div>
   </div>
 </div>
 
-<!-- ========== 老虎机计分页面 ========== -->
-<div class="page hidden" id="page-slot">
+<!-- ========== 输入分数页面 ========== -->
+<div class="page hidden" id="page-input">
   <div class="container">
     <div class="corner-decor">
-      <div class="slot-title">
+      <div class="input-title">
         <span class="pixel-emperor">
           <span class="emperor-sprite"></span>
           小皇帝的评分
         </span>
       </div>
-      <div class="divider"></div>
+      <div class="divider-ornament"><div class="divider"></div></div>
+      <div class="input-hint">输入你的分数 (0~999)</div>
+    </div>
+
+    <div class="score-input-box">
+      <div class="score-input-display" id="input-display">0</div>
+      <div class="numpad-grid">
+        <button class="numpad-key" data-k="1">1</button>
+        <button class="numpad-key" data-k="2">2</button>
+        <button class="numpad-key" data-k="3">3</button>
+        <button class="numpad-key" data-k="4">4</button>
+        <button class="numpad-key" data-k="5">5</button>
+        <button class="numpad-key" data-k="6">6</button>
+        <button class="numpad-key" data-k="7">7</button>
+        <button class="numpad-key" data-k="8">8</button>
+        <button class="numpad-key" data-k="9">9</button>
+        <button class="numpad-key key-del" data-k="del">DEL</button>
+        <button class="numpad-key" data-k="0">0</button>
+        <button class="numpad-key key-go" data-k="go">GO!</button>
+      </div>
+    </div>
+
+    <button class="pixel-btn back-btn-sm" id="btn-input-back">◀ 返回宝盒</button>
+  </div>
+</div>
+
+<!-- ========== 老虎机展示页面 ========== -->
+<div class="page hidden" id="page-slot">
+  <div class="container">
+    <div class="corner-decor">
+      <div class="slot-title-bar">
+        <span class="pixel-emperor">
+          <span class="emperor-sprite"></span>
+          小皇帝的评分
+        </span>
+      </div>
+      <div class="divider-ornament"><div class="divider"></div></div>
     </div>
 
     <!-- 老虎机机身 -->
     <div class="slot-cabinet">
-      <!-- 顶部装饰灯 -->
+      <div class="slot-crown"></div>
       <div class="slot-lights">
         <div class="slot-light"></div>
         <div class="slot-light"></div>
         <div class="slot-light"></div>
         <div class="slot-light"></div>
         <div class="slot-light"></div>
+        <div class="slot-light"></div>
+        <div class="slot-light"></div>
       </div>
 
-      <!-- 三个数字滚轴 -->
-      <div class="reels-container">
+      <div class="reels-wrapper">
         <div class="reel-frame" id="reel-frame-0">
           <div class="reel-strip" id="reel-strip-0"></div>
         </div>
@@ -649,266 +500,199 @@
           <div class="reel-strip" id="reel-strip-2"></div>
         </div>
       </div>
-
-      <!-- 分数输入 -->
-      <div class="score-input-area">
-        <button class="score-input-btn" id="btn-input-score">输入分数</button>
-        <div class="score-display" id="score-display">000</div>
-        <button class="confirm-btn" id="btn-confirm" disabled>开动</button>
-      </div>
     </div>
 
-    <!-- 返回按钮 -->
-    <button class="pixel-btn back-btn" id="btn-back">◀ 返回宝盒</button>
-  </div>
-</div>
+    <!-- 结果显示 -->
+    <div class="result-display" id="result-display" style="opacity:0;">
+      <div class="result-label">⚔ 评分结果 ⚔</div>
+      <div class="result-value" id="result-value">000</div>
+    </div>
 
-<!-- 数字键盘弹窗 -->
-<div class="numpad-overlay hidden" id="numpad-overlay">
-  <div class="numpad">
-    <div class="numpad-display" id="numpad-display">0</div>
-    <div class="numpad-keys">
-      <button class="numpad-key" data-k="1">1</button>
-      <button class="numpad-key" data-k="2">2</button>
-      <button class="numpad-key" data-k="3">3</button>
-      <button class="numpad-key" data-k="4">4</button>
-      <button class="numpad-key" data-k="5">5</button>
-      <button class="numpad-key" data-k="6">6</button>
-      <button class="numpad-key" data-k="7">7</button>
-      <button class="numpad-key" data-k="8">8</button>
-      <button class="numpad-key" data-k="9">9</button>
-      <button class="numpad-key key-del" data-k="del">DEL</button>
-      <button class="numpad-key" data-k="0">0</button>
-      <button class="numpad-key key-ok" data-k="ok">OK</button>
+    <!-- 底部按钮 -->
+    <div class="slot-bottom-row">
+      <button class="pixel-btn back-btn-sm" id="btn-slot-back">◀ 返回</button>
+      <button class="pixel-btn retry-btn" id="btn-retry">⟳ 重新打分</button>
     </div>
   </div>
 </div>
 
 <script>
-  // ===== 生成随机像素星星 =====
+  // ===== 生成星空 =====
   (function() {
     const starsEl = document.getElementById('stars');
-    const count = 24;
     let html = '';
-    for (let i = 0; i < count; i++) {
-      const x = Math.random() * 100;
-      const y = Math.random() * 100;
-      const dur = 2 + Math.random() * 3;
-      const delay = Math.random() * 3;
+    for (let i = 0; i < 32; i++) {
+      const x = Math.random() * 100; const y = Math.random() * 100;
+      const dur = 2 + Math.random() * 4; const delay = Math.random() * 3;
       html += `<div class="star" style="left:${x}%;top:${y}%;--dur:${dur}s;--delay:${delay}s;"></div>`;
     }
     starsEl.innerHTML = html;
   })();
 
+  // ===== 生成金色光尘 =====
+  (function() {
+    const dustEl = document.getElementById('dust');
+    let html = '';
+    for (let i = 0; i < 18; i++) {
+      const x = Math.random() * 100; const dur = 6 + Math.random() * 10;
+      const delay = Math.random() * 8;
+      html += `<div class="dust-particle" style="left:${x}%;bottom:-10px;--fdur:${dur}s;--fdelay:${delay}s;"></div>`;
+    }
+    dustEl.innerHTML = html;
+  })();
+
   // ===== 页面导航 =====
-  const pageHome = document.getElementById('page-home');
-  const pageSlot = document.getElementById('page-slot');
+  const pageHome  = document.getElementById('page-home');
+  const pageInput = document.getElementById('page-input');
+  const pageSlot  = document.getElementById('page-slot');
+  let currentScore = 0;
 
-  function showPage(page) {
+  function hideAll() {
     pageHome.classList.add('hidden');
+    pageInput.classList.add('hidden');
     pageSlot.classList.add('hidden');
-    page.classList.remove('hidden');
   }
 
-  function goHome() {
-    pageSlot.classList.add('hidden');
-    pageHome.classList.remove('hidden');
-  }
+  function goHome()    { hideAll(); pageHome.classList.remove('hidden'); }
+  function goInput()   { hideAll(); pageInput.classList.remove('hidden'); resetInput(); }
+  function goSlot(sc)  { hideAll(); pageSlot.classList.remove('hidden'); startSlotShow(sc); }
 
-  function goSlot() {
-    pageHome.classList.add('hidden');
-    pageSlot.classList.remove('hidden');
-    resetSlot();
-  }
-
-  // ===== 像素波纹效果 =====
+  // ===== 像素波纹 =====
   function createRipple(e) {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const cx = e.clientX || (rect.left + rect.width / 2);
-    const cy = e.clientY || (rect.top + rect.height / 2);
-    const ripple = document.createElement('div');
-    ripple.className = 'ripple';
-    ripple.style.left = (cx - 8) + 'px';
-    ripple.style.top = (cy - 8) + 'px';
-    document.body.appendChild(ripple);
-    ripple.addEventListener('animationend', () => ripple.remove());
+    const t = e.currentTarget.getBoundingClientRect();
+    const cx = e.clientX || (t.left + t.width/2);
+    const cy = e.clientY || (t.top + t.height/2);
+    const r = document.createElement('div'); r.className='ripple';
+    r.style.left=(cx-8)+'px'; r.style.top=(cy-8)+'px';
+    document.body.appendChild(r);
+    r.addEventListener('animationend',()=>r.remove());
   }
 
-  function vibrate(ms) {
-    if (navigator.vibrate) navigator.vibrate(ms);
-  }
+  function vibrate(ms) { if(navigator.vibrate) navigator.vibrate(ms); }
 
-  // ===== 主页按钮事件 =====
+  // ===== 主页按钮 =====
   document.querySelectorAll('#page-home .pixel-btn').forEach(btn => {
     btn.addEventListener('click', function(e) {
       const id = this.dataset.id;
-      createRipple(e);
-      vibrate(30);
-
-      if (id === 'A') {
-        goSlot();
-      } else {
-        console.log(`[宝盒] 按钮 ${id} 被点击`);
-      }
+      createRipple(e); vibrate(30);
+      if (id === 'emperor') goInput();
+      else console.log(`[宝盒] 按钮 ${id} 被点击`);
     });
   });
 
-  // ===== 返回按钮 =====
-  document.getElementById('btn-back').addEventListener('click', function(e) {
-    createRipple(e);
-    vibrate(20);
-    goHome();
+  // ===========================================================
+  //  输入分数页面逻辑
+  // ===========================================================
+  const inputDisplay = document.getElementById('input-display');
+  let inputBuf = '0';
+
+  function resetInput() {
+    inputBuf = '0';
+    inputDisplay.textContent = '0';
+  }
+
+  document.querySelectorAll('#page-input .numpad-key').forEach(key => {
+    key.addEventListener('click', function(e) {
+      const k = this.dataset.k;
+      vibrate(8);
+      if (k === 'del') {
+        inputBuf = inputBuf.length > 1 ? inputBuf.slice(0, -1) : '0';
+      } else if (k === 'go') {
+        const val = parseInt(inputBuf, 10) || 0;
+        currentScore = Math.min(999, Math.max(0, val));
+        vibrate(20);
+        goSlot(currentScore);
+        return;
+      } else {
+        if (inputBuf === '0') inputBuf = k;
+        else if (inputBuf.length < 3) inputBuf += k;
+      }
+      const num = parseInt(inputBuf, 10) || 0;
+      inputBuf = String(Math.min(999, num));
+      inputDisplay.textContent = inputBuf;
+    });
+  });
+
+  document.getElementById('btn-input-back').addEventListener('click', function(e) {
+    createRipple(e); vibrate(20); goHome();
   });
 
   // ===========================================================
-  //  老虎机计分机器逻辑
+  //  老虎机展示页面逻辑
   // ===========================================================
-
-  const ITEM_HEIGHT = 48;        // 每个数字的高度
-  const ITEMS_PER_CYCLE = 10;    // 0-9
-  const STRIP_REPEATS = 8;       // 重复8次，足够长的滚轴
+  const ITEM_HEIGHT = 50;
+  const ITEMS_PER_CYCLE = 10;
+  const STRIP_REPEATS = 10;
   const TOTAL_ITEMS = ITEMS_PER_CYCLE * STRIP_REPEATS;
-  const SPIN_SPEED = 3;          // 每帧前进的item数
-  const SPIN_DURATION = 1800;    // 总旋转时间(ms)
-  const REEL_STOP_GAP = 350;     // 每个滚轴停止间隔(ms)
+  const SPIN_SPEED_BASE = 2.5;
+  const SPIN_DURATION = 2000;
+  const REEL_STOP_GAP = 400;
 
   const reelFrames = [0,1,2].map(i => document.getElementById(`reel-frame-${i}`));
   const reelStrips = [0,1,2].map(i => document.getElementById(`reel-strip-${i}`));
-  const scoreDisplay = document.getElementById('score-display');
-  const btnInputScore = document.getElementById('btn-input-score');
-  const btnConfirm = document.getElementById('btn-confirm');
-  const numpadOverlay = document.getElementById('numpad-overlay');
-  const numpadDisplay = document.getElementById('numpad-display');
+  const resultDisplay = document.getElementById('result-display');
+  const resultValue = document.getElementById('result-value');
+  const targetShow = document.getElementById('target-score-show');
 
-  let targetScore = 0;
-  let inputBuffer = '0';
   let isSpinning = false;
   let animFrameId = null;
 
-  // 滚轴状态
   const reels = [0,1,2].map(() => ({
-    position: 0,       // 当前虚拟位置(items)
-    spinning: false,
-    finalTarget: 0
+    position: 0, spinning: false, finalTarget: 0,
+    speed: 0, _decelStarted: false, _decelFrom: 0, _decelTarget: 0,
+    _decelDist: 0, _decelStartTime: 0, _decelDuration: 650
   }));
 
-  // 初始化滚轴数字条
   function buildReelStrips() {
     reelStrips.forEach(strip => {
       let html = '';
-      for (let r = 0; r < STRIP_REPEATS; r++) {
-        for (let n = 0; n < 10; n++) {
+      for (let r = 0; r < STRIP_REPEATS; r++)
+        for (let n = 0; n < 10; n++)
           html += `<div class="reel-num">${n}</div>`;
-        }
-      }
       strip.innerHTML = html;
       strip.style.transform = 'translateY(0px)';
+      strip.style.transition = 'none';
     });
   }
 
-  function resetSlot() {
-    if (isSpinning) {
-      cancelAnimationFrame(animFrameId);
-      isSpinning = false;
-    }
-    reels.forEach(r => { r.position = 0; r.spinning = false; r.finalTarget = 0; });
-    reelStrips.forEach(s => {
-      s.style.transition = 'none';
-      s.style.transform = 'translateY(0px)';
+  function resetReels() {
+    if (isSpinning) { cancelAnimationFrame(animFrameId); isSpinning = false; animFrameId = null; }
+    reels.forEach(r => {
+      r.position = 0; r.spinning = false; r.finalTarget = 0; r.speed = 0;
+      r._decelStarted = false;
     });
-    reelFrames.forEach(f => {
-      f.classList.remove('spinning', 'landed');
-    });
-    targetScore = 0;
-    inputBuffer = '0';
-    scoreDisplay.textContent = '000';
-    btnConfirm.disabled = true;
-    btnConfirm.textContent = '开动';
-    btnInputScore.disabled = false;
+    reelStrips.forEach(s => { s.style.transition = 'none'; s.style.transform = 'translateY(0px)'; });
+    reelFrames.forEach(f => { f.classList.remove('spinning', 'landed'); });
+    resultDisplay.style.opacity = '0';
   }
 
-  // ===== 数字键盘 =====
-  btnInputScore.addEventListener('click', () => {
-    if (isSpinning) return;
-    inputBuffer = '0';
-    numpadDisplay.textContent = inputBuffer;
-    numpadOverlay.classList.remove('hidden');
-    vibrate(15);
-  });
+  function startSlotShow(score) {
+    resetReels();
+    const digits = String(score).padStart(3, '0');
+    targetShow.textContent = digits;
+    resultValue.textContent = digits;
 
-  numpadOverlay.addEventListener('click', (e) => {
-    if (e.target === numpadOverlay) {
-      numpadOverlay.classList.add('hidden');
-    }
-  });
+    // 短暂延迟后自动开始旋转
+    setTimeout(() => {
+      runSpin(score);
+    }, 400);
+  }
 
-  document.querySelectorAll('.numpad-key').forEach(key => {
-    key.addEventListener('click', (e) => {
-      const k = e.currentTarget.dataset.k;
-      vibrate(10);
-
-      if (k === 'del') {
-        if (inputBuffer.length > 1) {
-          inputBuffer = inputBuffer.slice(0, -1);
-        } else {
-          inputBuffer = '0';
-        }
-      } else if (k === 'ok') {
-        const val = parseInt(inputBuffer, 10) || 0;
-        targetScore = Math.min(999, Math.max(0, val));
-        const display = String(targetScore).padStart(3, '0');
-        scoreDisplay.textContent = display;
-        btnConfirm.disabled = false;
-        numpadOverlay.classList.add('hidden');
-        return;
-      } else {
-        // 数字键
-        if (inputBuffer === '0') {
-          inputBuffer = k;
-        } else if (inputBuffer.length < 3) {
-          inputBuffer += k;
-        }
-      }
-
-      // 截断到3位
-      const num = parseInt(inputBuffer, 10) || 0;
-      const clamped = Math.min(999, num);
-      if (clamped >= 100) {
-        inputBuffer = String(clamped);
-      } else if (clamped >= 10) {
-        // allow "0X" prefix? No, just keep raw input up to 3 chars
-        if (inputBuffer.length > 3) inputBuffer = inputBuffer.slice(0, 3);
-      }
-      numpadDisplay.textContent = inputBuffer;
-    });
-  });
-
-  // ===== 确认按钮 - 开始旋转 =====
-  btnConfirm.addEventListener('click', () => {
-    if (isSpinning || btnConfirm.disabled) return;
-    vibrate(20);
-    startSpin(targetScore);
-  });
-
-  function startSpin(score) {
+  function runSpin(score) {
     isSpinning = true;
-    btnConfirm.disabled = true;
-    btnConfirm.textContent = '...';
-    btnInputScore.disabled = true;
-
     const digits = String(score).padStart(3, '0').split('').map(Number);
 
-    // 所有滚轴开始旋转
     reels.forEach((reel, i) => {
       reel.spinning = true;
       reel.finalTarget = digits[i];
+      reel.speed = SPIN_SPEED_BASE + Math.random() * 0.8;
+      reel._decelStarted = false;
       reelFrames[i].classList.add('spinning');
       reelFrames[i].classList.remove('landed');
       reelStrips[i].style.transition = 'none';
     });
 
     const startTime = performance.now();
-    const globalSpeed = SPIN_SPEED;
 
     function animate(now) {
       const elapsed = now - startTime;
@@ -916,83 +700,108 @@
       reels.forEach((reel, i) => {
         if (!reel.spinning) return;
 
-        // 检查是否该停止了
         const stopTime = SPIN_DURATION + i * REEL_STOP_GAP;
 
         if (elapsed < stopTime) {
-          // 高速旋转阶段
-          reel.position += globalSpeed;
-          const displayPos = (Math.floor(reel.position) % TOTAL_ITEMS + TOTAL_ITEMS) % TOTAL_ITEMS;
-          reelStrips[i].style.transform = `translateY(-${displayPos * ITEM_HEIGHT}px)`;
+          // 高速阶段 - 逐渐加速
+          const rampUp = Math.min(1, elapsed / 600);
+          reel.position += reel.speed * (0.6 + 0.4 * rampUp);
+          const dp = ((Math.floor(reel.position) % TOTAL_ITEMS) + TOTAL_ITEMS) % TOTAL_ITEMS;
+          reelStrips[i].style.transform = `translateY(-${dp * ITEM_HEIGHT}px)`;
+        } else if (!reel._decelStarted) {
+          // 开始减速
+          reel._decelStarted = true;
+          reel._decelFrom = reel.position;
+          reel._decelStartTime = now;
+
+          const cur = ((Math.floor(reel.position) % ITEMS_PER_CYCLE) + ITEMS_PER_CYCLE) % ITEMS_PER_CYCLE;
+          let adv = reel.finalTarget - cur;
+          if (adv <= 0) adv += ITEMS_PER_CYCLE;
+          adv += (2 + i) * ITEMS_PER_CYCLE; // 多转圈数逐级增加
+
+          reel._decelTarget = Math.floor(reel.position) + adv;
+          reel._decelDist = reel._decelTarget - reel.position;
+          reel._decelDuration = 550 + i * 120;
         } else {
-          // 减速停止
-          if (!reel._decelStarted) {
-            reel._decelStarted = true;
-            reel._decelFrom = reel.position;
-
-            // 计算目标位置
-            const currentDisplay = ((Math.floor(reel.position) % ITEMS_PER_CYCLE) + ITEMS_PER_CYCLE) % ITEMS_PER_CYCLE;
-            let advance = reel.finalTarget - currentDisplay;
-            if (advance <= 0) advance += ITEMS_PER_CYCLE;
-
-            // 额外加1-2圈缓冲
-            const extraCycles = 1;
-            advance += extraCycles * ITEMS_PER_CYCLE;
-
-            reel._decelTarget = Math.floor(reel.position) + advance;
-            reel._decelDist = reel._decelTarget - reel.position;
-            reel._decelStartTime = now;
-            reel._decelDuration = 600; // ms
-          }
-
+          // 减速动画
           const dt = now - reel._decelStartTime;
-          const progress = Math.min(1, dt / reel._decelDuration);
-          // easeOutCubic
-          const eased = 1 - Math.pow(1 - progress, 3);
-          const currentPos = reel._decelFrom + reel._decelDist * eased;
+          const t = Math.min(1, dt / reel._decelDuration);
+          // easeOutQuart - 更平滑的减速
+          const eased = 1 - Math.pow(1 - t, 4);
+          const pos = reel._decelFrom + reel._decelDist * eased;
+          const dp = ((Math.floor(pos) % TOTAL_ITEMS) + TOTAL_ITEMS) % TOTAL_ITEMS;
+          reelStrips[i].style.transform = `translateY(-${dp * ITEM_HEIGHT}px)`;
 
-          const displayPos = (Math.floor(currentPos) % TOTAL_ITEMS + TOTAL_ITEMS) % TOTAL_ITEMS;
-          reelStrips[i].style.transform = `translateY(-${displayPos * ITEM_HEIGHT}px)`;
-
-          if (progress >= 1) {
-            // 精确停靠
-            const finalDisplayPos = ((reel._decelTarget % TOTAL_ITEMS) + TOTAL_ITEMS) % TOTAL_ITEMS;
-            reelStrips[i].style.transform = `translateY(-${finalDisplayPos * ITEM_HEIGHT}px)`;
+          if (t >= 1) {
+            const fdp = ((reel._decelTarget % TOTAL_ITEMS) + TOTAL_ITEMS) % TOTAL_ITEMS;
+            reelStrips[i].style.transform = `translateY(-${fdp * ITEM_HEIGHT}px)`;
             reel.spinning = false;
             reel.position = reel._decelTarget;
-            reel._decelStarted = false;
 
             reelFrames[i].classList.remove('spinning');
             reelFrames[i].classList.add('landed');
-            vibrate(15);
-
-            // 清理 landed class
-            setTimeout(() => reelFrames[i].classList.remove('landed'), 300);
+            vibrate(12);
+            spawnGoldBurst(reelFrames[i]);
+            setTimeout(() => reelFrames[i].classList.remove('landed'), 400);
           }
         }
       });
 
-      // 检查是否全部停止
-      const allStopped = reels.every(r => !r.spinning);
-
-      if (!allStopped) {
+      if (reels.some(r => r.spinning)) {
         animFrameId = requestAnimationFrame(animate);
       } else {
-        // 全部停止
         isSpinning = false;
-        btnConfirm.disabled = false;
-        btnConfirm.textContent = '开动';
-        btnInputScore.disabled = false;
         cancelAnimationFrame(animFrameId);
         animFrameId = null;
-
-        // 完成震动
-        setTimeout(() => vibrate([20, 50, 20]), 100);
+        // 显示结果
+        setTimeout(() => {
+          resultDisplay.style.opacity = '1';
+          resultDisplay.style.transition = 'opacity 0.3s steps(3)';
+          vibrate([15, 30, 15]);
+        }, 200);
+        setTimeout(() => spawnGoldBurst(resultDisplay), 300);
       }
     }
 
     animFrameId = requestAnimationFrame(animate);
   }
+
+  // 金色粒子爆发
+  function spawnGoldBurst(el) {
+    const rect = el.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    for (let i = 0; i < 10; i++) {
+      const angle = (Math.PI * 2 * i) / 10 + Math.random() * 0.3;
+      const dist = 20 + Math.random() * 30;
+      const bx = Math.cos(angle) * dist;
+      const by = Math.sin(angle) * dist;
+      const particle = document.createElement('div');
+      particle.className = 'gold-burst';
+      particle.style.left = (cx - 3) + 'px';
+      particle.style.top = (cy - 3) + 'px';
+      particle.style.setProperty('--bx', bx + 'px');
+      particle.style.setProperty('--by', by + 'px');
+      particle.style.animationDuration = (0.4 + Math.random() * 0.4) + 's';
+      document.body.appendChild(particle);
+      particle.addEventListener('animationend', () => particle.remove());
+    }
+  }
+
+  // ===== 老虎机页面按钮 =====
+  document.getElementById('btn-slot-back').addEventListener('click', function(e) {
+    createRipple(e); vibrate(20);
+    if (isSpinning) { cancelAnimationFrame(animFrameId); isSpinning = false; }
+    goHome();
+  });
+
+  document.getElementById('btn-retry').addEventListener('click', function(e) {
+    createRipple(e); vibrate(20);
+    if (isSpinning) { cancelAnimationFrame(animFrameId); isSpinning = false; }
+    goInput();
+  });
+
+  // ===== 全局 esc / 右滑 返回？ 不用，保持简单 =====
 
   // ===== 初始化 =====
   buildReelStrips();
