@@ -867,6 +867,9 @@
     });
     reelStrips.forEach(s => { s.style.transition = 'none'; s.style.transform = 'translateY(0px)'; });
     reelFrames.forEach(f => { f.classList.remove('spinning', 'landed'); });
+    // 重置灯条
+    slotLightsBar.classList.remove('chasing');
+    slotLights.forEach(l => l.classList.remove('lit'));
   }
 
   function startSlotShow(score) {
@@ -956,7 +959,10 @@
         isSpinning = false;
         cancelAnimationFrame(animFrameId);
         animFrameId = null;
-        // 全部停止 - 最终震动
+        // 跑马灯停止 → 按分数比例点灯
+        slotLightsBar.classList.remove('chasing');
+        settleLights(score);
+        // 最终震动
         setTimeout(() => vibrate([15, 30, 15]), 200);
       }
     }
@@ -984,6 +990,20 @@
       document.body.appendChild(particle);
       particle.addEventListener('animationend', () => particle.remove());
     }
+  }
+
+  // 按分数比例点灯 (0~999)
+  function settleLights(score) {
+    const totalLights = slotLights.length; // 7
+    const ratio = Math.min(1, Math.max(0, score / 999));
+    const litCount = Math.round(ratio * totalLights);
+    slotLights.forEach((light, i) => {
+      if (i < litCount) {
+        light.classList.add('lit');
+      } else {
+        light.classList.remove('lit');
+      }
+    });
   }
 
   // ===== 老虎机页面按钮 =====
