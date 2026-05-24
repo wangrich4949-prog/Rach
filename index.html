@@ -298,20 +298,33 @@
   /* 灯珠 */
   .slot-lights { display:flex; justify-content:center; gap:8px; }
   .slot-light {
-    width:7px; height:7px; background:#ffd700;
-    box-shadow:2px 0 0 #ffec8b, 0 2px 0 #ffec8b, 2px 2px 0 #fff, 0 0 8px #ffd700;
-    animation:lightBlink .7s steps(2) infinite; image-rendering:pixelated;
+    width:7px; height:7px;
+    background:#8b6914;
+    box-shadow:none;
+    image-rendering:pixelated;
+    transition: background .25s steps(2), box-shadow .25s steps(2);
   }
-  .slot-light:nth-child(2){animation-delay:.1s}
-  .slot-light:nth-child(3){animation-delay:.2s}
-  .slot-light:nth-child(4){animation-delay:.3s}
-  .slot-light:nth-child(5){animation-delay:.05s}
-  .slot-light:nth-child(6){animation-delay:.15s}
-  .slot-light:nth-child(7){animation-delay:.25s}
+  /* 点亮状态 */
+  .slot-light.lit {
+    background:#ffd700;
+    box-shadow:2px 0 0 #ffec8b, 0 2px 0 #ffec8b, 2px 2px 0 #fff, 0 0 10px #ffd700;
+  }
 
-  @keyframes lightBlink {
-    0%,100%{opacity:1;background:#ffd700;box-shadow:2px 0 0 #ffec8b,0 2px 0 #ffec8b,2px 2px 0 #fff,0 0 8px #ffd700}
-    50%{opacity:.15;background:#8b6914;box-shadow:none}
+  /* 跑马灯追逐 — 每个灯依次闪亮 */
+  .slot-lights.chasing .slot-light {
+    animation:chaseAnim .56s steps(1) infinite;
+  }
+  .slot-lights.chasing .slot-light:nth-child(1){animation-delay:0s}
+  .slot-lights.chasing .slot-light:nth-child(2){animation-delay:.08s}
+  .slot-lights.chasing .slot-light:nth-child(3){animation-delay:.16s}
+  .slot-lights.chasing .slot-light:nth-child(4){animation-delay:.24s}
+  .slot-lights.chasing .slot-light:nth-child(5){animation-delay:.32s}
+  .slot-lights.chasing .slot-light:nth-child(6){animation-delay:.40s}
+  .slot-lights.chasing .slot-light:nth-child(7){animation-delay:.48s}
+
+  @keyframes chaseAnim {
+    0%, 12%  { background:#ffd700; box-shadow:2px 0 0 #ffec8b,0 2px 0 #ffec8b,2px 2px 0 #fff,0 0 10px #ffd700; }
+    13%, 100% { background:#8b6914; box-shadow:none; }
   }
 
   /* ---- 上半身 (屏幕区域) ---- */
