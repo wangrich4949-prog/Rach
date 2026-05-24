@@ -595,9 +595,6 @@
 
   const reelFrames = [0,1,2].map(i => document.getElementById(`reel-frame-${i}`));
   const reelStrips = [0,1,2].map(i => document.getElementById(`reel-strip-${i}`));
-  const resultDisplay = document.getElementById('result-display');
-  const resultValue = document.getElementById('result-value');
-  const targetShow = document.getElementById('target-score-show');
 
   let isSpinning = false;
   let animFrameId = null;
@@ -628,14 +625,10 @@
     });
     reelStrips.forEach(s => { s.style.transition = 'none'; s.style.transform = 'translateY(0px)'; });
     reelFrames.forEach(f => { f.classList.remove('spinning', 'landed'); });
-    resultDisplay.style.opacity = '0';
   }
 
   function startSlotShow(score) {
     resetReels();
-    const digits = String(score).padStart(3, '0');
-    targetShow.textContent = digits;
-    resultValue.textContent = digits;
 
     // 短暂延迟后自动开始旋转
     setTimeout(() => {
