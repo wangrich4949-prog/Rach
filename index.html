@@ -573,30 +573,61 @@
       <div class="divider-ornament"><div class="divider"></div></div>
     </div>
 
-    <!-- 老虎机机身 -->
-    <div class="slot-cabinet">
-      <div class="slot-crown"></div>
-      <div class="slot-lights">
-        <div class="slot-light"></div>
-        <div class="slot-light"></div>
-        <div class="slot-light"></div>
-        <div class="slot-light"></div>
-        <div class="slot-light"></div>
-        <div class="slot-light"></div>
-        <div class="slot-light"></div>
+    <!-- 地面阴影 -->
+    <div class="machine-shadow"></div>
+
+    <!-- 像素街机主体 -->
+    <div class="game-machine">
+      <!-- 顶部灯箱 -->
+      <div class="machine-marquee">
+        <div class="slot-crown"></div>
+        <div class="slot-lights">
+          <div class="slot-light"></div>
+          <div class="slot-light"></div>
+          <div class="slot-light"></div>
+          <div class="slot-light"></div>
+          <div class="slot-light"></div>
+          <div class="slot-light"></div>
+          <div class="slot-light"></div>
+        </div>
       </div>
 
-      <div class="reels-wrapper">
-        <div class="reel-frame" id="reel-frame-0">
-          <div class="reel-strip" id="reel-strip-0"></div>
+      <!-- 屏幕外框 -->
+      <div class="machine-screen-bezel">
+        <div class="machine-screen-inner">
+          <div class="reels-wrapper">
+            <div class="reel-frame" id="reel-frame-0">
+              <div class="reel-strip" id="reel-strip-0"></div>
+            </div>
+            <div class="reel-frame" id="reel-frame-1">
+              <div class="reel-strip" id="reel-strip-1"></div>
+            </div>
+            <div class="reel-frame" id="reel-frame-2">
+              <div class="reel-strip" id="reel-strip-2"></div>
+            </div>
+          </div>
         </div>
-        <div class="reel-frame" id="reel-frame-1">
-          <div class="reel-strip" id="reel-strip-1"></div>
-        </div>
-        <div class="reel-frame" id="reel-frame-2">
-          <div class="reel-strip" id="reel-strip-2"></div>
-        </div>
+        <div class="screen-label">S C O R E</div>
       </div>
+
+      <!-- 操控面板 -->
+      <div class="machine-controls">
+        <div class="deco-btn sm"></div>
+        <div class="coin-slot"></div>
+        <div class="deco-btn"></div>
+      </div>
+
+      <!-- 装饰条纹 -->
+      <div class="machine-stripe"></div>
+
+      <!-- 底座 -->
+      <div class="machine-stand"></div>
+    </div>
+
+    <!-- 脚撑 -->
+    <div class="machine-feet">
+      <div class="machine-foot"></div>
+      <div class="machine-foot"></div>
     </div>
 
     <!-- 底部按钮 -->
@@ -711,7 +742,7 @@
   // ===========================================================
   //  老虎机展示页面逻辑
   // ===========================================================
-  const ITEM_HEIGHT = 50;
+  const ITEM_HEIGHT = 48;
   const ITEMS_PER_CYCLE = 10;
   const STRIP_REPEATS = 10;
   const TOTAL_ITEMS = ITEMS_PER_CYCLE * STRIP_REPEATS;
