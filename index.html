@@ -240,120 +240,138 @@
 
   /* ===== 地面阴影 ===== */
   .machine-shadow {
-    width:90%; height:12px; margin:0 auto;
-    background:radial-gradient(ellipse, #00000088 0%, transparent 70%);
+    width:85%; height:10px; margin:0 auto;
+    background:radial-gradient(ellipse at center, #00000099 0%, transparent 70%);
     image-rendering:pixelated;
   }
 
-  /* ===== 游戏机主体 ===== */
-  .game-machine {
+  /* ===========================================================
+     街机主体 — 经典 upright arcade cabinet
+     =========================================================== */
+
+  .arcade-machine {
     position:relative; width:100%;
-    background:linear-gradient(180deg, #1e0c3a 0%, #150528 30%, #100420 60%, #150528 100%);
-    border:4px solid #c9a100;
-    box-shadow:
-      -4px -4px 0 0 #ffd700, 4px -4px 0 0 #ffd700,
-      -4px 4px 0 0 #ffd700, 4px 4px 0 0 #ffd700,
-      0 0 0 8px #2d1060,
-      -8px -8px 0 0 #b8860b, 8px -8px 0 0 #b8860b,
-      -8px 8px 0 0 #b8860b, 8px 8px 0 0 #b8860b,
-      0 0 0 10px #0d0015,
-      0 0 24px #ffd70022;
-    image-rendering:pixelated; overflow:visible;
+    image-rendering:pixelated;
   }
 
-  /* 机器顶部双耳 */
-  .game-machine::before {
-    content:''; position:absolute; top:-14px; left:20px;
-    width:16px; height:14px; background:#ffd700;
+  /* ---- 尖顶帽 ---- */
+  .arcade-top-cap {
+    width:70%; height:18px; margin:0 auto;
+    background:linear-gradient(180deg, #ffd700, #c9a100);
+    clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+    /* 像素化尖顶：用 box-shadow 模拟阶梯 */
     box-shadow:
-      2px 0 0 #c9a100, -2px 0 0 #c9a100,
-      0 -4px 0 #c9a100,
-      0 0 8px #ffd70066;
-  }
-  .game-machine::after {
-    content:''; position:absolute; top:-14px; right:20px;
-    width:16px; height:14px; background:#ffd700;
-    box-shadow:
-      2px 0 0 #c9a100, -2px 0 0 #c9a100,
-      0 -4px 0 #c9a100,
-      0 0 8px #ffd70066;
+      0 4px 0 #8b6914,
+      -8px 4px 0 #c9a100, 8px 4px 0 #c9a100;
   }
 
-  /* ===== 顶部灯箱 Marquee ===== */
-  .machine-marquee {
-    position:relative; margin:-4px -4px 0;
-    background:linear-gradient(180deg, #2d1060, #1a0a30);
-    border-bottom:4px solid #ffd700;
-    padding:8px 12px 6px;
-    text-align:center;
+  /* ---- 灯箱 Marquee ---- */
+  .arcade-marquee {
+    position:relative; width:82%; margin:0 auto;
+    background:linear-gradient(180deg, #2a1050 0%, #1a0a2e 50%, #2a1050 100%);
+    border:4px solid #ffd700;
+    border-top:3px solid #c9a100;
+    padding:10px 8px 6px; text-align:center;
+    box-shadow:
+      -4px 0 0 #c9a100, 4px 0 0 #c9a100,
+      0 0 0 4px #1a0a2e;
   }
-  .machine-marquee::after {
-    content:'SCORE MACHINE';
-    display:block; font-size:7px; color:#b8860b;
-    letter-spacing:2px; margin-top:2px;
-    text-shadow:0 0 6px #ffd70044;
+  .arcade-marquee::after {
+    content:'S C O R E';
+    display:block; font-size:8px; color:#ffd700;
+    letter-spacing:3px; margin-top:4px;
+    text-shadow:0 0 10px #ffd70088, 0 0 20px #ffd70044;
   }
 
-  /* 皇冠 */
+  /* 皇冠装饰 */
   .slot-crown {
     display:inline-block; position:relative;
-    width:28px; height:14px; background:#ffd700;
+    width:24px; height:12px; background:#ffd700;
     box-shadow:
-      0 -4px 0 #c9a100,
+      0 -4px 0 #ffe44d,
       8px 4px 0 #ffd700, -8px 4px 0 #ffd700,
-      16px 8px 0 #c9a100, -16px 8px 0 #c9a100,
-      0 0 12px #ffd70088;
-    clip-path: polygon(0% 100%, 14% 20%, 28% 60%, 42% 20%, 56% 60%, 70% 20%, 84% 60%, 100% 100%);
-    margin-bottom:6px;
+      0 0 10px #ffd70088;
+    clip-path:polygon(0% 100%, 16% 30%, 33% 70%, 50% 20%, 66% 70%, 83% 30%, 100% 100%);
+    margin-bottom:4px;
   }
 
   /* 灯珠 */
   .slot-lights { display:flex; justify-content:center; gap:8px; }
   .slot-light {
-    width:8px; height:8px; background:#ffd700;
+    width:7px; height:7px; background:#ffd700;
     box-shadow:2px 0 0 #ffec8b, 0 2px 0 #ffec8b, 2px 2px 0 #fff, 0 0 8px #ffd700;
     animation:lightBlink .7s steps(2) infinite; image-rendering:pixelated;
   }
-  .slot-light:nth-child(2){animation-delay:.12s}
-  .slot-light:nth-child(3){animation-delay:.24s}
-  .slot-light:nth-child(4){animation-delay:.36s}
-  .slot-light:nth-child(5){animation-delay:.08s}
-  .slot-light:nth-child(6){animation-delay:.2s}
-  .slot-light:nth-child(7){animation-delay:.32s}
+  .slot-light:nth-child(2){animation-delay:.1s}
+  .slot-light:nth-child(3){animation-delay:.2s}
+  .slot-light:nth-child(4){animation-delay:.3s}
+  .slot-light:nth-child(5){animation-delay:.05s}
+  .slot-light:nth-child(6){animation-delay:.15s}
+  .slot-light:nth-child(7){animation-delay:.25s}
 
   @keyframes lightBlink {
     0%,100%{opacity:1;background:#ffd700;box-shadow:2px 0 0 #ffec8b,0 2px 0 #ffec8b,2px 2px 0 #fff,0 0 8px #ffd700}
-    50%{opacity:.2;background:#8b6914;box-shadow:none}
+    50%{opacity:.15;background:#8b6914;box-shadow:none}
   }
 
-  /* ===== 屏幕区域 ===== */
-  .machine-screen-bezel {
-    margin:10px 10px 0; padding:6px;
-    background:linear-gradient(180deg, #0d0420, #1a0a30);
+  /* ---- 上半身 (屏幕区域) ---- */
+  .arcade-upper {
+    position:relative; width:78%; margin:0 auto;
+    background:linear-gradient(180deg, #1a0a2e, #0d0015);
+    border-left:4px solid #ffd700; border-right:4px solid #ffd700;
+    box-shadow:
+      -4px 0 0 #c9a100, 4px 0 0 #c9a100,
+      0 0 0 3px #1a0a2e;
+    padding:10px 10px 6px;
+  }
+  /* 两侧像素装饰条 */
+  .arcade-upper::before {
+    content:''; position:absolute; left:-2px; top:8px; bottom:8px;
+    width:6px;
+    background:repeating-linear-gradient(
+      180deg, #ffd700 0px, #ffd700 4px, transparent 4px, transparent 8px
+    );
+    opacity:.5;
+  }
+  .arcade-upper::after {
+    content:''; position:absolute; right:-2px; top:8px; bottom:8px;
+    width:6px;
+    background:repeating-linear-gradient(
+      180deg, #ffd700 0px, #ffd700 4px, transparent 4px, transparent 8px
+    );
+    opacity:.5;
+  }
+
+  /* 屏幕外框 */
+  .arcade-screen-bezel {
+    padding:5px;
+    background:linear-gradient(180deg, #1e0c3a, #0d0420);
     border:4px solid #8b6914;
     box-shadow:
-      inset 0 0 12px #000000,
+      inset 0 0 10px #000000,
       -2px -2px 0 #c9a100, 2px -2px 0 #c9a100,
       -2px 2px 0 #c9a100, 2px 2px 0 #c9a100;
     image-rendering:pixelated;
   }
-  .machine-screen-inner {
-    background:#050010;
-    border:3px solid #0d0015;
+  .arcade-screen {
+    background:#030008;
+    border:3px solid #000;
     padding:8px 4px 4px;
-    box-shadow:inset 0 0 20px #000000;
+    box-shadow:inset 0 0 24px #000000;
+    /* 扫描线 */
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 2px, #ffffff02 2px, #ffffff02 3px);
   }
 
-  /* ===== 滚轴容器 ===== */
-  .reels-wrapper { display:flex; justify-content:center; gap:8px; padding:4px 0; }
+  /* ---- 滚轴 ---- */
+  .reels-wrapper { display:flex; justify-content:center; gap:8px; padding:4px 0; position:relative; z-index:1; }
 
-  /* 单个滚轴框 */
   .reel-frame {
-    position:relative; width:70px; height:52px;
-    background:#020008;
+    position:relative; width:66px; height:50px;
+    background:#020006;
     border:3px solid #ffd700; overflow:hidden;
     box-shadow:
-      inset 0 0 14px #000000,
+      inset 0 0 12px #000000,
       -2px -2px 0 #c9a100, 2px -2px 0 #c9a100,
       -2px 2px 0 #c9a100, 2px 2px 0 #c9a100;
     image-rendering:pixelated; z-index:1;
@@ -370,84 +388,119 @@
     z-index:3; pointer-events:none;
   }
 
-  /* 滚轴数字条 */
   .reel-strip { position:absolute; left:0; width:100%; will-change:transform; }
   .reel-num {
     display:flex; align-items:center; justify-content:center;
-    height:48px; font-size:34px; color:#ffd700;
+    height:46px; font-size:32px; color:#ffd700;
     text-shadow:2px 2px 0 #c9a100, 0 0 8px #ffd700;
     image-rendering:pixelated;
   }
 
-  /* 屏幕标签 */
+  /* 屏幕底部标签 */
   .screen-label {
     text-align:center; font-size:7px; color:#8b6914;
-    letter-spacing:3px; padding:6px 0 2px;
+    letter-spacing:4px; padding:5px 0 1px;
     text-shadow:0 0 6px #ffd70033;
+    background:#0d0015; margin:0 2px;
   }
 
-  /* ===== 操控面板 ===== */
-  .machine-controls {
-    margin:8px 10px 0; padding:8px 12px;
-    display:flex; align-items:center; justify-content:center; gap:16px;
-    background:linear-gradient(180deg, #1a0a30, #0d0420);
-    border:3px solid #8b6914;
-    box-shadow:inset 0 0 8px #00000044;
+  /* ---- 操控台 (外凸) ---- */
+  .arcade-deck {
+    position:relative; width:90%; margin:0 auto;
+    background:linear-gradient(180deg, #1e0c3a, #150528);
+    border:4px solid #ffd700;
+    border-top:4px solid #ffe44d;
+    padding:10px 14px; z-index:2;
+    box-shadow:
+      -2px -2px 0 #c9a100, 2px -2px 0 #c9a100,
+      -6px 0 0 #c9a100, 6px 0 0 #c9a100,
+      -2px 2px 0 #c9a100, 2px 2px 0 #c9a100,
+      0 0 0 4px #1a0a2e;
+  }
+  .arcade-deck-inner {
+    display:flex; align-items:center; justify-content:center; gap:14px;
+  }
+  /* 摇杆 / 按钮 */
+  .joy-btn {
+    width:18px; height:18px;
+    background:linear-gradient(135deg, #ffe44d, #c9a100);
+    border:2px solid #8b6914;
+    box-shadow:0 0 8px #ffd70044, 0 3px 0 #00000066, inset 0 -2px 0 #8b691466;
     image-rendering:pixelated;
   }
+  .joy-btn.sm { width:12px; height:12px; }
   /* 投币口 */
   .coin-slot {
-    width:28px; height:6px; background:#000;
+    width:32px; height:7px; background:#000;
     border:2px solid #c9a100;
-    box-shadow:inset 0 0 4px #000, 0 0 6px #ffd70044;
-  }
-  /* 装饰按钮 */
-  .deco-btn {
-    width:14px; height:14px; border-radius:0;
-    background:linear-gradient(135deg, #ffd700, #c9a100);
-    border:2px solid #8b6914;
-    box-shadow:0 0 8px #ffd70044, 0 2px 0 #00000044;
-  }
-  .deco-btn.sm { width:10px; height:10px; }
-
-  /* 装饰条纹 */
-  .machine-stripe {
-    height:4px; margin:0 10px;
-    background:repeating-linear-gradient(90deg, #ffd700 0px, #ffd700 4px, transparent 4px, transparent 8px);
-    opacity:.4;
+    box-shadow:inset 0 0 4px #000, 0 0 8px #ffd70044;
+    image-rendering:pixelated;
   }
 
-  /* ===== 机器底座 / Stand ===== */
-  .machine-stand {
-    position:relative; margin:0 -8px -4px; height:16px;
-    background:linear-gradient(180deg, #2d1060, #1a0a2e);
-    border:4px solid #c9a100;
-    border-top:4px solid #ffd700;
+  /* ---- 下半身 ---- */
+  .arcade-lower {
+    position:relative; width:78%; margin:0 auto;
+    background:linear-gradient(180deg, #150528, #0d0015);
+    border-left:4px solid #ffd700; border-right:4px solid #ffd700;
+    border-bottom:4px solid #c9a100;
     box-shadow:
-      -2px 4px 0 #b8860b, 2px 4px 0 #b8860b,
+      -4px 0 0 #c9a100, 4px 0 0 #c9a100,
+      0 0 0 3px #1a0a2e;
+    padding:8px 8px 12px;
+  }
+  /* 装饰条纹 */
+  .lower-stripe {
+    height:4px; margin:4px 0;
+    background:repeating-linear-gradient(90deg, #ffd700 0px, #ffd700 4px, transparent 4px, transparent 8px);
+    opacity:.35; image-rendering:pixelated;
+  }
+  /* 像素侧边花纹 */
+  .side-art-row {
+    display:flex; justify-content:space-between; padding:4px 0;
+  }
+  .side-art-pixel {
+    width:8px; height:8px; background:#c9a100;
+    box-shadow:
+      8px 0 0 #8b6914, 16px 0 0 #c9a100,
+      0 8px 0 #8b6914, 8px 8px 0 #c9a100, 16px 8px 0 #8b6914;
+    image-rendering:pixelated; opacity:.6;
+  }
+
+  /* ---- 底座 ---- */
+  .arcade-base {
+    width:86%; height:14px; margin:0 auto;
+    background:linear-gradient(180deg, #2d1060, #1a0a2e);
+    border:4px solid #ffd700; border-top:3px solid #c9a100;
+    box-shadow:
+      -4px 4px 0 #b8860b, 4px 4px 0 #b8860b,
       0 0 0 4px #0d0015;
     image-rendering:pixelated;
   }
-  /* 底座螺丝 */
-  .machine-stand::before {
-    content:''; position:absolute; left:14px; top:3px;
-    width:6px; height:6px; background:#c9a100;
-    box-shadow:
-      0 0 0 2px #8b6914,
-      /* 复制到右边 */
-      0 0 0 2px #8b6914;
-  }
-  /* 脚撑 */
+
+  /* ---- 脚撑 ---- */
   .machine-feet {
     display:flex; justify-content:space-between;
-    margin:0 -4px 0; padding:0 12px;
+    width:60%; margin:0 auto; padding:0 8px;
   }
   .machine-foot {
-    width:20px; height:10px;
-    background:#c9a100;
+    width:22px; height:8px;
+    background:#b8860b;
     box-shadow:
       0 -2px 0 #ffd700,
-      2px 2px 0 #8b6914, -2px 2px 0 #8b6914;
+      4px 2px 0 #8b6914, -4px 2px 0 #8b6914;
+    image-rendering:pixelated;
+  }
+
+  /* ---- 机身上方装饰 ---- */
+  .arcade-top-ears {
+    display:flex; justify-content:space-between;
+    width:82%; margin:0 auto -2px; padding:0 4px;
+  }
+  .arcade-ear {
+    width:12px; height:14px; background:#ffd700;
+    box-shadow:
+      -2px -2px 0 #c9a100, 2px -2px 0 #c9a100,
+      0 0 8px #ffd70066;
     image-rendering:pixelated;
   }
 
@@ -456,8 +509,8 @@
     animation:reelGlow .12s steps(2) infinite;
   }
   @keyframes reelGlow {
-    0%,100%{border-color:#ffd700;box-shadow:inset 0 0 14px #000000,-2px -2px 0 #c9a100,2px -2px 0 #c9a100,-2px 2px 0 #c9a100,2px 2px 0 #c9a100}
-    50%{border-color:#fff;box-shadow:inset 0 0 24px #ffd70044,-2px -2px 0 #fff,2px -2px 0 #fff,-2px 2px 0 #fff,2px 2px 0 #fff,0 0 10px #ffd70044}
+    0%,100%{border-color:#ffd700;box-shadow:inset 0 0 12px #000000,-2px -2px 0 #c9a100,2px -2px 0 #c9a100,-2px 2px 0 #c9a100,2px 2px 0 #c9a100}
+    50%{border-color:#fff;box-shadow:inset 0 0 22px #ffd70044,-2px -2px 0 #fff,2px -2px 0 #fff,-2px 2px 0 #fff,2px 2px 0 #fff,0 0 10px #ffd70044}
   }
 
   /* ===== 着陆闪光 ===== */
@@ -465,8 +518,8 @@
     animation:landFlash .4s steps(3);
   }
   @keyframes landFlash {
-    0%{border-color:#fff;box-shadow:inset 0 0 30px #ffd70088,-2px -2px 0 #fff,2px -2px 0 #fff,-2px 2px 0 #fff,2px 2px 0 #fff,0 0 16px #ffd70088}
-    100%{border-color:#ffd700;box-shadow:inset 0 0 14px #000000,-2px -2px 0 #c9a100,2px -2px 0 #c9a100,-2px 2px 0 #c9a100,2px 2px 0 #c9a100}
+    0%{border-color:#fff;box-shadow:inset 0 0 28px #ffd70088,-2px -2px 0 #fff,2px -2px 0 #fff,-2px 2px 0 #fff,2px 2px 0 #fff,0 0 16px #ffd70088}
+    100%{border-color:#ffd700;box-shadow:inset 0 0 12px #000000,-2px -2px 0 #c9a100,2px -2px 0 #c9a100,-2px 2px 0 #c9a100,2px 2px 0 #c9a100}
   }
 
   /* ===== 黄金粒子爆发 ===== */
@@ -482,7 +535,7 @@
   }
 
   /* ===== 按钮行 ===== */
-  .slot-bottom-row { display:flex; gap:10px; width:100%; margin-top:4px; }
+  .slot-bottom-row { display:flex; gap:10px; width:100%; margin-top:8px; }
   .slot-bottom-row .pixel-btn { flex:1; font-size:10px; padding:14px 0; }
   .back-btn-sm { font-size:10px !important; padding:14px 0 !important; background:linear-gradient(180deg, #4a1d8a, #2d1060) !important; color:#c9a100 !important; }
   .retry-btn {
