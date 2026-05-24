@@ -238,21 +238,6 @@
     image-rendering:pixelated; letter-spacing:1px;
   }
 
-  /* 目标分数展示 */
-  .target-score-badge {
-    display:flex; align-items:center; justify-content:center; gap:10px;
-    width:100%; padding:10px;
-    background:linear-gradient(180deg, #2a1050, #1a0a30);
-    border:3px solid #c9a100;
-    box-shadow:inset 0 0 12px #ffd70011, 0 0 16px #ffd70022;
-    image-rendering:pixelated;
-  }
-  .target-label { font-size:10px; color:#c9a100; text-shadow:0 0 6px #ffd70044; }
-  .target-value {
-    font-size:28px; color:#ffd700; letter-spacing:3px;
-    text-shadow:0 0 12px #ffd70088, 0 0 24px #ffd70044;
-  }
-
   /* 老虎机机身 (华丽版) */
   .slot-cabinet {
     position:relative; width:100%;
@@ -352,20 +337,6 @@
   @keyframes landFlash {
     0%{border-color:#fff;box-shadow:inset 0 0 40px #ffd700aa,-2px -2px 0 #fff,2px -2px 0 #fff,-2px 2px 0 #fff,2px 2px 0 #fff,0 0 0 2px #2d1060,-4px 0 0 #1a0a2e,4px 0 0 #1a0a2e,0 0 20px #ffd70088}
     100%{border-color:#ffd700;box-shadow:inset 0 0 20px #000000aa,-2px -2px 0 #c9a100,2px -2px 0 #c9a100,-2px 2px 0 #c9a100,2px 2px 0 #c9a100,0 0 0 2px #2d1060,-4px 0 0 #1a0a2e,4px 0 0 #1a0a2e}
-  }
-
-  /* 结果显示 */
-  .result-display {
-    text-align:center; padding:10px;
-    background:linear-gradient(180deg, #1a0a2e, #2d1060);
-    border:3px solid #ffd700;
-    box-shadow:0 0 16px #ffd70033, inset 0 0 12px #ffd70011;
-    image-rendering:pixelated;
-  }
-  .result-label { font-size:9px; color:#c9a100; margin-bottom:6px; letter-spacing:1px; }
-  .result-value {
-    font-size:36px; color:#ffd700; letter-spacing:4px;
-    text-shadow:0 0 12px #ffd70088, 0 0 24px #ffd70044;
   }
 
   /* 黄金粒子爆发 */
@@ -500,12 +471,6 @@
           <div class="reel-strip" id="reel-strip-2"></div>
         </div>
       </div>
-    </div>
-
-    <!-- 结果显示 -->
-    <div class="result-display" id="result-display" style="opacity:0;">
-      <div class="result-label">⚔ 评分结果 ⚔</div>
-      <div class="result-value" id="result-value">000</div>
     </div>
 
     <!-- 底部按钮 -->
