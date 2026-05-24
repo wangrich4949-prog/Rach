@@ -291,7 +291,7 @@
 
   /* 单个滚轴框 */
   .reel-frame {
-    position:relative; width:76px; height:100px;
+    position:relative; width:76px; height:56px;
     background:linear-gradient(180deg, #0a0018, #0d0420);
     border:4px solid #ffd700; overflow:hidden;
     box-shadow:
@@ -711,13 +711,8 @@
         isSpinning = false;
         cancelAnimationFrame(animFrameId);
         animFrameId = null;
-        // 显示结果
-        setTimeout(() => {
-          resultDisplay.style.opacity = '1';
-          resultDisplay.style.transition = 'opacity 0.3s steps(3)';
-          vibrate([15, 30, 15]);
-        }, 200);
-        setTimeout(() => spawnGoldBurst(resultDisplay), 300);
+        // 全部停止 - 最终震动
+        setTimeout(() => vibrate([15, 30, 15]), 200);
       }
     }
 
