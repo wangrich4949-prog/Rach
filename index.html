@@ -962,7 +962,8 @@
       const sx = Math.random() * 96;
       const sy = Math.random() * 60;
       const ss = 2 + Math.random() * 3;
-      html += `<div style="position:fixed;left:${sx}%;top:${sy}%;width:${ss}px;height:${ss}px;background:#fff;z-index:0;image-rendering:pixelated;animation:pxBlink ${3+Math.random()*5}s steps(1) infinite;animation-delay:${Math.random()*3}s;"></div>`;
+      const tg = ['#f8d870','#f8e090','#ffe8a0','#f8c850','#ffe0b0'][Math.floor(Math.random()*5)];
+      html += `<div style="position:fixed;left:${sx}%;top:${sy}%;width:${ss}px;height:${ss}px;background:${tg};z-index:0;image-rendering:pixelated;animation:pxBlink ${3+Math.random()*5}s steps(1) infinite;animation-delay:${Math.random()*3}s;"></div>`;
     }
 
     // ---- 背景树 (8棵, 远处) ----
