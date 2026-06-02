@@ -679,86 +679,112 @@
   }
 
   /* ============================================ */
-  /*  小皇帝和情绪 — 7段离散选择器                */
+  /*  小皇帝和情绪 — 7段吸附滑块                   */
   /* ============================================ */
 
   .emotion-scroll {
-    width:100%; display:flex; flex-direction:column; gap:12px;
-    max-height:58vh; overflow-y:auto; padding:2px 0;
+    width:100%; display:flex; flex-direction:column; gap:14px;
+    max-height:58vh; overflow-y:auto; padding:4px 0;
   }
   .emotion-scroll::-webkit-scrollbar { width:4px; }
   .emotion-scroll::-webkit-scrollbar-track { background:rgba(90,140,60,0.06); border-radius:2px; }
   .emotion-scroll::-webkit-scrollbar-thumb { background:#A5C896; border-radius:2px; }
 
-  /* 现代卡片 */
+  /* 现代卡片 — 不用 overflow:hidden */
   .emo-card {
-    background:#fff; border-radius:14px;
-    padding:18px 18px 16px;
-    border:1px solid rgba(90,140,60,0.10);
-    box-shadow:0 1px 4px rgba(0,0,0,0.04), 0 2px 12px rgba(90,140,60,0.05);
-    transition:border-color .25s, box-shadow .25s;
-    position:relative; overflow:hidden;
+    background:#fff; border-radius:16px;
+    padding:16px 20px 12px;
+    border:1px solid rgba(90,140,60,0.08);
+    box-shadow:0 1px 3px rgba(0,0,0,0.03), 0 2px 10px rgba(90,140,60,0.04);
+    transition:border-color .2s, box-shadow .2s;
   }
   .emo-card.flash {
-    border-color:var(--dc, rgba(90,140,60,0.3));
-    box-shadow:0 1px 4px rgba(0,0,0,0.04), 0 2px 20px var(--dg, rgba(90,140,60,0.18));
+    border-color:var(--dc, rgba(90,140,60,0.25));
+    box-shadow:0 1px 3px rgba(0,0,0,0.03), 0 2px 18px var(--dg, rgba(90,140,60,0.15));
   }
 
-  /* 头部：维度名称居中 */
-  .emo-header {
-    display:flex; align-items:center; justify-content:center;
-    margin-bottom:4px;
-  }
+  /* 维度名 */
+  .emo-header { display:flex; align-items:center; justify-content:center; margin-bottom:2px; }
   .emo-name {
-    font-family:'Noto Serif SC',serif; font-size:15px; font-weight:700;
+    font-family:'Noto Serif SC',serif; font-size:14px; font-weight:700;
     color:#2E3A2C; letter-spacing:1px;
   }
 
-  /* 7 段点选行 */
-  .emo-dot-row {
-    display:flex; align-items:center; justify-content:space-between;
-    padding:0 4px; position:relative; height:44px;
+  /* 滑块区域 */
+  .emo-slider-wrap { position:relative; padding:8px 0 4px; }
+
+  /* 7个刻度点 */
+  .emo-ticks {
+    display:flex; justify-content:space-between;
+    padding:0 10px; margin-bottom:-2px;
+    position:relative; z-index:2; pointer-events:none;
   }
-  /* 轨道线 */
-  .emo-dot-row::before {
-    content:''; position:absolute; left:18px; right:18px; top:50%;
-    height:2px; background:#E8EDE4; border-radius:1px;
-    transform:translateY(-50%); z-index:0;
+  .emo-tick {
+    width:10px; height:10px; border-radius:50%;
+    background:#DDE4D8; transition:background .15s, box-shadow .15s, transform .15s;
+  }
+  .emo-tick.near {
+    background:var(--tc); transform:scale(1.4);
+    box-shadow:0 0 6px var(--tg);
   }
 
-  .emo-dot {
-    width:26px; height:26px; border-radius:50%;
-    background:#F8FAF6;
-    border:2px solid #DDE4D8;
-    position:relative; z-index:1; cursor:pointer;
-    transition:transform .18s cubic-bezier(.34,1.56,.64,1),
-               background .18s, border-color .18s, box-shadow .18s;
-    -webkit-tap-highlight-color:transparent;
+  /* 滑块本体 */
+  .emo-slider {
+    -webkit-appearance:none; appearance:none;
+    width:100%; height:30px; background:transparent;
+    cursor:pointer; outline:none; margin:0;
+    position:relative; z-index:3;
   }
-  .emo-dot:active { transform:scale(.9); }
 
-  .emo-dot.sel {
-    background:var(--dc, #5CAA3E);
-    border-color:var(--dc, #5CAA3E);
-    box-shadow:0 0 0 6px var(--dg, rgba(92,170,62,0.18));
-    transform:scale(1.15);
+  .emo-slider::-webkit-slider-runnable-track {
+    width:100%; height:4px;
+    background:linear-gradient(90deg,
+      var(--tc) 0%, var(--tc) var(--fill,50%),
+      #E8EDE4 var(--fill,50%), #E8EDE4 100%
+    );
+    border-radius:2px;
   }
-  .emo-dot.sel:active { transform:scale(1.05); }
+
+  .emo-slider::-moz-range-track {
+    width:100%; height:4px;
+    background:linear-gradient(90deg,
+      var(--tc) 0%, var(--tc) var(--fill,50%),
+      #E8EDE4 var(--fill,50%), #E8EDE4 100%
+    );
+    border-radius:2px;
+  }
+
+  .emo-slider::-webkit-slider-thumb {
+    -webkit-appearance:none; appearance:none;
+    width:24px; height:24px; margin-top:-10px;
+    border-radius:50%; background:var(--tc);
+    border:3px solid #fff;
+    box-shadow:0 2px 8px rgba(0,0,0,0.14), 0 0 0 5px var(--tg);
+    cursor:pointer; transition:transform .1s;
+  }
+  .emo-slider::-webkit-slider-thumb:active { transform:scale(1.2); }
+
+  .emo-slider::-moz-range-thumb {
+    width:24px; height:24px; border-radius:50%;
+    background:var(--tc); border:3px solid #fff;
+    box-shadow:0 2px 8px rgba(0,0,0,0.14), 0 0 0 5px var(--tg);
+    cursor:pointer;
+  }
 
   /* 两端标签 */
-  .emo-end-row {
-    display:flex; justify-content:space-between; align-items:center;
-    padding:0 2px; margin-top:2px;
+  .emo-labels {
+    display:flex; justify-content:space-between;
+    padding:0 6px; margin-top:4px;
   }
-  .emo-end-label {
-    font-family:'Noto Serif SC',serif; font-size:10px; color:#8A9E82;
-    letter-spacing:.5px; max-width:45%; text-align:center;
-    line-height:1.3;
+  .emo-label {
+    font-family:'Noto Serif SC',serif; font-size:10px;
+    color:#8A9E82; letter-spacing:.5px;
+    line-height:1.3; max-width:40%;
   }
-  .emo-end-label:first-child { text-align:left; }
-  .emo-end-label:last-child  { text-align:right; }
+  .emo-label:first-child { text-align:left; }
+  .emo-label:last-child  { text-align:right; }
 
-  /* 选择粒子 */
+  /* 粒子 */
   .emo-pop {
     position:fixed; pointer-events:none; z-index:100;
     width:6px; height:6px; border-radius:50%;
@@ -929,70 +955,85 @@
       <!-- 心情 -->
       <div class="emo-card" data-key="mood">
         <div class="emo-header"><span class="emo-name">心情</span></div>
-        <div class="emo-dot-row" data-value="0">
-          <div class="emo-dot"></div><div class="emo-dot"></div><div class="emo-dot"></div>
-          <div class="emo-dot sel"></div>
-          <div class="emo-dot"></div><div class="emo-dot"></div><div class="emo-dot"></div>
+        <div class="emo-slider-wrap">
+          <div class="emo-ticks">
+            <span class="emo-tick"></span><span class="emo-tick"></span><span class="emo-tick"></span>
+            <span class="emo-tick"></span><span class="emo-tick"></span><span class="emo-tick"></span>
+            <span class="emo-tick"></span>
+          </div>
+          <input type="range" class="emo-slider" min="-3" max="3" step="1" value="0">
         </div>
-        <div class="emo-end-row">
-          <span class="emo-end-label">忧郁</span>
-          <span class="emo-end-label">开心</span>
+        <div class="emo-labels">
+          <span class="emo-label">忧郁</span>
+          <span class="emo-label">开心</span>
         </div>
       </div>
 
       <!-- 压力 -->
       <div class="emo-card" data-key="stress">
         <div class="emo-header"><span class="emo-name">压力</span></div>
-        <div class="emo-dot-row" data-value="0">
-          <div class="emo-dot"></div><div class="emo-dot"></div><div class="emo-dot"></div>
-          <div class="emo-dot sel"></div>
-          <div class="emo-dot"></div><div class="emo-dot"></div><div class="emo-dot"></div>
+        <div class="emo-slider-wrap">
+          <div class="emo-ticks">
+            <span class="emo-tick"></span><span class="emo-tick"></span><span class="emo-tick"></span>
+            <span class="emo-tick"></span><span class="emo-tick"></span><span class="emo-tick"></span>
+            <span class="emo-tick"></span>
+          </div>
+          <input type="range" class="emo-slider" min="-3" max="3" step="1" value="0">
         </div>
-        <div class="emo-end-row">
-          <span class="emo-end-label">紧绷</span>
-          <span class="emo-end-label">放松</span>
+        <div class="emo-labels">
+          <span class="emo-label">紧绷</span>
+          <span class="emo-label">放松</span>
         </div>
       </div>
 
       <!-- 精力 -->
       <div class="emo-card" data-key="energy">
         <div class="emo-header"><span class="emo-name">精力</span></div>
-        <div class="emo-dot-row" data-value="0">
-          <div class="emo-dot"></div><div class="emo-dot"></div><div class="emo-dot"></div>
-          <div class="emo-dot sel"></div>
-          <div class="emo-dot"></div><div class="emo-dot"></div><div class="emo-dot"></div>
+        <div class="emo-slider-wrap">
+          <div class="emo-ticks">
+            <span class="emo-tick"></span><span class="emo-tick"></span><span class="emo-tick"></span>
+            <span class="emo-tick"></span><span class="emo-tick"></span><span class="emo-tick"></span>
+            <span class="emo-tick"></span>
+          </div>
+          <input type="range" class="emo-slider" min="-3" max="3" step="1" value="0">
         </div>
-        <div class="emo-end-row">
-          <span class="emo-end-label">虚无</span>
-          <span class="emo-end-label">昂扬</span>
+        <div class="emo-labels">
+          <span class="emo-label">虚无</span>
+          <span class="emo-label">昂扬</span>
         </div>
       </div>
 
       <!-- 体力 -->
       <div class="emo-card" data-key="physical">
         <div class="emo-header"><span class="emo-name">体力</span></div>
-        <div class="emo-dot-row" data-value="0">
-          <div class="emo-dot"></div><div class="emo-dot"></div><div class="emo-dot"></div>
-          <div class="emo-dot sel"></div>
-          <div class="emo-dot"></div><div class="emo-dot"></div><div class="emo-dot"></div>
+        <div class="emo-slider-wrap">
+          <div class="emo-ticks">
+            <span class="emo-tick"></span><span class="emo-tick"></span><span class="emo-tick"></span>
+            <span class="emo-tick"></span><span class="emo-tick"></span><span class="emo-tick"></span>
+            <span class="emo-tick"></span>
+          </div>
+          <input type="range" class="emo-slider" min="-3" max="3" step="1" value="0">
         </div>
-        <div class="emo-end-row">
-          <span class="emo-end-label">疲惫</span>
-          <span class="emo-end-label">充沛</span>
+        <div class="emo-labels">
+          <span class="emo-label">疲惫</span>
+          <span class="emo-label">充沛</span>
         </div>
       </div>
 
       <!-- 爱意 -->
       <div class="emo-card" data-key="love">
         <div class="emo-header"><span class="emo-name">爱意</span></div>
-        <div class="emo-dot-row" data-value="0">
-          <div class="emo-dot"></div><div class="emo-dot"></div><div class="emo-dot"></div>
-          <div class="emo-dot sel"></div>
-          <div class="emo-dot"></div><div class="emo-dot"></div><div class="emo-dot"></div>
+        <div class="emo-slider-wrap">
+          <div class="emo-ticks">
+            <span class="emo-tick"></span><span class="emo-tick"></span><span class="emo-tick"></span>
+            <span class="emo-tick"></span><span class="emo-tick"></span><span class="emo-tick"></span>
+            <span class="emo-tick"></span>
+          </div>
+          <input type="range" class="emo-slider" min="-3" max="3" step="1" value="0">
         </div>
-        <div class="emo-end-row">
-          <span class="emo-end-label">冷静</span>
-          <span class="emo-end-label">浪漫</span>
+        <div class="emo-labels">
+          <span class="emo-label">冷静</span>
+          <span class="emo-label">浪漫</span>
         </div>
       </div>
 
@@ -1431,17 +1472,18 @@
   buildReelStrips();
 
   // ===========================================================
-  //  小皇帝和情绪 — 7段点选交互
+  //  小皇帝和情绪 — 7段吸附滑块
   // ===========================================================
 
   const emoConfig = {
-    mood:     { color:'#BE9C4E', glow:'rgba(190,156,78,0.22)' },
-    stress:   { color:'#4C9178', glow:'rgba(76,145,120,0.22)' },
-    energy:   { color:'#5DA82E', glow:'rgba(93,168,46,0.22)' },
-    physical: { color:'#4A8C3F', glow:'rgba(74,140,63,0.22)' },
-    love:     { color:'#C4867A', glow:'rgba(196,134,122,0.22)' }
+    mood:     { color:'#BE9C4E', glow:'rgba(190,156,78,0.2)' },
+    stress:   { color:'#4C9178', glow:'rgba(76,145,120,0.2)' },
+    energy:   { color:'#5DA82E', glow:'rgba(93,168,46,0.2)' },
+    physical: { color:'#4A8C3F', glow:'rgba(74,140,63,0.2)' },
+    love:     { color:'#C4867A', glow:'rgba(196,134,122,0.2)' }
   };
 
+  // 粒子爆发
   function spawnEmoPop(el, color) {
     const rect = el.getBoundingClientRect();
     const cx = rect.left + rect.width/2, cy = rect.top + rect.height/2;
@@ -1460,31 +1502,43 @@
     }
   }
 
+  // 更新刻度高亮
+  function updateTicks(ticks, val, tc, tg) {
+    const idx = val + 3; // -3~+3 -> 0~6
+    ticks.forEach((t,i)=>{
+      if (i===idx) { t.classList.add('near'); t.style.setProperty('--tc',tc); t.style.setProperty('--tg',tg); }
+      else t.classList.remove('near');
+    });
+  }
+
   document.querySelectorAll('.emo-card').forEach(card=>{
     const key = card.dataset.key;
     const cfg = emoConfig[key];
-    const dots = card.querySelectorAll('.emo-dot');
-    const row = card.querySelector('.emo-dot-row');
+    const slider = card.querySelector('.emo-slider');
+    const ticks = card.querySelectorAll('.emo-tick');
 
-    // 初始注入颜色变量
-    dots.forEach(d=>{
-      d.style.setProperty('--dc', cfg.color);
-      d.style.setProperty('--dg', cfg.glow);
+    // 注入颜色变量
+    slider.style.setProperty('--tc', cfg.color);
+    slider.style.setProperty('--tg', cfg.glow);
+
+    // 初始刻度
+    updateTicks(ticks, 0, cfg.color, cfg.glow);
+
+    // 拖动中：更新刻度高亮 + 轨道填充
+    slider.addEventListener('input', ()=>{
+      const v = parseInt(slider.value);
+      const pct = ((v+3)/6)*100; // -3=0%, +3=100%
+      slider.style.setProperty('--fill', pct+'%');
+      updateTicks(ticks, v, cfg.color, cfg.glow);
     });
 
-    dots.forEach((dot,i)=>{
-      dot.addEventListener('click', ()=>{
-        const v = i - 3; // -3 ~ +3
-        row.dataset.value = v;
-        dots.forEach(d=>d.classList.remove('sel'));
-        dot.classList.add('sel');
-        // 卡片闪烁
-        card.classList.add('flash');
-        setTimeout(()=>card.classList.remove('flash'), 300);
-        // 粒子
-        spawnEmoPop(dot, cfg.color);
-        vibrate(6);
-      });
+    // 松手：吸附到位 + 粒子 + 闪烁
+    slider.addEventListener('change', ()=>{
+      // step=1 已确保吸附，这里做特效
+      card.classList.add('flash');
+      setTimeout(()=>card.classList.remove('flash'), 320);
+      spawnEmoPop(slider, cfg.color);
+      vibrate(8);
     });
   });
 
