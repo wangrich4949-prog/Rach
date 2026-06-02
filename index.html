@@ -20,11 +20,11 @@
 
   /* ===== 颜色变量 ===== */
   :root {
-    --g0: #0c1a08; --g1: #1a3a10; --g2: #2d5a1c; --g3: #3d7a24; --g4: #48a828;
-    --g5: #58b838; --g6: #68c848; --g7: #88d858; --gl: #a8e868;
-    --b0: #1a0c04; --b1: #3a2010; --b2: #5c3818; --b3: #7a4c28; --b4: #8a5c38;
-    --sky: #181830; --ui: #f0e0c0; --ui2: #e0d0b0; --uid: #5c3818;
-    --gold: #e8c040; --gold2: #f0d860; --pink: #f08090; --pink2: #f8b0c0;
+    --g0: #0c0c16; --g1: #181828; --g2: #242438; --g3: #303048;
+    --g4: #3c3c58; --g5: #484868; --g6: #585878; --g7: #707090; --gl: #8888a8;
+    --b0: #0d0812; --b1: #1c142a; --b2: #2c2040; --b3: #3c2c50; --b4: #4c3860;
+    --sky: #0a0a1a; --ui: #f0e4c8; --ui2: #e0d4b8; --uid: #3c2c50;
+    --gold: #d8a030; --gold2: #f0c840; --pink: #c84050; --pink2: #e06070;
     --px: 4px;
   }
 
@@ -1031,33 +1031,56 @@
     }
     html += `<div class="px-grass-cont" style="--gs:${grassShadows.join(',')};animation:pxGrass ${3+Math.random()*3}s steps(5) infinite;"></div>`;
 
-    // ---- 像素灌木丛 (中部区域) ----
-    const bushPositions = [
-      { x:5,  b:28, w:80, h:35 },
-      { x:18, b:22, w:65, h:42 },
-      { x:35, b:30, w:75, h:38 },
-      { x:50, b:25, w:90, h:45 },
-      { x:68, b:32, w:70, h:36 },
-      { x:82, b:27, w:85, h:40 },
-      { x:95, b:24, w:60, h:33 },
-      { x:12, b:38, w:55, h:28 },
-      { x:42, b:36, w:65, h:30 },
-      { x:75, b:40, w:50, h:25 },
-    ];
-    const bushGreens = ['#2d5a1c','#3d7a24','#48a828','#3a6020','#2a4a18','#509030'];
-    bushPositions.forEach(bp => {
-      const bw = bp.w, bh = bp.h;
-      const bShadows = [];
-      const bCount = Math.floor(bw * bh * 0.22);
-      for (let i = 0; i < bCount; i++) {
-        const bx2 = (Math.random() - 0.5) * bw;
-        const by2 = -Math.random() * bh * 0.8;
-        const sx = Math.round(bx2 / 4) * 4;
-        const sy = Math.round(by2 / 4) * 4;
-        const bc = bushGreens[Math.floor(Math.random() * bushGreens.length)];
-        bShadows.push(`${sx}px ${sy}px 0 0 ${bc}`);
+        // ---- 像素灌木丛 (结构化穹顶形状) ----
+    function pxBushShape(w, h) {
+      const shadows = [];
+      const dark  = ['#1a3a10','#2a4a18','#1e3812'];
+      const mid   = ['#2d5a1c','#3a6020','#3d7a24'];
+      const light = ['#48a828','#58b838','#509030'];
+      const hl    = ['#68c848','#78d858','#88e060'];
+      const rows = Math.floor(h / 4);
+      for (let row = 0; row < rows; row++) {
+        const y = -(row * 4);
+        const prog = row / Math.max(rows - 1, 1);
+        const curveFactor = 1 - Math.pow(prog, 1.6);
+        const rowHalfW = Math.floor(w * curveFactor / 2);
+        const startX = -Math.floor(rowHalfW / 4) * 4;
+        for (let x = startX; x <= rowHalfW; x += 4) {
+          const edgeRatio = Math.abs(x) / Math.max(rowHalfW, 1);
+          if (edgeRatio > 0.7 && Math.random() < edgeRatio * 0.55) continue;
+          let palette;
+          if (prog < 0.25) palette = dark;
+          else if (prog < 0.55) palette = mid;
+          else if (prog < 0.82) palette = light;
+          else palette = hl;
+          const c = palette[Math.floor(Math.random() * palette.length)];
+          shadows.push(x + 'px ' + y + 'px 0 0 ' + c);
+        }
       }
-      html += `<div class="px-bush" style="left:${bp.x}%;bottom:${bp.b}vh;--bs:${bShadows.join(',')};animation:pxBushBob ${4+Math.random()*4}s steps(5) infinite;animation-delay:${Math.random()*3}s;"></div>`;
+      for (let i = 0; i < Math.floor(w / 5); i++) {
+        const hx = Math.round((Math.random() - 0.5) * w * 0.5 / 4) * 4;
+        const hy = -(rows * 4) + Math.floor(Math.random() * 3) * 4;
+        shadows.push(hx + 'px ' + hy + 'px 0 0 ' + hl[Math.floor(Math.random()*hl.length)]);
+      }
+      return shadows.join(',');
+    }
+
+    const bushDefs = [
+      { x:3,  b:2, w:72, h:40 },
+      { x:11, b:1, w:56, h:32 },
+      { x:22, b:2, w:64, h:36 },
+      { x:33, b:1, w:80, h:44 },
+      { x:47, b:2, w:88, h:48 },
+      { x:58, b:1, w:60, h:34 },
+      { x:70, b:2, w:76, h:40 },
+      { x:80, b:1, w:52, h:30 },
+      { x:90, b:2, w:68, h:38 },
+      { x:96, b:1, w:48, h:28 },
+    ];
+
+    bushDefs.forEach(bp => {
+      const bs = pxBushShape(bp.w, bp.h);
+      html += '<div class="px-bush" style="left:' + bp.x + '%;bottom:' + bp.b + 'vh;--bs:' + bs + ';animation:pxBushBob ' + (4+Math.random()*4).toFixed(1) + 's steps(5) infinite;animation-delay:' + (Math.random()*3).toFixed(1) + 's;"></div>';
     });
 
     // ---- 像素高花 (有茎) ----
