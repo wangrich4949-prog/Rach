@@ -1139,7 +1139,7 @@
     }
 
     // ---- 像素花瓣 ----
-    const petalColors = ['#f8a0b0','#f8b8c8','#f8c860','#f8e8c0','#f89098'];
+    const petalColors = ['#f8c850','#f8d860','#f8e0a0','#f8d870','#f8b840'];
     for (let i = 0; i < 10; i++) {
       const px = Math.random() * 94;
       const pdur = 10 + Math.random() * 12;
@@ -1369,7 +1369,7 @@
     const rect = el.getBoundingClientRect();
     const cx = rect.left + rect.width / 2;
     const cy = rect.top + rect.height / 2;
-    const colors = ['#68c848','#88d858','#48a828','#f8c860','#f8a0b0','#f8e8c0'];
+    const colors = ['#f8c040','#f8d860','#e09820','#f8e0a0','#c84050','#f8d8b0'];
     for (let i = 0; i < 12; i++) {
       const angle = (Math.PI * 2 * i) / 12 + Math.random() * 0.3;
       const dist = 20 + Math.random() * 30;
@@ -1418,11 +1418,11 @@
   // ===========================================================
 
   const emoConfig = {
-    mood:     { color:'#BE9C4E', glow:'rgba(190,156,78,0.25)' },
-    stress:   { color:'#4C9178', glow:'rgba(76,145,120,0.25)' },
-    energy:   { color:'#5DA82E', glow:'rgba(93,168,46,0.25)' },
-    physical: { color:'#4A8C3F', glow:'rgba(74,140,63,0.25)' },
-    love:     { color:'#C4867A', glow:'rgba(196,134,122,0.25)' }
+    mood:     { color:'#D4A830', glow:'rgba(212,168,48,0.35)' },
+    stress:   { color:'#9B6DC0', glow:'rgba(155,109,192,0.35)' },
+    energy:   { color:'#D85030', glow:'rgba(216,80,48,0.35)' },
+    physical: { color:'#6898B8', glow:'rgba(104,152,184,0.35)' },
+    love:     { color:'#D07080', glow:'rgba(208,112,128,0.35)' }
   };
 
   function spawnEmoPop(el, color) {
