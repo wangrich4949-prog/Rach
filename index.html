@@ -1114,7 +1114,7 @@
     }
 
     // ---- 像素花朵 (矮花, 前景) ----
-    const flowerColors = ['#fff8e0','#f8e8a0','#f8a0b0','#f8c860','#f8d8e0','#f0f0c0'];
+    const flowerColors = ['#f8d050','#e8b830','#c84050','#f8c040','#e8c860','#d8a828'];
     for (let i = 0; i < 10; i++) {
       const fx = 3 + Math.random() * 94;
       const fy = 4 + Math.random() * 14;
@@ -1122,13 +1122,13 @@
       const fs = [
         `-4px -4px 0 ${fc}`, `4px -4px 0 ${fc}`,
         `-4px 4px 0 ${fc}`, `4px 4px 0 ${fc}`,
-        `0 -8px 0 ${fc}`, `0 0 0 #68c848`
+        `0 -8px 0 ${fc}`, `0 0 0 #f8d860`
       ].join(',');
       html += `<div class="px-flower" style="left:${fx}%;--fy:${fy}px;--fs:${fs};--fdur:${3+Math.random()*3}s;--fdelay:${Math.random()*3}s;"></div>`;
     }
 
     // ---- 像素落叶 ----
-    const leafColors = ['#58b838','#68c848','#88d858','#48a828','#f8a0b0','#f8c860','#88d060'];
+    const leafColors = ['#f89820','#f8a838','#f8c040','#e08818','#f8c850','#f8d060','#e8a030'];
     for (let i = 0; i < 25; i++) {
       const lx = Math.random() * 96;
       const ldur = 6 + Math.random() * 10;
