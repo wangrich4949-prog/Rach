@@ -971,7 +971,7 @@
       const x = 3 + Math.random() * 94;
       const h = 55 + Math.random() * 35;
       const w = 8 + Math.floor(Math.random() * 6);
-      const tb = ['#1a2a10','#1e3012','#16280c'][Math.floor(Math.random()*3)];
+      const tb = ['#141424','#18182c','#10101c'][Math.floor(Math.random()*3)];
       const cw = 40 + Math.random() * 50;
       const ch = 30 + Math.random() * 35;
       const ctop = -(ch * 0.6);
@@ -991,7 +991,7 @@
       const ctop = -(ch * 0.55);
       const cs = pxTreeCanopy(cw, ch);
       html += `<div class="px-tree" style="left:${x}%;z-index:1;opacity:0.75;animation:pxSway ${5+Math.random()*4}s steps(6) infinite;animation-delay:${Math.random()*4}s;">
-        <div class="trunk" style="width:${w}px;height:${h}vh;--tb:#3a2010;--ctop:${ctop}px;--cshadow:${cs};"></div>
+        <div class="trunk" style="width:${w}px;height:${h}vh;--tb:#1c142a;--ctop:${ctop}px;--cshadow:${cs};"></div>
       </div>`;
     }
 
@@ -1009,12 +1009,12 @@
       const ctop = -(ch * 0.5);
       const cs = pxTreeCanopy(cw, ch);
       html += `<div class="px-tree" style="left:${t.x}%;z-index:2;animation:pxSway ${4+Math.random()*3}s steps(6) infinite;animation-delay:${Math.random()*3}s;">
-        <div class="trunk" style="width:${t.w}px;height:${t.h}vh;--tb:#5c3818;--ctop:${ctop}px;--cshadow:${cs};"></div>
+        <div class="trunk" style="width:${t.w}px;height:${t.h}vh;--tb:#2c2040;--ctop:${ctop}px;--cshadow:${cs};"></div>
       </div>`;
     });
 
     // ---- 藤曼 (从前景树冠垂下) ----
-    const vineLeafColors = ['#58b838','#68c848','#48a828','#3d7a24','#88d858'];
+    const vineLeafColors = ['#8b3878','#9b4890','#7b2868','#6b2060','#ab58a0'];
     fgTrees.forEach(t => {
       const numVines = 2 + Math.floor(Math.random() * 4);
       for (let v = 0; v < numVines; v++) {
@@ -1048,10 +1048,10 @@
         // ---- 像素灌木丛 (结构化穹顶形状) ----
     function pxBushShape(w, h) {
       const shadows = [];
-      const dark  = ['#1a3a10','#2a4a18','#1e3812'];
-      const mid   = ['#2d5a1c','#3a6020','#3d7a24'];
-      const light = ['#48a828','#58b838','#509030'];
-      const hl    = ['#68c848','#78d858','#88e060'];
+      const dark  = ['#7a5008','#6b4008','#5a3004'];
+      const mid   = ['#a07018','#905810','#b08020'];
+      const light = ['#c89028','#b88020','#d0a030'];
+      const hl    = ['#e0b838','#f0c840','#f8d050'];
       const rows = Math.floor(h / 4);
       for (let row = 0; row < rows; row++) {
         const y = -(row * 4);
@@ -1098,7 +1098,7 @@
     });
 
     // ---- 像素高花 (有茎) ----
-    const tallFlowerColors = ['#fff8e0','#f8e8a0','#f8a0b0','#f8c860','#f8d8e0','#f0f0c0','#ffe8d0','#f8d0e8'];
+    const tallFlowerColors = ['#f89820','#f8a838','#f8c050','#f88818','#f8c860','#ffe0a0','#f8e0c0','#f8b848'];
     for (let i = 0; i < 18; i++) {
       const tfx = 2 + Math.random() * 96;
       const tfy = 8 + Math.random() * 32;
