@@ -6,96 +6,180 @@
 <title>Rach的宝盒</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <style>
   * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 
   body {
-    background: linear-gradient(180deg,
-      #7EC8E3   0%,
-      #B3DFF0  20%,
-      #D6EDF5  38%,
-      #F2F0D5  52%,
-      #C5D88C  65%,
-      #8CB84B  82%,
-      #5A8F2C 100%
-    );
+    background: linear-gradient(180deg, #0a1a06 0%, #132a0c 25%, #1a3510 50%, #15280e 75%, #0d1c08 100%);
     min-height: 100vh; min-height: 100dvh;
     display: flex; align-items: center; justify-content: center;
-    font-family: 'Noto Serif SC', 'STSong', 'SimSun', 'KaiTi', serif;
+    font-family: 'Press Start 2P', monospace;
     overflow-x: hidden; user-select: none; -webkit-user-select: none;
   }
 
-  /* ===== 白云 ===== */
+  /* ===== 森林场景 ===== */
   .nature-scene { position:fixed; inset:0; pointer-events:none; z-index:0; }
-  .cloud {
-    position:fixed; width:60px; height:24px;
-    background:rgba(255,255,255,0.72);
-    border-radius:50%;
-    box-shadow:
-      28px -8px 0 10px rgba(255,255,255,0.68),
-      -20px -5px 0 14px rgba(255,255,255,0.62),
-      58px 5px 0 6px rgba(255,255,255,0.55);
-    animation:driftCloud var(--cdur, 22s) linear infinite;
+
+  /* ---- 树冠天花板 ---- */
+  .canopy-ceiling {
+    position:fixed; top:0; left:0; right:0;
+    height:var(--ch, 160px);
+    background:
+      /* 上方大叶团 */
+      radial-gradient(ellipse 130px 90px at 5% 25%, #3a6520cc 0%, transparent 68%),
+      radial-gradient(ellipse 150px 100px at 28% 18%, #2d5018cc 0%, transparent 65%),
+      radial-gradient(ellipse 120px 85px at 50% 30%, #4a7a2acc 0%, transparent 72%),
+      radial-gradient(ellipse 140px 95px at 72% 20%, #35611dcc 0%, transparent 66%),
+      radial-gradient(ellipse 125px 80px at 90% 28%, #3d6b22cc 0%, transparent 70%),
+      /* 中层 */
+      radial-gradient(ellipse 160px 100px at 15% 55%, #2a4a15cc 0%, transparent 65%),
+      radial-gradient(ellipse 140px 85px at 42% 48%, #3a6b20cc 0%, transparent 68%),
+      radial-gradient(ellipse 155px 95px at 65% 52%, #2d5018cc 0%, transparent 64%),
+      radial-gradient(ellipse 135px 80px at 88% 50%, #4a7a2acc 0%, transparent 67%),
+      /* 下层垂叶 */
+      radial-gradient(ellipse 170px 90px at 8% 82%, #35611dcc 0%, transparent 62%),
+      radial-gradient(ellipse 190px 100px at 30% 88%, #3d6b22cc 0%, transparent 60%),
+      radial-gradient(ellipse 165px 85px at 55% 85%, #2a4a15cc 0%, transparent 63%),
+      radial-gradient(ellipse 180px 95px at 78% 90%, #3a6520cc 0%, transparent 61%),
+      radial-gradient(ellipse 150px 80px at 95% 86%, #2d5018cc 0%, transparent 64%),
+      /* 顶部暗角渐变 */
+      linear-gradient(180deg, rgba(10,22,4,0.6) 0%, rgba(15,28,6,0.3) 40%, transparent 100%);
+    z-index:3; pointer-events:none;
   }
-  @keyframes driftCloud {
-    0%   { transform:translateX(-160px); }
-    100% { transform:translateX(calc(100vw + 160px)); }
+  /* 树冠下层垂叶 */
+  .canopy-vine {
+    position:fixed; top:var(--vy, 100px);
+    width:2px; height:var(--vh, 40px);
+    background:linear-gradient(180deg, #6B9B3A, #8BC34A44 80%, transparent);
+    border-radius:1px; z-index:3;
+  }
+  .vine-leaf {
+    position:fixed; top:var(--vly, 120px); left:var(--vlx, 10%);
+    width:8px; height:12px;
+    background:var(--vlc, #7CB342);
+    border-radius:50% 0 50% 0;
+    transform:rotate(var(--vlr, 30deg));
+    z-index:3; opacity:.75;
+    animation:vineSway var(--vldur, 5s) ease-in-out infinite;
+  }
+  @keyframes vineSway {
+    0%,100%{transform:rotate(var(--vlr, 30deg)) translateX(0);}
+    50%{transform:rotate(calc(var(--vlr, 30deg) + 6deg)) translateX(3px);}
   }
 
-  /* ===== 远山 ===== */
-  .hill {
-    position:fixed; bottom:0; border-radius:50% 50% 0 0;
-  }
-  .hill-back {
-    width:130%; height:28vh; left:-15%; bottom:16vh;
-    background:linear-gradient(180deg, #9CCC7A, #7BAF4A);
-    opacity:0.55;
-  }
-  .hill-mid {
-    width:110%; height:22vh; left:-5%; bottom:10vh;
-    background:linear-gradient(180deg, #8BC34A, #689F38);
-    opacity:0.7;
-  }
-  .hill-front {
-    width:120%; height:16vh; left:-10%; bottom:3vh;
-    background:linear-gradient(180deg, #7CB342, #558B2F);
-    opacity:0.85;
-  }
-
-  /* ===== 树木 ===== */
-  .tree {
-    position:fixed; bottom:15vh;
-    animation:swayTree var(--tsway, 5s) ease-in-out infinite;
-    animation-delay:var(--tdelay, 0s);
+  /* ---- 森林树干 ---- */
+  .forest-tree {
+    position:fixed; bottom:0; z-index:1;
     transform-origin:bottom center;
+    animation:swayTree var(--tsway, 6s) ease-in-out infinite;
+    animation-delay:var(--tdelay, 0s);
   }
   @keyframes swayTree {
-    0%,100% { transform:rotate(-1.5deg); }
-    50%     { transform:rotate(1.5deg); }
+    0%,100% { transform:rotate(-0.8deg); }
+    50%     { transform:rotate(0.8deg); }
   }
-  .tree-trunk {
-    width:12px; height:70px;
-    background:linear-gradient(90deg, #6D4C41, #5D4037, #4E342E);
-    border-radius:4px 4px 10px 10px;
-    margin:0 auto;
+  .forest-trunk {
+    width:var(--tw, 14px); height:var(--th, 75vh);
+    background:linear-gradient(90deg,
+      var(--tbark1, #5D4037) 0%,
+      var(--tbark2, #6D4C41) 20%,
+      var(--tbark3, #4E342E) 45%,
+      var(--tbark2, #6D4C41) 70%,
+      var(--tbark1, #5D4037) 100%
+    );
+    border-radius:4px 4px 0 0;
+    position:relative;
+    box-shadow:inset 0 2px 8px rgba(0,0,0,0.3);
   }
-  .tree-canopy {
-    position:relative; width:80px; height:80px; margin-top:-20px; margin-left:-34px;
-    background:radial-gradient(circle at 42% 38%, #9CCC65, #558B2F);
+  /* 树皮纹理条纹 */
+  .forest-trunk::before {
+    content:''; position:absolute; inset:0;
+    background:repeating-linear-gradient(
+      180deg,
+      transparent, transparent 18px,
+      rgba(0,0,0,0.08) 18px, rgba(0,0,0,0.08) 20px,
+      transparent 20px, transparent 35px,
+      rgba(255,255,255,0.03) 35px, rgba(255,255,255,0.03) 36px
+    );
+    border-radius:4px 4px 0 0;
+  }
+
+  /* 树枝 */
+  .branch {
+    position:absolute; left:100%; top:30%;
+    background:var(--tbark2, #6D4C41);
+    border-radius:2px;
+    z-index:-1;
+  }
+  .branch-left {
+    left:auto; right:100%;
+    border-radius:2px 6px 2px 2px;
+  }
+  .branch-right {
+    left:100%; right:auto;
+    border-radius:6px 2px 2px 2px;
+  }
+  /* 枝头小叶簇 */
+  .branch-leaf {
+    position:absolute;
+    width:22px; height:18px;
+    background:radial-gradient(ellipse at 50% 60%, #8BC34A, #558B2F);
     border-radius:50%;
     box-shadow:
-      -20px 10px 0 -6px #7CB342,
-      22px 6px 0 -7px #689F38,
-      6px -14px 0 -6px #AED581,
-      -12px -18px 0 -5px #8BC34A,
-      0 0 20px rgba(139,195,74,0.15);
+      -8px -4px 0 -2px #7CB342,
+      6px -5px 0 -3px #689F38,
+      0 -10px 0 -4px #9CCC65;
+    z-index:-1;
   }
-  .tree-canopy::after {
-    content:''; position:absolute; top:12px; left:20px;
-    width:35px; height:28px;
-    background:rgba(174,213,129,0.4);
+
+  /* 树冠簇 */
+  .canopy-cluster {
+    position:fixed;
+    top:var(--cy, -30px); left:var(--cx, 5%);
+    width:var(--cw, 120px); height:var(--ch2, 90px);
+    background:radial-gradient(ellipse at 45% 60%,
+      var(--cg1, #7CB342), var(--cg2, #3E6B27)
+    );
     border-radius:50%;
+    box-shadow:
+      var(--cs0, -35px 8px 0 -10px #689F38),
+      var(--cs1, 28px -10px 0 -8px #8BC34A),
+      var(--cs2, -18px -14px 0 -12px #558B2F),
+      var(--cs3, 10px 15px 0 -14px #4A7A28);
+    z-index:4;
+    animation:swayCanopy var(--csway, 7s) ease-in-out infinite;
+    animation-delay:var(--cdelay, 0s);
+  }
+  @keyframes swayCanopy {
+    0%,100% { transform:translateX(0) rotate(-0.5deg); }
+    50%     { transform:translateX(4px) rotate(0.5deg); }
+  }
+
+  /* ---- 光柱 ---- */
+  .light-ray {
+    position:fixed; top:0;
+    width:var(--rw, 30px); height:100vh;
+    background:linear-gradient(180deg,
+      rgba(255,248,200,0.13) 0%,
+      rgba(255,248,200,0.06) 30%,
+      rgba(255,248,200,0.02) 70%,
+      transparent 100%
+    );
+    transform:skewX(var(--rskew, -8deg));
+    z-index:1; pointer-events:none;
+    animation:rayFlicker var(--rdur, 8s) ease-in-out infinite;
+  }
+  @keyframes rayFlicker {
+    0%,100%{opacity:.6} 30%{opacity:1} 60%{opacity:.5} 85%{opacity:.85}
+  }
+
+  /* ---- 森林地面薄雾 ---- */
+  .forest-mist {
+    position:fixed; bottom:0; left:0; right:0;
+    height:20vh;
+    background:linear-gradient(180deg, transparent 0%, rgba(180,210,160,0.08) 50%, rgba(180,210,160,0.04) 100%);
+    z-index:1; pointer-events:none;
   }
 
   /* ===== 草地小花 ===== */
@@ -174,7 +258,7 @@
   }
 
   /* ===== 页面容器 ===== */
-  .page { position:relative; z-index:2; width:100%; display:flex; flex-direction:column; align-items:center; }
+  .page { position:relative; z-index:10; width:100%; display:flex; flex-direction:column; align-items:center; }
   .page.hidden { display:none; }
   .container { width:100%; max-width:390px; padding:20px 14px; display:flex; flex-direction:column; align-items:center; gap:18px; }
 
@@ -190,7 +274,9 @@
     box-shadow:
       0 6px 24px rgba(62,107,39,0.13),
       0 2px 6px rgba(0,0,0,0.07),
-      inset 0 1px 0 rgba(255,255,255,0.6);
+      inset 0 1px 0 rgba(255,255,255,0.6),
+      0 0 60px rgba(200,220,150,0.15),
+      0 0 120px rgba(180,200,130,0.08);
   }
 
   /* ===== 标题 ===== */
@@ -593,128 +679,94 @@
   }
 
   /* ============================================ */
-  /*  小皇帝和情绪 — 滑动面板                      */
+  /*  小皇帝和情绪 — 7段离散选择器                */
   /* ============================================ */
 
-  .emotion-list {
-    width:100%; display:flex; flex-direction:column; gap:10px;
-    max-height:55vh; overflow-y:auto; padding:4px 0;
+  .emotion-scroll {
+    width:100%; display:flex; flex-direction:column; gap:12px;
+    max-height:58vh; overflow-y:auto; padding:2px 0;
   }
-  .emotion-list::-webkit-scrollbar { width:4px; }
-  .emotion-list::-webkit-scrollbar-track { background:rgba(139,195,74,0.08); border-radius:2px; }
-  .emotion-list::-webkit-scrollbar-thumb { background:#A5D6A7; border-radius:2px; }
+  .emotion-scroll::-webkit-scrollbar { width:4px; }
+  .emotion-scroll::-webkit-scrollbar-track { background:rgba(90,140,60,0.06); border-radius:2px; }
+  .emotion-scroll::-webkit-scrollbar-thumb { background:#A5C896; border-radius:2px; }
 
-  /* 情绪卡片 */
-  .emotion-item {
-    display:flex; flex-direction:column; gap:8px;
-    padding:14px 16px 12px;
-    background:linear-gradient(180deg, #FFFEF7, #F7F2E4);
-    border:2px solid #D7CCC8; border-radius:16px;
-    box-shadow:0 2px 8px rgba(0,0,0,0.05);
-    transition:border-color .2s, box-shadow .2s;
+  /* 现代卡片 */
+  .emo-card {
+    background:#fff; border-radius:14px;
+    padding:18px 18px 16px;
+    border:1px solid rgba(90,140,60,0.10);
+    box-shadow:0 1px 4px rgba(0,0,0,0.04), 0 2px 12px rgba(90,140,60,0.05);
+    transition:border-color .25s, box-shadow .25s;
+    position:relative; overflow:hidden;
   }
-  .emotion-item.active {
-    border-color:var(--emo-color, #8BC34A);
-    box-shadow:0 2px 18px var(--emo-glow, rgba(139,195,74,0.3));
-  }
-
-  /* 顶部行：花苞 + 名称 + 数值 */
-  .emotion-top { display:flex; align-items:center; gap:10px; }
-
-  .emotion-bud {
-    width:14px; height:14px; flex-shrink:0;
-    background:var(--emo-color);
-    border-radius:50%;
-    box-shadow:0 0 8px var(--emo-glow);
-    transition:transform .15s, box-shadow .15s;
-  }
-  .emotion-bud.pulse {
-    animation:budBeat .35s ease-in-out infinite;
-  }
-  @keyframes budBeat {
-    0%,100%{transform:scale(1);box-shadow:0 0 8px var(--emo-glow);}
-    50%{transform:scale(1.5);box-shadow:0 0 18px var(--emo-glow),0 0 28px var(--emo-glow);}
+  .emo-card.flash {
+    border-color:var(--dc, rgba(90,140,60,0.3));
+    box-shadow:0 1px 4px rgba(0,0,0,0.04), 0 2px 20px var(--dg, rgba(90,140,60,0.18));
   }
 
-  .emotion-label {
-    font-family:'Noto Serif SC',serif; font-size:14px; font-weight:600;
-    color:#4E342E; letter-spacing:2px; flex:1;
-    transition:text-shadow .1s;
+  /* 头部：维度名称居中 */
+  .emo-header {
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:4px;
+  }
+  .emo-name {
+    font-family:'Noto Serif SC',serif; font-size:15px; font-weight:700;
+    color:#2E3A2C; letter-spacing:1px;
   }
 
-  .emotion-value {
-    font-family:'Quicksand',sans-serif; font-size:14px; font-weight:700;
-    color:#8D6E63; min-width:26px; text-align:right;
-    transition:color .1s;
+  /* 7 段点选行 */
+  .emo-dot-row {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 4px; position:relative; height:44px;
+  }
+  /* 轨道线 */
+  .emo-dot-row::before {
+    content:''; position:absolute; left:18px; right:18px; top:50%;
+    height:2px; background:#E8EDE4; border-radius:1px;
+    transform:translateY(-50%); z-index:0;
   }
 
-  /* ===== 自然风滑块 ===== */
-  .emotion-slider-wrap { position:relative; width:100%; }
-
-  .emotion-slider {
-    -webkit-appearance:none; appearance:none;
-    width:100%; height:22px; background:transparent;
-    cursor:pointer; outline:none; margin:0;
+  .emo-dot {
+    width:26px; height:26px; border-radius:50%;
+    background:#F8FAF6;
+    border:2px solid #DDE4D8;
+    position:relative; z-index:1; cursor:pointer;
+    transition:transform .18s cubic-bezier(.34,1.56,.64,1),
+               background .18s, border-color .18s, box-shadow .18s;
+    -webkit-tap-highlight-color:transparent;
   }
+  .emo-dot:active { transform:scale(.9); }
 
-  .emotion-slider::-webkit-slider-runnable-track {
-    width:100%; height:8px;
-    background:linear-gradient(90deg,
-      var(--emo-color) var(--fill-pct,50%),
-      #E0D5C5 var(--fill-pct,50%)
-    );
-    border:2px solid #BCAAA4; border-radius:8px;
-    box-shadow:inset 0 2px 4px rgba(0,0,0,0.07);
+  .emo-dot.sel {
+    background:var(--dc, #5CAA3E);
+    border-color:var(--dc, #5CAA3E);
+    box-shadow:0 0 0 6px var(--dg, rgba(92,170,62,0.18));
+    transform:scale(1.15);
   }
+  .emo-dot.sel:active { transform:scale(1.05); }
 
-  .emotion-slider::-moz-range-track {
-    width:100%; height:8px;
-    background:linear-gradient(90deg,
-      var(--emo-color) var(--fill-pct,50%),
-      #E0D5C5 var(--fill-pct,50%)
-    );
-    border:2px solid #BCAAA4; border-radius:8px;
-    box-shadow:inset 0 2px 4px rgba(0,0,0,0.07);
+  /* 两端标签 */
+  .emo-end-row {
+    display:flex; justify-content:space-between; align-items:center;
+    padding:0 2px; margin-top:2px;
   }
+  .emo-end-label {
+    font-family:'Noto Serif SC',serif; font-size:10px; color:#8A9E82;
+    letter-spacing:.5px; max-width:45%; text-align:center;
+    line-height:1.3;
+  }
+  .emo-end-label:first-child { text-align:left; }
+  .emo-end-label:last-child  { text-align:right; }
 
-  .emotion-slider::-webkit-slider-thumb {
-    -webkit-appearance:none; appearance:none;
-    width:22px; height:22px; margin-top:-9px;
-    background:var(--emo-color);
-    border:3px solid #FFFEF7; border-radius:50%;
-    box-shadow:0 2px 8px rgba(0,0,0,0.18),0 0 12px var(--emo-glow);
-    cursor:pointer; transition:box-shadow .08s, transform .08s;
-  }
-  .emotion-slider::-webkit-slider-thumb:active {
-    transform:scale(1.2);
-    box-shadow:0 3px 14px rgba(0,0,0,0.22),0 0 22px var(--emo-glow);
-  }
-
-  .emotion-slider::-moz-range-thumb {
-    width:22px; height:22px;
-    background:var(--emo-color);
-    border:3px solid #FFFEF7; border-radius:50%;
-    box-shadow:0 2px 8px rgba(0,0,0,0.18),0 0 12px var(--emo-glow);
-    cursor:pointer;
-  }
-
-  /* 情绪间分割 */
-  .emotion-sep {
-    width:60%; height:2px; margin:0 auto;
-    background:linear-gradient(90deg, transparent, #AED581, transparent);
-    border-radius:1px;
-  }
-
-  /* 情绪粒子 */
-  .emo-particle {
+  /* 选择粒子 */
+  .emo-pop {
     position:fixed; pointer-events:none; z-index:100;
-    width:8px; height:8px;
-    background:var(--ep, #F8BBD0);
-    border-radius:50%;
-    animation:emoPop .55s ease-out forwards;
+    width:6px; height:6px; border-radius:50%;
+    background:var(--ep, #5CAA3E);
+    animation:emoPop .5s ease-out forwards;
   }
   @keyframes emoPop {
-    0%{transform:translate(0,0) scale(.5);opacity:1;}
+    0%{transform:translate(0,0) scale(.4);opacity:1;}
     100%{transform:translate(var(--bx),var(--by)) scale(0);opacity:0;}
   }
 </style>
@@ -866,101 +918,81 @@
 <div class="page hidden" id="page-emotion">
   <div class="container">
     <div class="spring-card">
-      <h1 class="title">
+      <h1 class="title" style="font-size:20px;">
         <span class="icon-left">🌿</span> 小皇帝和情绪 <span class="icon-right">🌸</span>
       </h1>
       <div class="spring-divider"></div>
     </div>
 
-    <div class="emotion-list" id="emotion-list">
+    <div class="emotion-scroll" id="emotion-scroll">
 
-      <div class="emotion-item" data-emotion="happy">
-        <div class="emotion-top">
-          <div class="emotion-bud" style="--emo-color:#FFD54F;--emo-glow:rgba(255,213,79,0.5);"></div>
-          <span class="emotion-label">开心</span>
-          <span class="emotion-value" id="val-happy">50</span>
+      <!-- 心情 -->
+      <div class="emo-card" data-key="mood">
+        <div class="emo-header"><span class="emo-name">心情</span></div>
+        <div class="emo-dot-row" data-value="0">
+          <div class="emo-dot"></div><div class="emo-dot"></div><div class="emo-dot"></div>
+          <div class="emo-dot sel"></div>
+          <div class="emo-dot"></div><div class="emo-dot"></div><div class="emo-dot"></div>
         </div>
-        <div class="emotion-slider-wrap">
-          <input type="range" class="emotion-slider" id="slider-happy" min="0" max="100" value="50"
-                 style="--emo-color:#FFD54F;--emo-glow:rgba(255,213,79,0.5);--fill-pct:50%;">
+        <div class="emo-end-row">
+          <span class="emo-end-label">忧郁</span>
+          <span class="emo-end-label">开心</span>
         </div>
       </div>
-      <div class="emotion-sep"></div>
 
-      <div class="emotion-item" data-emotion="excited">
-        <div class="emotion-top">
-          <div class="emotion-bud" style="--emo-color:#FFAB91;--emo-glow:rgba(255,171,145,0.5);"></div>
-          <span class="emotion-label">激动</span>
-          <span class="emotion-value" id="val-excited">50</span>
+      <!-- 压力 -->
+      <div class="emo-card" data-key="stress">
+        <div class="emo-header"><span class="emo-name">压力</span></div>
+        <div class="emo-dot-row" data-value="0">
+          <div class="emo-dot"></div><div class="emo-dot"></div><div class="emo-dot"></div>
+          <div class="emo-dot sel"></div>
+          <div class="emo-dot"></div><div class="emo-dot"></div><div class="emo-dot"></div>
         </div>
-        <div class="emotion-slider-wrap">
-          <input type="range" class="emotion-slider" id="slider-excited" min="0" max="100" value="50"
-                 style="--emo-color:#FFAB91;--emo-glow:rgba(255,171,145,0.5);--fill-pct:50%;">
+        <div class="emo-end-row">
+          <span class="emo-end-label">紧绷</span>
+          <span class="emo-end-label">放松</span>
         </div>
       </div>
-      <div class="emotion-sep"></div>
 
-      <div class="emotion-item" data-emotion="angry">
-        <div class="emotion-top">
-          <div class="emotion-bud" style="--emo-color:#EF5350;--emo-glow:rgba(239,83,80,0.45);"></div>
-          <span class="emotion-label">生气</span>
-          <span class="emotion-value" id="val-angry">50</span>
+      <!-- 精力 -->
+      <div class="emo-card" data-key="energy">
+        <div class="emo-header"><span class="emo-name">精力</span></div>
+        <div class="emo-dot-row" data-value="0">
+          <div class="emo-dot"></div><div class="emo-dot"></div><div class="emo-dot"></div>
+          <div class="emo-dot sel"></div>
+          <div class="emo-dot"></div><div class="emo-dot"></div><div class="emo-dot"></div>
         </div>
-        <div class="emotion-slider-wrap">
-          <input type="range" class="emotion-slider" id="slider-angry" min="0" max="100" value="50"
-                 style="--emo-color:#EF5350;--emo-glow:rgba(239,83,80,0.45);--fill-pct:50%;">
+        <div class="emo-end-row">
+          <span class="emo-end-label">虚无</span>
+          <span class="emo-end-label">昂扬</span>
         </div>
       </div>
-      <div class="emotion-sep"></div>
 
-      <div class="emotion-item" data-emotion="hesitant">
-        <div class="emotion-top">
-          <div class="emotion-bud" style="--emo-color:#BCAAA4;--emo-glow:rgba(188,170,164,0.4);"></div>
-          <span class="emotion-label">犹豫</span>
-          <span class="emotion-value" id="val-hesitant">50</span>
+      <!-- 体力 -->
+      <div class="emo-card" data-key="physical">
+        <div class="emo-header"><span class="emo-name">体力</span></div>
+        <div class="emo-dot-row" data-value="0">
+          <div class="emo-dot"></div><div class="emo-dot"></div><div class="emo-dot"></div>
+          <div class="emo-dot sel"></div>
+          <div class="emo-dot"></div><div class="emo-dot"></div><div class="emo-dot"></div>
         </div>
-        <div class="emotion-slider-wrap">
-          <input type="range" class="emotion-slider" id="slider-hesitant" min="0" max="100" value="50"
-                 style="--emo-color:#BCAAA4;--emo-glow:rgba(188,170,164,0.4);--fill-pct:50%;">
+        <div class="emo-end-row">
+          <span class="emo-end-label">疲惫</span>
+          <span class="emo-end-label">充沛</span>
         </div>
       </div>
-      <div class="emotion-sep"></div>
 
-      <div class="emotion-item" data-emotion="sad">
-        <div class="emotion-top">
-          <div class="emotion-bud" style="--emo-color:#81D4FA;--emo-glow:rgba(129,212,250,0.5);"></div>
-          <span class="emotion-label">忧伤</span>
-          <span class="emotion-value" id="val-sad">50</span>
+      <!-- 爱意 -->
+      <div class="emo-card" data-key="love">
+        <div class="emo-header"><span class="emo-name">爱意</span></div>
+        <div class="emo-dot-row" data-value="0">
+          <div class="emo-dot"></div><div class="emo-dot"></div><div class="emo-dot"></div>
+          <div class="emo-dot sel"></div>
+          <div class="emo-dot"></div><div class="emo-dot"></div><div class="emo-dot"></div>
         </div>
-        <div class="emotion-slider-wrap">
-          <input type="range" class="emotion-slider" id="slider-sad" min="0" max="100" value="50"
-                 style="--emo-color:#81D4FA;--emo-glow:rgba(129,212,250,0.5);--fill-pct:50%;">
-        </div>
-      </div>
-      <div class="emotion-sep"></div>
-
-      <div class="emotion-item" data-emotion="worried">
-        <div class="emotion-top">
-          <div class="emotion-bud" style="--emo-color:#B39DDB;--emo-glow:rgba(179,157,219,0.5);"></div>
-          <span class="emotion-label">担忧</span>
-          <span class="emotion-value" id="val-worried">50</span>
-        </div>
-        <div class="emotion-slider-wrap">
-          <input type="range" class="emotion-slider" id="slider-worried" min="0" max="100" value="50"
-                 style="--emo-color:#B39DDB;--emo-glow:rgba(179,157,219,0.5);--fill-pct:50%;">
-        </div>
-      </div>
-      <div class="emotion-sep"></div>
-
-      <div class="emotion-item" data-emotion="love">
-        <div class="emotion-top">
-          <div class="emotion-bud" style="--emo-color:#F8BBD0;--emo-glow:rgba(248,187,208,0.5);"></div>
-          <span class="emotion-label">喜欢</span>
-          <span class="emotion-value" id="val-love">50</span>
-        </div>
-        <div class="emotion-slider-wrap">
-          <input type="range" class="emotion-slider" id="slider-love" min="0" max="100" value="50"
-                 style="--emo-color:#F8BBD0;--emo-glow:rgba(248,187,208,0.5);--fill-pct:50%;">
+        <div class="emo-end-row">
+          <span class="emo-end-label">冷静</span>
+          <span class="emo-end-label">浪漫</span>
         </div>
       </div>
 
@@ -971,81 +1003,164 @@
 </div>
 
 <script>
-  // ===== 生成自然场景 =====
+  // ===== 生成森林场景 =====
   (function() {
     const scene = document.getElementById('nature-scene');
     let html = '';
 
-    // 白云 — 4朵
-    for (let i = 0; i < 4; i++) {
-      const top = 5 + Math.random() * 28;
-      const dur = 22 + Math.random() * 26;
-      const delay = Math.random() * 20;
-      const w = 50 + Math.random() * 45;
-      html += `<div class="cloud" style="top:${top}%;left:-120px;--cdur:${dur}s;animation-delay:${delay}s;width:${w}px;"></div>`;
+    // ---- 树冠天花板 ----
+    html += `<div class="canopy-ceiling" style="--ch:150px;"></div>`;
+
+    // ---- 光柱 — 6道 ----
+    for (let i = 0; i < 6; i++) {
+      const rx = 5 + Math.random() * 90;
+      const rw = 15 + Math.random() * 50;
+      const rskew = -12 + Math.random() * 24;
+      const rdur = 6 + Math.random() * 10;
+      html += `<div class="light-ray" style="left:${rx}%;--rw:${rw}px;--rskew:${rskew}deg;--rdur:${rdur}s;"></div>`;
     }
 
-    // 远山 — 3层
-    html += `<div class="hill hill-back"></div>`;
-    html += `<div class="hill hill-mid"></div>`;
-    html += `<div class="hill hill-front"></div>`;
+    // 树冠垂藤 + 小叶子
+    for (let i = 0; i < 16; i++) {
+      const vx = 3 + Math.random() * 94;
+      const vy = 80 + Math.random() * 60;
+      const vh = 25 + Math.random() * 55;
+      html += `<div class="canopy-vine" style="left:${vx}%;--vy:${vy}px;--vh:${vh}px;"></div>`;
+    }
+    for (let i = 0; i < 22; i++) {
+      const vlx = 2 + Math.random() * 95;
+      const vly = 100 + Math.random() * 75;
+      const vlr = Math.random() * 60 - 30;
+      const vldur = 4 + Math.random() * 5;
+      const vlColors = ['#7CB342','#8BC34A','#9CCC65','#558B2F','#6B9B3A','#689F38'];
+      const vlc = vlColors[Math.floor(Math.random() * vlColors.length)];
+      html += `<div class="vine-leaf" style="left:${vlx}%;--vly:${vly}px;--vlr:${vlr}deg;--vldur:${vldur}s;--vlc:${vlc};"></div>`;
+    }
 
-    // 树木 — 2棵
-    const treePositions = [
-      { style:'left:3%;right:auto;bottom:16vh', dur:4.5, delay:0 },
-      { style:'left:auto;right:2%;bottom:15vh', dur:5.5, delay:1.2 }
-    ];
-    treePositions.forEach((pos, i) => {
-      html += `<div class="tree" style="${pos.style};--tsway:${pos.dur}s;--tdelay:${pos.delay}s;">
-        <div class="tree-canopy"></div>
-        <div class="tree-trunk"></div>
+    // ---- 森林树木 20棵 ----
+    // 深层背景树 (6棵) — 细、暗、在远处
+    for (let i = 0; i < 6; i++) {
+      const x = 5 + Math.random() * 90;
+      const th = 60 + Math.random() * 35;
+      const tw = 6 + Math.random() * 8;
+      const sway = 7 + Math.random() * 5;
+      const delay = Math.random() * 6;
+      html += `<div class="forest-tree" style="left:${x}%;z-index:0;opacity:.5;--tsway:${sway}s;--tdelay:${delay}s;">
+        <div class="forest-trunk" style="--tw:${tw}px;--th:${th}vh;
+          --tbark1:#3a2f1f;--tbark2:#4a3a2a;--tbark3:#2d2418;"></div>
       </div>`;
-    });
+    }
 
-    // 草叶 — 40根
+    // 中层树 (8棵) — 中等粗细
+    for (let i = 0; i < 8; i++) {
+      const x = 2 + Math.random() * 96;
+      const th = 70 + Math.random() * 28;
+      const tw = 10 + Math.random() * 10;
+      const sway = 5 + Math.random() * 4;
+      const delay = Math.random() * 5;
+      html += `<div class="forest-tree" style="left:${x}%;z-index:1;opacity:.72;--tsway:${sway}s;--tdelay:${delay}s;">
+        <div class="forest-trunk" style="--tw:${tw}px;--th:${th}vh;
+          --tbark1:#4E342E;--tbark2:#5D4037;--tbark3:#3E2723;"></div>
+      </div>`;
+    }
+
+    // 前景树 (6棵) — 粗壮，在两侧，带树枝
+    const fgPositions = [
+      {x:1, h:88, w:22, bh1:22, bh2:35, bw1:55, bw2:40, ba1:-18, ba2:12},
+      {x:7, h:85, w:18, bh1:28, bh2:42, bw1:45, bw2:35, ba1:-12, ba2:15},
+      {x:14, h:92, w:20, bh1:20, bh2:38, bw1:50, bw2:42, ba1:-20, ba2:10},
+      {x:86, h:90, w:20, bh1:25, bh2:40, bw1:48, bw2:38, ba1:-15, ba2:14},
+      {x:92, h:84, w:24, bh1:18, bh2:34, bw1:58, bw2:44, ba1:-22, ba2:11},
+      {x:97, h:87, w:16, bh1:30, bh2:45, bw1:40, bw2:32, ba1:-10, ba2:16}
+    ];
+    for (let i = 0; i < 6; i++) {
+      const t = fgPositions[i];
+      const sway = 4 + Math.random() * 3;
+      const delay = Math.random() * 4;
+      html += `<div class="forest-tree" style="left:${t.x}%;z-index:2;--tsway:${sway}s;--tdelay:${delay}s;">
+        <div class="forest-trunk has-branches" style="--tw:${t.w}px;--th:${t.h}vh;
+          --tbark1:#5D4037;--tbark2:#795548;--tbark3:#4E342E;
+          --bh1:${t.bh1}%;--bw1:${t.bw1}px;--bhh1:6px;--ba1:${t.ba1}deg;
+          --bh2:${t.bh2}%;--bw2:${t.bw2}px;--bhh2:5px;--ba2:${t.ba2}deg;">
+          <div class="branch branch-left" style="top:${t.bh1}%;width:${t.bw1}px;height:5px;
+            transform:rotate(${t.ba1}deg);transform-origin:right center;"></div>
+          <div class="branch branch-right" style="top:${t.bh2}%;width:${t.bw2}px;height:4px;
+            transform:rotate(${t.ba2}deg);transform-origin:left center;"></div>
+          <div class="branch-leaf cluster-l" style="top:${t.bh1}%;left:-${t.bw1 + 6}px;"></div>
+          <div class="branch-leaf cluster-r" style="top:${t.bh2}%;right:-${t.bw2 + 4}px;"></div>
+        </div>
+      </div>`;
+    }
+
+    // ---- 树冠簇 — 每棵树顶部 ----
+    for (let i = 0; i < 20; i++) {
+      const cx = (i / 19) * 92 + 2 + (Math.random() - 0.5) * 10;
+      const cy = -(10 + Math.random() * 30);
+      const cw = 70 + Math.random() * 100;
+      const ch2 = 50 + Math.random() * 60;
+      const csway = 6 + Math.random() * 6;
+      const cdelay = Math.random() * 7;
+      const cColors = [
+        ['#5a8a2a','#3d6018'], ['#6b9b3a','#4a7020'], ['#4d7a22','#305010'],
+        ['#7CB342','#558B2F'], ['#689F38','#3E6B27'], ['#8BC34A','#558B2F']
+      ];
+      const cPair = cColors[Math.floor(Math.random() * cColors.length)];
+      html += `<div class="canopy-cluster" style="left:${cx}%;--cy:${cy}px;--cw:${cw}px;--ch2:${ch2}px;
+        --cg1:${cPair[0]};--cg2:${cPair[1]};
+        --cs0:${-30-Math.random()*20}px ${5+Math.random()*8}px 0 ${-8-Math.random()*8}px ${cPair[0]};
+        --cs1:${25+Math.random()*20}px ${-8-Math.random()*8}px 0 ${-6-Math.random()*8}px ${cPair[1]};
+        --cs2:${-15-Math.random()*15}px ${-12-Math.random()*10}px 0 ${-10-Math.random()*8}px #3d6018;
+        --cs3:${10+Math.random()*15}px ${12+Math.random()*10}px 0 ${-12-Math.random()*8}px #305010;
+        --csway:${csway}s;--cdelay:${cdelay}s;"></div>`;
+    }
+
+    // ---- 森林薄雾 ----
+    html += `<div class="forest-mist"></div>`;
+
+    // ---- 草叶 — 40根 ----
     for (let i = 0; i < 40; i++) {
       const x = Math.random() * 100;
       const h = 20 + Math.random() * 50;
       const dur = 2.5 + Math.random() * 4;
       const delay = Math.random() * 3;
-      const greens = ['#9CCC65','#8BC34A','#7CB342','#AED581','#689F38'];
+      const greens = ['#7CB342','#689F38','#558B2F','#6B9B3A','#4A7A28'];
       const gc = greens[Math.floor(Math.random() * greens.length)];
-      html += `<div class="grass-blade" style="left:${x}%;--gh:${h}px;--gc:${gc};--sdur:${dur}s;--sdelay:${delay}s;"></div>`;
+      html += `<div class="grass-blade" style="left:${x}%;--gh:${h}px;--gc:${gc};--sdur:${dur}s;--sdelay:${delay}s;z-index:3;"></div>`;
     }
 
-    // 落叶 — 28片
-    for (let i = 0; i < 28; i++) {
-      const x = Math.random() * 96;
-      const dur = 7 + Math.random() * 11;
-      const delay = Math.random() * 13;
-      const drift = -50 + Math.random() * 100;
-      const rot = Math.random() * 360;
-      const leafColors = ['#7CB342','#8BC34A','#9CCC65','#689F38','#F8BBD0','#F48FB1','#FFD54F'];
-      const lc = leafColors[Math.floor(Math.random() * leafColors.length)];
-      html += `<div class="falling-leaf" style="left:${x}%;--lc:${lc};--fdur:${dur}s;--fdelay:${delay}s;--ldrift:${drift}px;--lrot:${rot}deg;"></div>`;
-    }
-
-    // 花瓣 — 12片
-    for (let i = 0; i < 12; i++) {
-      const x = Math.random() * 94;
-      const dur = 11 + Math.random() * 14;
-      const delay = Math.random() * 16;
-      const drift = 30 + Math.random() * 90;
-      const rot = Math.random() * 60;
-      const petalColors = ['#F8BBD0','#F48FB1','#FFD54F','#FFF9C4'];
-      const pc = petalColors[Math.floor(Math.random() * petalColors.length)];
-      html += `<div class="floating-petal" style="left:${x}%;--pc:${pc};--pdur:${dur}s;--pdelay:${delay}s;--pdrift:${drift}px;--prot:${rot}deg;"></div>`;
-    }
-
-    // 草地小花 — 15朵
-    const flowerColors = ['#FFF','#FFF9C4','#F8BBD0','#FFD54F','#FCE4EC'];
+    // ---- 草地小花 — 15朵 ----
+    const flowerColors = ['#FFFDE7','#FFF9C4','#F8BBD0','#FFD54F','#FCE4EC'];
     for (let i = 0; i < 15; i++) {
       const x = 2 + Math.random() * 96;
       const fy = 3 + Math.random() * 14;
       const fdur = 3 + Math.random() * 4;
       const fdelay = Math.random() * 5;
       const fc = flowerColors[Math.floor(Math.random() * flowerColors.length)];
-      html += `<div class="meadow-flower" style="left:${x}%;--mfy:${fy}px;--mfc:${fc};--mfdur:${fdur}s;--mfdelay:${fdelay}s;"></div>`;
+      html += `<div class="meadow-flower" style="left:${x}%;--mfy:${fy}px;--mfc:${fc};--mfdur:${fdur}s;--mfdelay:${fdelay}s;z-index:3;"></div>`;
+    }
+
+    // ---- 落叶 — 30片 (从树冠落下) ----
+    for (let i = 0; i < 30; i++) {
+      const x = Math.random() * 96;
+      const dur = 7 + Math.random() * 11;
+      const delay = Math.random() * 13;
+      const drift = -50 + Math.random() * 100;
+      const rot = Math.random() * 360;
+      const leafColors = ['#7CB342','#8BC34A','#9CCC65','#689F38','#F8BBD0','#FFD54F','#AED581'];
+      const lc = leafColors[Math.floor(Math.random() * leafColors.length)];
+      html += `<div class="falling-leaf" style="left:${x}%;--lc:${lc};--fdur:${dur}s;--fdelay:${delay}s;--ldrift:${drift}px;--lrot:${rot}deg;"></div>`;
+    }
+
+    // ---- 花瓣 — 14片 ----
+    for (let i = 0; i < 14; i++) {
+      const x = Math.random() * 94;
+      const dur = 11 + Math.random() * 14;
+      const delay = Math.random() * 16;
+      const drift = 30 + Math.random() * 90;
+      const rot = Math.random() * 60;
+      const petalColors = ['#F8BBD0','#F48FB1','#FFD54F','#FFF9C4','#FFAB91'];
+      const pc = petalColors[Math.floor(Math.random() * petalColors.length)];
+      html += `<div class="floating-petal" style="left:${x}%;--pc:${pc};--pdur:${dur}s;--pdelay:${delay}s;--pdrift:${drift}px;--prot:${rot}deg;"></div>`;
     }
 
     scene.innerHTML = html;
@@ -1316,61 +1431,61 @@
   buildReelStrips();
 
   // ===========================================================
-  //  小皇帝和情绪 — 滑动交互
+  //  小皇帝和情绪 — 7段点选交互
   // ===========================================================
 
-  const emotionColors = {
-    happy:'#FFD54F', excited:'#FFAB91', angry:'#EF5350',
-    hesitant:'#BCAAA4', sad:'#81D4FA', worried:'#B39DDB', love:'#F8BBD0'
+  const emoConfig = {
+    mood:     { color:'#BE9C4E', glow:'rgba(190,156,78,0.22)' },
+    stress:   { color:'#4C9178', glow:'rgba(76,145,120,0.22)' },
+    energy:   { color:'#5DA82E', glow:'rgba(93,168,46,0.22)' },
+    physical: { color:'#4A8C3F', glow:'rgba(74,140,63,0.22)' },
+    love:     { color:'#C4867A', glow:'rgba(196,134,122,0.22)' }
   };
 
-  function spawnEmoParticles(el, color) {
+  function spawnEmoPop(el, color) {
     const rect = el.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-    for (let i = 0; i < 8; i++) {
-      const angle = (Math.PI*2*i)/8 + Math.random()*0.3;
-      const dist = 14 + Math.random()*22;
+    const cx = rect.left + rect.width/2, cy = rect.top + rect.height/2;
+    for (let i=0; i<8; i++) {
+      const a = (Math.PI*2*i)/8 + Math.random()*0.3;
+      const d = 12 + Math.random()*18;
       const p = document.createElement('div');
-      p.className = 'emo-particle';
-      p.style.left = (cx-4)+'px'; p.style.top = (cy-4)+'px';
-      p.style.setProperty('--bx', Math.cos(angle)*dist+'px');
-      p.style.setProperty('--by', Math.sin(angle)*dist+'px');
+      p.className = 'emo-pop';
+      p.style.left = (cx-3)+'px'; p.style.top = (cy-3)+'px';
+      p.style.setProperty('--bx', Math.cos(a)*d+'px');
+      p.style.setProperty('--by', Math.sin(a)*d+'px');
       p.style.setProperty('--ep', color);
-      p.style.animationDuration = (0.35+Math.random()*0.3)+'s';
+      p.style.animationDuration = (0.3+Math.random()*0.3)+'s';
       document.body.appendChild(p);
-      p.addEventListener('animationend',()=>p.remove());
+      p.addEventListener('animationend', ()=>p.remove());
     }
   }
 
-  document.querySelectorAll('.emotion-slider').forEach(slider=>{
-    const item = slider.closest('.emotion-item');
-    const key = item.dataset.emotion;
-    const color = emotionColors[key];
-    const valSpan = document.getElementById('val-'+key);
-    const bud = item.querySelector('.emotion-bud');
-    let dragging = false;
+  document.querySelectorAll('.emo-card').forEach(card=>{
+    const key = card.dataset.key;
+    const cfg = emoConfig[key];
+    const dots = card.querySelectorAll('.emo-dot');
+    const row = card.querySelector('.emo-dot-row');
 
-    slider.addEventListener('input', ()=>{
-      const v = parseInt(slider.value,10);
-      slider.style.setProperty('--fill-pct', v+'%');
-      valSpan.textContent = v;
-      valSpan.style.color = v>70 ? color : '#8D6E63';
-      const glow = Math.round(v*0.25);
-      item.querySelector('.emotion-label').style.textShadow =
-        '0 0 '+glow+'px '+color;
-      if (dragging && v%4===0) spawnEmoParticles(slider, color);
+    // 初始注入颜色变量
+    dots.forEach(d=>{
+      d.style.setProperty('--dc', cfg.color);
+      d.style.setProperty('--dg', cfg.glow);
     });
 
-    function start(){ dragging=true; item.classList.add('active'); bud.classList.add('pulse'); spawnEmoParticles(slider,color); }
-    function end(){ dragging=false; item.classList.remove('active'); bud.classList.remove('pulse'); setTimeout(()=>spawnEmoParticles(slider,color),80); }
-
-    slider.addEventListener('mousedown', start);
-    slider.addEventListener('touchstart', start, {passive:true});
-    slider.addEventListener('mouseup', end);
-    slider.addEventListener('touchend', end);
-    slider.addEventListener('touchcancel', end);
-    slider.addEventListener('mouseleave', ()=>{ if(dragging) end(); });
+    dots.forEach((dot,i)=>{
+      dot.addEventListener('click', ()=>{
+        const v = i - 3; // -3 ~ +3
+        row.dataset.value = v;
+        dots.forEach(d=>d.classList.remove('sel'));
+        dot.classList.add('sel');
+        // 卡片闪烁
+        card.classList.add('flash');
+        setTimeout(()=>card.classList.remove('flash'), 300);
+        // 粒子
+        spawnEmoPop(dot, cfg.color);
+        vibrate(6);
+      });
+    });
   });
 
   document.getElementById('btn-emotion-back').addEventListener('click', function(e){
