@@ -957,11 +957,11 @@
         <div class="emo-header"><span class="emo-name">心情</span></div>
         <div class="emo-slider-wrap">
           <div class="emo-ticks">
-            <span class="emo-tick"></span><span class="emo-tick"></span><span class="emo-tick"></span>
-            <span class="emo-tick"></span><span class="emo-tick"></span><span class="emo-tick"></span>
+            <span class="emo-tick"></span><span class="emo-tick"></span>
+            <span class="emo-tick"></span><span class="emo-tick"></span>
             <span class="emo-tick"></span>
           </div>
-          <input type="range" class="emo-slider" min="-3" max="3" step="1" value="0">
+          <input type="range" class="emo-slider" min="-2" max="2" step="1" value="0">
         </div>
         <div class="emo-labels">
           <span class="emo-label">忧郁</span>
@@ -974,8 +974,8 @@
         <div class="emo-header"><span class="emo-name">压力</span></div>
         <div class="emo-slider-wrap">
           <div class="emo-ticks">
-            <span class="emo-tick"></span><span class="emo-tick"></span><span class="emo-tick"></span>
-            <span class="emo-tick"></span><span class="emo-tick"></span><span class="emo-tick"></span>
+            <span class="emo-tick"></span><span class="emo-tick"></span>
+            <span class="emo-tick"></span><span class="emo-tick"></span>
             <span class="emo-tick"></span>
           </div>
           <input type="range" class="emo-slider" min="-3" max="3" step="1" value="0">
@@ -991,8 +991,8 @@
         <div class="emo-header"><span class="emo-name">精力</span></div>
         <div class="emo-slider-wrap">
           <div class="emo-ticks">
-            <span class="emo-tick"></span><span class="emo-tick"></span><span class="emo-tick"></span>
-            <span class="emo-tick"></span><span class="emo-tick"></span><span class="emo-tick"></span>
+            <span class="emo-tick"></span><span class="emo-tick"></span>
+            <span class="emo-tick"></span><span class="emo-tick"></span>
             <span class="emo-tick"></span>
           </div>
           <input type="range" class="emo-slider" min="-3" max="3" step="1" value="0">
@@ -1008,8 +1008,8 @@
         <div class="emo-header"><span class="emo-name">体力</span></div>
         <div class="emo-slider-wrap">
           <div class="emo-ticks">
-            <span class="emo-tick"></span><span class="emo-tick"></span><span class="emo-tick"></span>
-            <span class="emo-tick"></span><span class="emo-tick"></span><span class="emo-tick"></span>
+            <span class="emo-tick"></span><span class="emo-tick"></span>
+            <span class="emo-tick"></span><span class="emo-tick"></span>
             <span class="emo-tick"></span>
           </div>
           <input type="range" class="emo-slider" min="-3" max="3" step="1" value="0">
@@ -1025,8 +1025,8 @@
         <div class="emo-header"><span class="emo-name">爱意</span></div>
         <div class="emo-slider-wrap">
           <div class="emo-ticks">
-            <span class="emo-tick"></span><span class="emo-tick"></span><span class="emo-tick"></span>
-            <span class="emo-tick"></span><span class="emo-tick"></span><span class="emo-tick"></span>
+            <span class="emo-tick"></span><span class="emo-tick"></span>
+            <span class="emo-tick"></span><span class="emo-tick"></span>
             <span class="emo-tick"></span>
           </div>
           <input type="range" class="emo-slider" min="-3" max="3" step="1" value="0">
@@ -1504,7 +1504,7 @@
 
   // 更新刻度高亮
   function updateTicks(ticks, val, tc, tg) {
-    const idx = val + 3; // -3~+3 -> 0~6
+    const idx = val + 2; // -2~+2 -> 0~4
     ticks.forEach((t,i)=>{
       if (i===idx) { t.classList.add('near'); t.style.setProperty('--tc',tc); t.style.setProperty('--tg',tg); }
       else t.classList.remove('near');
@@ -1527,7 +1527,7 @@
     // 拖动中：更新刻度高亮 + 轨道填充
     slider.addEventListener('input', ()=>{
       const v = parseInt(slider.value);
-      const pct = ((v+3)/6)*100; // -3=0%, +3=100%
+      const pct = ((v+2)/4)*100; // -2=0%, +2=100%
       slider.style.setProperty('--fill', pct+'%');
       updateTicks(ticks, v, cfg.color, cfg.glow);
     });
