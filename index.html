@@ -6,313 +6,408 @@
 <title>Rach的宝盒</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
   * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 
   body {
-    background: linear-gradient(180deg, #0d0015 0%, #1a0a2e 15%, #2d1060 40%, #1a0a2e 70%, #0d0015 100%);
+    background: linear-gradient(180deg,
+      #7EC8E3   0%,
+      #B3DFF0  20%,
+      #D6EDF5  38%,
+      #F2F0D5  52%,
+      #C5D88C  65%,
+      #8CB84B  82%,
+      #5A8F2C 100%
+    );
     min-height: 100vh; min-height: 100dvh;
     display: flex; align-items: center; justify-content: center;
-    font-family: 'Press Start 2P', monospace;
+    font-family: 'Noto Serif SC', 'STSong', 'SimSun', 'KaiTi', serif;
     overflow-x: hidden; user-select: none; -webkit-user-select: none;
   }
 
-  /* ===== 像素星星背景 ===== */
-  .stars { position:fixed; inset:0; pointer-events:none; z-index:0; }
-  .star {
-    position:absolute; width:6px; height:6px; background:#ffec8b;
-    box-shadow: 2px 0 0 #ffec8b, 4px 0 0 #ffd700, 0 2px 0 #ffec8b, 0 4px 0 #ffd700, 2px 2px 0 #fff;
-    animation: twinkle var(--dur) ease-in-out infinite; animation-delay: var(--delay);
+  /* ===== 白云 ===== */
+  .nature-scene { position:fixed; inset:0; pointer-events:none; z-index:0; }
+  .cloud {
+    position:fixed; width:60px; height:24px;
+    background:rgba(255,255,255,0.72);
+    border-radius:50%;
+    box-shadow:
+      28px -8px 0 10px rgba(255,255,255,0.68),
+      -20px -5px 0 14px rgba(255,255,255,0.62),
+      58px 5px 0 6px rgba(255,255,255,0.55);
+    animation:driftCloud var(--cdur, 22s) linear infinite;
   }
-  @keyframes twinkle { 0%,100%{opacity:.3} 50%{opacity:1} }
+  @keyframes driftCloud {
+    0%   { transform:translateX(-160px); }
+    100% { transform:translateX(calc(100vw + 160px)); }
+  }
 
-  /* ===== 金色光尘粒子 ===== */
-  .dust { position:fixed; pointer-events:none; z-index:0; }
-  .dust-particle {
-    position:absolute; width:3px; height:3px; background:#ffd700;
-    box-shadow: 0 0 4px #ffd700;
-    animation: floatUp var(--fdur) linear infinite; animation-delay: var(--fdelay);
-    opacity:0;
+  /* ===== 远山 ===== */
+  .hill {
+    position:fixed; bottom:0; border-radius:50% 50% 0 0;
   }
-  @keyframes floatUp {
-    0% { transform:translateY(0) scale(0); opacity:0; }
-    10% { opacity:1; }
-    90% { opacity:1; }
-    100% { transform:translateY(-100vh) scale(1); opacity:0; }
+  .hill-back {
+    width:130%; height:28vh; left:-15%; bottom:16vh;
+    background:linear-gradient(180deg, #9CCC7A, #7BAF4A);
+    opacity:0.55;
+  }
+  .hill-mid {
+    width:110%; height:22vh; left:-5%; bottom:10vh;
+    background:linear-gradient(180deg, #8BC34A, #689F38);
+    opacity:0.7;
+  }
+  .hill-front {
+    width:120%; height:16vh; left:-10%; bottom:3vh;
+    background:linear-gradient(180deg, #7CB342, #558B2F);
+    opacity:0.85;
+  }
+
+  /* ===== 树木 ===== */
+  .tree {
+    position:fixed; bottom:15vh;
+    animation:swayTree var(--tsway, 5s) ease-in-out infinite;
+    animation-delay:var(--tdelay, 0s);
+    transform-origin:bottom center;
+  }
+  @keyframes swayTree {
+    0%,100% { transform:rotate(-1.5deg); }
+    50%     { transform:rotate(1.5deg); }
+  }
+  .tree-trunk {
+    width:12px; height:70px;
+    background:linear-gradient(90deg, #6D4C41, #5D4037, #4E342E);
+    border-radius:4px 4px 10px 10px;
+    margin:0 auto;
+  }
+  .tree-canopy {
+    position:relative; width:80px; height:80px; margin-top:-20px; margin-left:-34px;
+    background:radial-gradient(circle at 42% 38%, #9CCC65, #558B2F);
+    border-radius:50%;
+    box-shadow:
+      -20px 10px 0 -6px #7CB342,
+      22px 6px 0 -7px #689F38,
+      6px -14px 0 -6px #AED581,
+      -12px -18px 0 -5px #8BC34A,
+      0 0 20px rgba(139,195,74,0.15);
+  }
+  .tree-canopy::after {
+    content:''; position:absolute; top:12px; left:20px;
+    width:35px; height:28px;
+    background:rgba(174,213,129,0.4);
+    border-radius:50%;
+  }
+
+  /* ===== 草地小花 ===== */
+  .meadow-flower {
+    position:fixed; bottom:var(--mfy, 8px);
+    width:8px; height:8px;
+    background:var(--mfc, #FFF);
+    border-radius:50%;
+    z-index:1;
+    box-shadow:
+      6px -2px 0 var(--mfc, #FFF),
+      -5px -3px 0 var(--mfc, #FFF),
+      0 -7px 0 var(--mfc, #FFF),
+      2px 4px 0 #8BC34A;
+    animation:swayFlower var(--mfdur, 4s) ease-in-out infinite;
+    animation-delay:var(--mfdelay, 0s);
+  }
+  @keyframes swayFlower {
+    0%,100% { transform:rotate(-2deg) translateX(0); }
+    50%     { transform:rotate(3deg) translateX(2px); }
+  }
+
+  /* ===== 草地 ===== */
+  .grass-blade {
+    position:fixed; bottom:0;
+    width:5px; height:var(--gh, 35px);
+    background:linear-gradient(180deg, var(--gc, #9CCC65) 0%, #558B2F 90%);
+    border-radius:60% 40% 0 0;
+    transform-origin:bottom center;
+    animation:swayGrass var(--sdur, 3.5s) ease-in-out infinite;
+    animation-delay:var(--sdelay, 0s);
+  }
+  @keyframes swayGrass {
+    0%,100% { transform:rotate(-3deg) skewX(-1deg); }
+    25%     { transform:rotate(1deg) skewX(0.5deg); }
+    50%     { transform:rotate(4deg) skewX(2deg); }
+    75%     { transform:rotate(2deg) skewX(1deg); }
+  }
+
+  /* ===== 落叶 ===== */
+  .falling-leaf {
+    position:fixed; pointer-events:none; z-index:1;
+    width:14px; height:16px;
+    background:var(--lc, #7CB342);
+    border-radius:50% 0 50% 0;
+    opacity:0;
+    animation:leafFall var(--fdur, 9s) linear infinite;
+    animation-delay:var(--fdelay, 0s);
+  }
+  @keyframes leafFall {
+    0%   { transform:translateY(-8vh) translateX(0) rotate(var(--lrot, 0deg)); opacity:0; }
+    4%   { opacity:0.8; }
+    35%  { transform:translateY(38vh) translateX(var(--ldrift, 35px)) rotate(calc(var(--lrot, 0deg) + 160deg)); opacity:0.75; }
+    70%  { transform:translateY(72vh) translateX(calc(var(--ldrift, 35px) * -0.6)) rotate(calc(var(--lrot, 0deg) + 300deg)); opacity:0.5; }
+    95%  { opacity:0.15; }
+    100% { transform:translateY(108vh) translateX(var(--ldrift, 35px)) rotate(calc(var(--lrot, 0deg) + 420deg)); opacity:0; }
+  }
+
+  /* ===== 花瓣 ===== */
+  .floating-petal {
+    position:fixed; pointer-events:none; z-index:1;
+    width:10px; height:11px;
+    background:var(--pc, #F8BBD0);
+    border-radius:50% 50% 0 50%;
+    opacity:0;
+    animation:petalDrift var(--pdur, 14s) ease-in-out infinite;
+    animation-delay:var(--pdelay, 0s);
+    transform:rotate(var(--prot, 15deg));
+  }
+  @keyframes petalDrift {
+    0%   { transform:translate(0, -6vh) rotate(var(--prot, 15deg)); opacity:0; }
+    8%   { opacity:0.7; }
+    45%  { transform:translate(var(--pdrift, 55px), 50vh) rotate(calc(var(--prot, 15deg) + 150deg)); opacity:0.6; }
+    88%  { opacity:0.3; }
+    100% { transform:translate(calc(var(--pdrift, 55px) * 1.6), 108vh) rotate(calc(var(--prot, 15deg) + 340deg)); opacity:0; }
   }
 
   /* ===== 页面容器 ===== */
-  .page { position:relative; z-index:1; width:100%; display:flex; flex-direction:column; align-items:center; }
+  .page { position:relative; z-index:2; width:100%; display:flex; flex-direction:column; align-items:center; }
   .page.hidden { display:none; }
   .container { width:100%; max-width:390px; padding:20px 14px; display:flex; flex-direction:column; align-items:center; gap:18px; }
 
-  /* ===== 像素装饰边框 (华丽版) ===== */
-  .corner-decor {
+  /* ===== 春日卡片 ===== */
+  .spring-card {
     position:relative; width:100%; display:flex; flex-direction:column; align-items:center;
-    gap:12px; padding:22px 16px 24px;
-    border:4px solid #c9a100;
+    gap:12px; padding:28px 20px 24px;
+    background:
+      repeating-linear-gradient(92deg, transparent, transparent 20px, rgba(139,195,74,0.05) 20px, rgba(139,195,74,0.05) 22px),
+      linear-gradient(180deg, #FFFEF7, #F7F2E4);
+    border:3px solid #A1887F;
+    border-radius:20px;
     box-shadow:
-      -4px -4px 0 0 #1a0a2e, 4px -4px 0 0 #1a0a2e, -4px 4px 0 0 #1a0a2e, 4px 4px 0 0 #1a0a2e,
-      0 0 0 8px #2d1060,
-      -8px -8px 0 0 #ffd700, 8px -8px 0 0 #ffd700, -8px 8px 0 0 #ffd700, 8px 8px 0 0 #ffd700,
-      0 0 0 10px #1a0a2e,
-      -10px -10px 0 0 #b8860b, 10px -10px 0 0 #b8860b, -10px 10px 0 0 #b8860b, 10px 10px 0 0 #b8860b;
-    image-rendering:pixelated;
-  }
-  /* 四角像素宝石 */
-  .corner-decor::before {
-    content:''; position:absolute; top:-6px; left:-6px;
-    width:8px; height:8px; background:#fff;
-    box-shadow:
-      8px 0 0 #ffd700, 0 8px 0 #ffd700, 8px 8px 0 #ffec8b,
-      0 0 0 2px #b8860b, 8px 0 0 2px #b8860b, 0 8px 0 2px #b8860b, 8px 8px 0 2px #b8860b;
-    z-index:2;
-  }
-  .corner-decor::after {
-    content:''; position:absolute; top:-6px; right:-6px;
-    width:8px; height:8px; background:#fff;
-    box-shadow:
-      -8px 0 0 #ffd700, 0 8px 0 #ffd700, -8px 8px 0 #ffec8b,
-      0 0 0 2px #b8860b, -8px 0 0 2px #b8860b, 0 8px 0 2px #b8860b, -8px 8px 0 2px #b8860b;
-    z-index:2;
+      0 6px 24px rgba(62,107,39,0.13),
+      0 2px 6px rgba(0,0,0,0.07),
+      inset 0 1px 0 rgba(255,255,255,0.6);
   }
 
   /* ===== 标题 ===== */
   .title {
-    font-size:22px; color:#ffd700; text-align:center; letter-spacing:2px; line-height:1.6;
-    text-shadow: 2px 2px 0 #c9a100, -2px -2px 0 #c9a100, 0 0 12px #ffec8b, 0 0 24px #ffd700aa, 0 0 40px #ff8c0044;
-    image-rendering:pixelated;
+    font-family:'Noto Serif SC',serif; font-size:23px; font-weight:700;
+    color:#2E7D32; text-align:center; letter-spacing:4px; line-height:1.5;
+    text-shadow:0 1px 0 rgba(255,255,255,0.6);
   }
-  .title .icon-left, .title .icon-right {
-    color:#ffec8b; text-shadow:0 0 10px #ffd700; font-size:16px;
-  }
+  .title .icon-left, .title .icon-right { font-size:18px; }
 
-  .divider {
-    width:85%; height:6px;
-    background: repeating-linear-gradient(90deg, #ffd700 0px, #ffd700 8px, transparent 8px, transparent 16px);
-    margin:4px 0; image-rendering:pixelated;
+  /* ===== 分割线 ===== */
+  .spring-divider {
+    width:80%; height:3px;
+    background:linear-gradient(90deg, transparent, #AED581, #8BC34A, #AED581, transparent);
+    border-radius:2px;
   }
-  /* 分割线两侧点缀 */
-  .divider-ornament {
-    display:flex; align-items:center; justify-content:center; gap:0; width:85%;
-  }
-  .divider-ornament::before, .divider-ornament::after {
-    content:'◆'; color:#ffd700; font-size:8px; text-shadow:0 0 6px #ffd700;
-  }
-  .divider-ornament .divider { flex:1; }
 
   /* ===== 按钮组 ===== */
-  .btn-group { display:flex; flex-direction:column; gap:18px; width:100%; padding:0 4px; }
+  .btn-group { display:flex; flex-direction:column; gap:16px; width:100%; padding:0 4px; }
 
-  .pixel-btn {
+  .nature-btn {
     position:relative; display:flex; align-items:center; justify-content:center;
-    width:100%; padding:22px 0;
-    font-family:'Press Start 2P',monospace; font-size:20px; color:#ffec8b;
-    background: linear-gradient(180deg, #6b3fa0 0%, #4a1d8a 50%, #3a1068 100%);
-    border:none; cursor:pointer; letter-spacing:2px;
-    text-shadow: 2px 2px 0 #2d1060, 0 0 8px #ffd70066;
+    width:100%; padding:20px 0;
+    font-family:'Noto Serif SC',serif; font-size:18px; font-weight:600;
+    color:#4E342E;
+    background:linear-gradient(180deg, #F5F0E8, #E0D5C5);
+    border:2px solid #8D6E63; border-radius:16px;
+    cursor:pointer; letter-spacing:3px; outline:none;
     box-shadow:
-      -4px -4px 0 0 #ffd700, 4px -4px 0 0 #ffd700, -4px 4px 0 0 #ffd700, 4px 4px 0 0 #ffd700,
-      0 0 0 4px #2d1060, -8px 0 0 0 #1a0a2e, 8px 0 0 0 #1a0a2e,
-      0 0 0 6px #b8860b;
-    transition:transform .06s, box-shadow .06s; image-rendering:pixelated; outline:none;
+      0 4px 0 #A1887F,
+      0 5px 12px rgba(0,0,0,0.10);
+    transition:transform .10s, box-shadow .10s, background .10s;
+    overflow:hidden;
   }
-  .pixel-btn:active {
-    transform:translate(2px,2px);
-    box-shadow:
-      -6px -6px 0 0 #ffd700, 2px -6px 0 0 #ffd700, -6px 2px 0 0 #ffd700, 2px 2px 0 0 #ffd700,
-      0 0 0 4px #2d1060, -8px 0 0 0 #1a0a2e, 8px 0 0 0 #1a0a2e, 0 0 0 6px #b8860b;
-    background: linear-gradient(180deg, #5a2f8a, #3a1570);
+  .nature-btn:active {
+    transform:translateY(3px);
+    box-shadow:0 1px 0 #A1887F, 0 2px 6px rgba(0,0,0,0.08);
+    background:linear-gradient(180deg, #E0D5C5, #D0C4B4);
   }
-  .pixel-btn::before, .pixel-btn::after {
-    content:''; position:absolute; top:50%; transform:translateY(-50%);
-    width:10px; height:10px; background:#ffd700;
-    box-shadow: 0 5px 0 #c9a100;
-  }
-  .pixel-btn::before { left:18px; }
-  .pixel-btn::after  { right:18px; }
 
-  /* 皇帝按钮特殊样式 - 金色边框更宽 */
+  /* 皇帝按钮 */
   .btn-emperor {
-    background: linear-gradient(180deg, #8b5e3c 0%, #6b3fa0 30%, #4a1d8a 70%, #3a1068 100%) !important;
+    background:linear-gradient(180deg, #FFF9C4, #FFE082);
+    border-color:#C9A100;
     box-shadow:
-      -4px -4px 0 0 #ffd700, 4px -4px 0 0 #ffd700, -4px 4px 0 0 #ffd700, 4px 4px 0 0 #ffd700,
-      0 0 0 4px #2d1060, -8px 0 0 0 #1a0a2e, 8px 0 0 0 #1a0a2e,
-      0 0 12px #ffd70044, 0 0 0 6px #b8860b !important;
+      0 4px 0 #B8860B,
+      0 5px 16px rgba(200,160,0,0.25);
+    color:#5D4037;
   }
-  .btn-emperor::before, .btn-emperor::after {
-    background:#ffd700 !important; box-shadow:0 5px 0 #c9a100, 0 0 8px #ffd70088 !important;
-  }
-
-  /* ===== 像素皇帝小人 ===== */
-  .pixel-emperor { display:inline-flex; align-items:center; gap:8px; }
-  .emperor-sprite { position:relative; width:4px; height:4px; margin:0 4px; flex-shrink:0; }
-  .emperor-sprite::after {
-    content:''; position:absolute; top:0; left:0; width:4px; height:4px; background:transparent;
-    box-shadow:
-      8px 0px 0 #ffd700, 12px 0px 0 #ffd700,
-      4px 4px 0 #ffd700, 8px 4px 0 #ffe44d, 12px 4px 0 #ffe44d, 16px 4px 0 #ffd700,
-      0px 8px 0 #ffd700, 4px 8px 0 #ffe44d, 8px 8px 0 #fff, 12px 8px 0 #fff, 16px 8px 0 #ffe44d, 20px 8px 0 #ffd700,
-      4px 12px 0 #ffe0bd, 8px 12px 0 #333, 12px 12px 0 #333, 16px 12px 0 #ffe0bd,
-      4px 16px 0 #ffe0bd, 8px 16px 0 #e88, 12px 16px 0 #e88, 16px 16px 0 #ffe0bd,
-      4px 20px 0 #ffe0bd, 8px 20px 0 #ffe0bd, 12px 20px 0 #ffe0bd, 16px 20px 0 #ffe0bd,
-      4px 24px 0 #c9a100, 8px 24px 0 #ffd700, 12px 24px 0 #ffd700, 16px 24px 0 #c9a100,
-      0px 28px 0 #c9a100, 4px 28px 0 #ffd700, 8px 28px 0 #ffe44d, 12px 28px 0 #ffe44d, 16px 28px 0 #ffd700, 20px 28px 0 #c9a100,
-      0px 32px 0 #8b6914, 4px 32px 0 #c9a100, 8px 32px 0 #c9a100, 12px 32px 0 #c9a100, 16px 32px 0 #c9a100, 20px 32px 0 #8b6914;
+  .btn-emperor:active {
+    background:linear-gradient(180deg, #FFE082, #FFD54F);
   }
 
   /* ===== 底部信息 ===== */
-  .footer { margin-top:6px; font-size:8px; color:#8b6fbf; text-align:center; letter-spacing:1px; animation:pulse 2s ease-in-out infinite; }
-  @keyframes pulse { 0%,100%{opacity:.5} 50%{opacity:.9} }
-
-  /* ===== 点击波纹 ===== */
-  .ripple {
-    position:fixed; width:16px; height:16px; background:#ffd700; pointer-events:none; z-index:99;
-    animation:rippleOut .4s steps(4) forwards; image-rendering:pixelated;
+  .footer {
+    margin-top:6px; font-family:'Noto Serif SC',serif;
+    font-size:12px; color:#689F38; text-align:center; letter-spacing:2px;
+    animation:footerBreathe 3s ease-in-out infinite;
   }
-  @keyframes rippleOut { 0%{transform:scale(1);opacity:1} 100%{transform:scale(6);opacity:0} }
+  @keyframes footerBreathe {
+    0%,100%{opacity:.45} 50%{opacity:.85}
+  }
 
-  /* =========================================================== */
-  /*  输入分数页面  */
-  /* =========================================================== */
+  /* ===== 波纹 ===== */
+  .ripple {
+    position:fixed; width:20px; height:20px;
+    background:rgba(139,195,74,0.35); pointer-events:none; z-index:99;
+    border-radius:50%;
+    animation:rippleOut .5s ease-out forwards;
+  }
+  @keyframes rippleOut {
+    0%{transform:scale(0.5);opacity:.7}
+    100%{transform:scale(5);opacity:0}
+  }
+
+  /* ============================================ */
+  /*  输入分数页面                                 */
+  /* ============================================ */
 
   .input-title {
-    font-size:16px; color:#ffd700; text-align:center;
-    text-shadow:2px 2px 0 #c9a100, 0 0 12px #ffec8b, 0 0 24px #ffd70066;
-    image-rendering:pixelated; letter-spacing:1px;
+    font-family:'Noto Serif SC',serif; font-size:16px; font-weight:600;
+    color:#2E7D32; text-align:center; letter-spacing:2px;
   }
   .input-hint {
-    font-size:12px; color:#c9a100; text-align:center; letter-spacing:1px;
-    text-shadow:0 0 8px #ffd70044;
+    font-size:13px; color:#8D6E63; text-align:center; letter-spacing:1px;
   }
 
   /* 分数显示框 */
   .score-input-box {
-    width:100%; background:linear-gradient(180deg, #0d0420, #150530);
-    border:4px solid #ffd700; padding:14px;
+    width:100%;
+    background:linear-gradient(180deg, #F5F0E8, #E0D5C5);
+    border:3px solid #8D6E63; border-radius:16px;
+    padding:14px;
     box-shadow:
-      -4px -4px 0 0 #1a0a2e, 4px -4px 0 0 #1a0a2e, -4px 4px 0 0 #1a0a2e, 4px 4px 0 0 #1a0a2e,
-      0 0 0 8px #2d1060, -8px -8px 0 0 #c9a100, 8px -8px 0 0 #c9a100, -8px 8px 0 0 #c9a100, 8px 8px 0 0 #c9a100,
-      inset 0 0 20px #ffd70011;
-    image-rendering:pixelated;
+      0 5px 16px rgba(62,107,39,0.10),
+      inset 0 1px 0 rgba(255,255,255,0.45);
   }
   .score-input-display {
-    font-family:'Press Start 2P',monospace; font-size:42px; color:#ffd700;
-    background:#0a0018; border:3px solid #c9a100;
-    padding:14px 16px; text-align:center;
-    text-shadow:0 0 12px #ffd70088, 0 0 24px #ffd70044;
-    image-rendering:pixelated; letter-spacing:4px;
-    margin-bottom:14px;
+    font-family:'Quicksand',sans-serif; font-size:44px; font-weight:700;
+    color:#3E2723;
+    background:linear-gradient(180deg, #FFFEF7, #F7F2E4);
+    border:2px solid #A1887F; border-radius:12px;
+    padding:16px; text-align:center;
+    box-shadow:inset 0 2px 8px rgba(0,0,0,0.05);
+    margin-bottom:14px; letter-spacing:4px;
   }
 
   /* 数字键盘 */
   .numpad-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; }
+
   .numpad-key {
-    font-family:'Press Start 2P',monospace; font-size:20px; color:#ffec8b;
-    background:linear-gradient(180deg, #6b3fa0, #4a1d8a);
-    border:3px solid #c9a100; padding:14px 0; cursor:pointer; text-align:center;
-    box-shadow: -3px -3px 0 #ffd700, 3px -3px 0 #ffd700, -3px 3px 0 #ffd700, 3px 3px 0 #ffd700;
-    image-rendering:pixelated; outline:none; transition:transform .04s;
-    text-shadow:1px 1px 0 #2d1060;
+    font-family:'Quicksand',sans-serif; font-size:22px; font-weight:700;
+    color:#4E342E;
+    background:linear-gradient(180deg, #F5F0E8, #E8DCC8);
+    border:2px solid #8D6E63; border-radius:14px;
+    padding:15px 0; cursor:pointer; text-align:center;
+    box-shadow:0 3px 0 #A1887F, 0 4px 8px rgba(0,0,0,0.10);
+    transition:transform .06s, box-shadow .06s; outline:none;
   }
-  .numpad-key:active { transform:translate(1px,1px); background:linear-gradient(180deg, #5a2f8a, #3a1570); }
-  .numpad-key.key-del { font-size:12px; background:linear-gradient(180deg, #8b3a3a, #6b2020); color:#ffaaaa; }
+  .numpad-key:active {
+    transform:translateY(2px);
+    box-shadow:0 1px 0 #A1887F, 0 2px 4px rgba(0,0,0,0.10);
+  }
+  .numpad-key.key-del {
+    font-size:13px; background:linear-gradient(180deg, #FFCDD2, #EF9A9A);
+    border-color:#C62828; color:#B71C1C;
+    box-shadow:0 3px 0 #C62828, 0 4px 8px rgba(0,0,0,0.10);
+  }
   .numpad-key.key-go {
-    font-size:14px; background:linear-gradient(180deg, #ffd700, #c9a100) !important;
-    color:#1a0a2e !important; border-color:#8b6914 !important; text-shadow:none !important;
-    box-shadow: -3px -3px 0 #8b6914, 3px -3px 0 #8b6914, -3px 3px 0 #8b6914, 3px 3px 0 #8b6914, 0 0 12px #ffd70066 !important;
+    font-size:15px; font-weight:700;
+    background:linear-gradient(180deg, #81C784, #4CAF50);
+    border-color:#2E7D32; color:#FFF;
+    box-shadow:0 3px 0 #388E3C, 0 4px 8px rgba(0,0,0,0.10), 0 0 14px rgba(76,175,80,0.35);
   }
 
-  /* 输入页底部按钮行 */
+  /* 输入页底部按钮 */
   .input-bottom-row { display:flex; gap:10px; width:100%; }
-  .input-bottom-row .pixel-btn { flex:1; font-size:11px; padding:14px 0; }
+  .input-bottom-row .nature-btn { flex:1; font-size:14px; padding:14px 0; }
 
-  /* =========================================================== */
-  /*  老虎机展示页面 — 像素街机  */
-  /* =========================================================== */
+  .back-btn-sm {
+    font-size:14px !important; padding:14px 0 !important;
+    background:linear-gradient(180deg, #D7CCC8, #BCAAA4) !important;
+    color:#4E342E !important;
+  }
+
+  /* ============================================ */
+  /*  自然展示台 — 替代老虎机                       */
+  /* ============================================ */
 
   .slot-title-bar {
-    font-size:15px; color:#ffd700; text-align:center;
-    text-shadow:2px 2px 0 #c9a100, 0 0 12px #ffec8b, 0 0 24px #ffd70066;
-    image-rendering:pixelated; letter-spacing:1px;
+    font-family:'Noto Serif SC',serif; font-size:16px; font-weight:600;
+    color:#2E7D32; text-align:center; letter-spacing:2px;
   }
 
-  /* ===== 地面阴影 ===== */
-  .machine-shadow {
-    width:85%; height:10px; margin:0 auto;
-    background:radial-gradient(ellipse at center, #00000099 0%, transparent 70%);
-    image-rendering:pixelated;
+  /* ---- 花冠 ---- */
+  .floral-crown {
+    display:flex; justify-content:center; align-items:flex-end;
+    gap:2px; height:48px; margin-bottom:-8px; position:relative; z-index:2;
+  }
+  .crown-flower {
+    width:22px; height:28px; background:#F8BBD0;
+    border-radius:50% 50% 35% 35%; position:relative;
+  }
+  .crown-flower::before {
+    content:''; position:absolute; top:-10px; left:50%; transform:translateX(-50%);
+    width:18px; height:12px; background:#F48FB1; border-radius:50%;
+  }
+  .crown-flower::after {
+    content:''; position:absolute; bottom:-16px; left:50%; transform:translateX(-50%);
+    width:2px; height:16px; background:#8BC34A; border-radius:1px;
+  }
+  .crown-flower.center {
+    width:32px; height:38px; background:#FFD54F;
+  }
+  .crown-flower.center::before {
+    width:24px; height:16px; background:#FFEC6E;
   }
 
-  /* ===========================================================
-     街机主体 — 经典 upright arcade cabinet
-     =========================================================== */
-
-  .arcade-machine {
-    position:relative; width:100%;
-    image-rendering:pixelated;
+  /* ---- 展示头部 ---- */
+  .display-header {
+    width:84%; margin:0 auto;
+    background:linear-gradient(180deg, #8D6E63, #6D4C41);
+    border-radius:16px 16px 0 0; padding:14px 10px 10px;
+    text-align:center; border:3px solid #5D4037; border-bottom:none;
+    position:relative; z-index:1;
+  }
+  .display-header-inner {
+    display:flex; align-items:center; justify-content:center; gap:4px;
+  }
+  .header-vine {
+    width:24px; height:3px; background:#8BC34A; border-radius:2px;
+    position:relative;
+  }
+  .header-vine::before {
+    content:''; position:absolute; top:-6px; left:8px;
+    width:8px; height:8px; background:#9CCC65; border-radius:50%;
+  }
+  .header-vine::after {
+    content:''; position:absolute; top:-4px; right:4px;
+    width:6px; height:6px; background:#AED581; border-radius:50%;
   }
 
-  /* ---- 尖顶帽 ---- */
-  .arcade-top-cap {
-    width:70%; height:18px; margin:0 auto;
-    background:linear-gradient(180deg, #ffd700, #c9a100);
-    clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
-    /* 像素化尖顶：用 box-shadow 模拟阶梯 */
-    box-shadow:
-      0 4px 0 #8b6914,
-      -8px 4px 0 #c9a100, 8px 4px 0 #c9a100;
-  }
-
-  /* ---- 灯箱 Marquee ---- */
-  .arcade-marquee {
-    position:relative; width:82%; margin:0 auto;
-    background:linear-gradient(180deg, #2a1050 0%, #1a0a2e 50%, #2a1050 100%);
-    border:4px solid #ffd700;
-    border-top:3px solid #c9a100;
-    padding:10px 8px 6px; text-align:center;
-    box-shadow:
-      -4px 0 0 #c9a100, 4px 0 0 #c9a100,
-      0 0 0 4px #1a0a2e;
-  }
-  .arcade-marquee::after {
-    content:'S C O R E';
-    display:block; font-size:8px; color:#ffd700;
-    letter-spacing:3px; margin-top:4px;
-    text-shadow:0 0 10px #ffd70088, 0 0 20px #ffd70044;
-  }
-
-  /* 皇冠装饰 */
-  .slot-crown {
-    display:inline-block; position:relative;
-    width:24px; height:12px; background:#ffd700;
-    box-shadow:
-      0 -4px 0 #ffe44d,
-      8px 4px 0 #ffd700, -8px 4px 0 #ffd700,
-      0 0 10px #ffd70088;
-    clip-path:polygon(0% 100%, 16% 30%, 33% 70%, 50% 20%, 66% 70%, 83% 30%, 100% 100%);
-    margin-bottom:4px;
-  }
-
-  /* 灯珠 */
-  .slot-lights { display:flex; justify-content:center; gap:8px; }
+  /* ---- 花苞灯 ---- */
+  .slot-lights { display:flex; justify-content:center; gap:7px; margin-top:6px; }
   .slot-light {
-    width:7px; height:7px;
-    background:#8b6914;
-    box-shadow:none;
-    image-rendering:pixelated;
-    transition: background .25s steps(2), box-shadow .25s steps(2);
+    width:13px; height:13px;
+    background:#5D4037; border-radius:50%;
+    transition:background .3s, box-shadow .3s, transform .3s;
+    position:relative;
   }
-  /* 点亮状态 */
   .slot-light.lit {
-    background:#ffd700;
-    box-shadow:2px 0 0 #ffec8b, 0 2px 0 #ffec8b, 2px 2px 0 #fff, 0 0 10px #ffd700;
+    background:#FFD54F;
+    box-shadow:0 0 14px #FFD54F, 0 0 28px rgba(255,213,79,0.45);
+    transform:scale(1.35);
   }
-
-  /* 跑马灯追逐 — 每个灯依次闪亮 */
   .slot-lights.chasing .slot-light {
-    animation:chaseAnim .56s steps(1) infinite;
+    animation:budPulse .64s steps(1) infinite;
   }
   .slot-lights.chasing .slot-light:nth-child(1){animation-delay:0s}
   .slot-lights.chasing .slot-light:nth-child(2){animation-delay:.08s}
@@ -322,58 +417,36 @@
   .slot-lights.chasing .slot-light:nth-child(6){animation-delay:.40s}
   .slot-lights.chasing .slot-light:nth-child(7){animation-delay:.48s}
 
-  @keyframes chaseAnim {
-    0%, 12%  { background:#ffd700; box-shadow:2px 0 0 #ffec8b,0 2px 0 #ffec8b,2px 2px 0 #fff,0 0 10px #ffd700; }
-    13%, 100% { background:#8b6914; box-shadow:none; }
+  @keyframes budPulse {
+    0%,14%  { background:#FFD54F; box-shadow:0 0 16px #FFD54F,0 0 30px rgba(255,213,79,0.5); transform:scale(1.4); }
+    15%,100%{ background:#5D4037; box-shadow:none; transform:scale(1); }
   }
 
-  /* ---- 上半身 (屏幕区域) ---- */
-  .arcade-upper {
-    position:relative; width:78%; margin:0 auto;
-    background:linear-gradient(180deg, #1a0a2e, #0d0015);
-    border-left:4px solid #ffd700; border-right:4px solid #ffd700;
-    box-shadow:
-      -4px 0 0 #c9a100, 4px 0 0 #c9a100,
-      0 0 0 3px #1a0a2e;
-    padding:10px 10px 6px;
+  /* ---- 展示机身 ---- */
+  .display-body {
+    width:80%; margin:0 auto;
+    background:linear-gradient(180deg, #8D6E63, #795548);
+    border-left:4px solid #5D4037; border-right:4px solid #5D4037;
+    padding:12px 10px 8px; position:relative;
   }
-  /* 两侧像素装饰条 */
-  .arcade-upper::before {
-    content:''; position:absolute; left:-2px; top:8px; bottom:8px;
-    width:6px;
-    background:repeating-linear-gradient(
-      180deg, #ffd700 0px, #ffd700 4px, transparent 4px, transparent 8px
-    );
-    opacity:.5;
-  }
-  .arcade-upper::after {
-    content:''; position:absolute; right:-2px; top:8px; bottom:8px;
-    width:6px;
-    background:repeating-linear-gradient(
-      180deg, #ffd700 0px, #ffd700 4px, transparent 4px, transparent 8px
-    );
-    opacity:.5;
+  .display-body::before {
+    content:''; position:absolute; inset:0;
+    background:repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(0,0,0,0.04) 10px, rgba(0,0,0,0.04) 12px);
+    pointer-events:none;
   }
 
-  /* 屏幕外框 */
-  .arcade-screen-bezel {
-    padding:5px;
-    background:linear-gradient(180deg, #1e0c3a, #0d0420);
-    border:4px solid #8b6914;
-    box-shadow:
-      inset 0 0 10px #000000,
-      -2px -2px 0 #c9a100, 2px -2px 0 #c9a100,
-      -2px 2px 0 #c9a100, 2px 2px 0 #c9a100;
-    image-rendering:pixelated;
+  /* ---- 屏幕框 ---- */
+  .display-bezel {
+    padding:6px;
+    background:linear-gradient(180deg, #6D4C41, #5D4037);
+    border-radius:12px; border:2px solid #4E342E;
+    box-shadow:inset 0 3px 10px rgba(0,0,0,0.3);
   }
-  .arcade-screen {
-    background:#030008;
-    border:3px solid #000;
-    padding:8px 4px 4px;
-    box-shadow:inset 0 0 24px #000000;
-    /* 扫描线 */
-    background-image:
-      repeating-linear-gradient(0deg, transparent, transparent 2px, #ffffff02 2px, #ffffff02 3px);
+  .display-screen {
+    background:linear-gradient(180deg, #FFFEF7, #F5F0E4);
+    border-radius:8px; border:2px solid #5D4037;
+    padding:10px 8px 6px;
+    box-shadow:inset 0 0 24px rgba(139,195,74,0.12);
   }
 
   /* ---- 滚轴 ---- */
@@ -381,226 +454,305 @@
 
   .reel-frame {
     position:relative; width:66px; height:50px;
-    background:#020006;
-    border:3px solid #ffd700; overflow:hidden;
+    background:#3E2723;
+    border:3px solid #6D4C41; border-radius:8px;
+    overflow:hidden;
     box-shadow:
-      inset 0 0 12px #000000,
-      -2px -2px 0 #c9a100, 2px -2px 0 #c9a100,
-      -2px 2px 0 #c9a100, 2px 2px 0 #c9a100;
-    image-rendering:pixelated; z-index:1;
+      inset 0 0 12px rgba(0,0,0,0.35),
+      0 3px 8px rgba(0,0,0,0.15);
   }
   .reel-frame::before {
-    content:''; position:absolute; top:0;left:0;right:0; height:45%;
-    background:linear-gradient(180deg, #ffd70018 0%, transparent 100%);
+    content:''; position:absolute; top:0;left:0;right:0; height:42%;
+    background:linear-gradient(180deg, rgba(255,255,255,0.18), transparent);
     z-index:3; pointer-events:none;
   }
   .reel-frame::after {
     content:''; position:absolute; left:0;right:0; top:50%;
-    height:2px; background:#ffd700cc;
-    box-shadow:0 0 6px #ffd70088, 0 1px 0 #00000066, 0 -1px 0 #00000066;
+    height:2px; background:rgba(255,213,79,0.7);
+    box-shadow:0 0 8px rgba(255,213,79,0.4);
     z-index:3; pointer-events:none;
   }
 
   .reel-strip { position:absolute; left:0; width:100%; will-change:transform; }
   .reel-num {
     display:flex; align-items:center; justify-content:center;
-    height:46px; font-size:32px; color:#ffd700;
-    text-shadow:2px 2px 0 #c9a100, 0 0 8px #ffd700;
-    image-rendering:pixelated;
+    height:46px;
+    font-family:'Quicksand',sans-serif; font-size:30px; font-weight:700;
+    color:#FFFEF7;
+    text-shadow:0 0 8px rgba(255,255,255,0.3);
   }
 
-  /* 屏幕底部标签 */
-  .screen-label {
-    text-align:center; font-size:7px; color:#8b6914;
-    letter-spacing:4px; padding:5px 0 1px;
-    text-shadow:0 0 6px #ffd70033;
-    background:#0d0015; margin:0 2px;
+  /* ---- 屏幕底部 ---- */
+  .display-label {
+    text-align:center; font-family:'Noto Serif SC',serif;
+    font-size:9px; color:#FFFEF7; letter-spacing:5px;
+    padding:5px 0 2px; opacity:.65;
   }
 
-  /* ---- 操控台 (外凸) ---- */
-  .arcade-deck {
-    position:relative; width:90%; margin:0 auto;
-    background:linear-gradient(180deg, #1e0c3a, #150528);
-    border:4px solid #ffd700;
-    border-top:4px solid #ffe44d;
-    padding:10px 14px; z-index:2;
-    box-shadow:
-      -2px -2px 0 #c9a100, 2px -2px 0 #c9a100,
-      -6px 0 0 #c9a100, 6px 0 0 #c9a100,
-      -2px 2px 0 #c9a100, 2px 2px 0 #c9a100,
-      0 0 0 4px #1a0a2e;
+  /* ---- 装饰搁板 ---- */
+  .display-shelf {
+    width:88%; margin:0 auto;
+    background:linear-gradient(180deg, #A1887F, #8D6E63);
+    border:3px solid #5D4037; border-top:3px solid #6D4C41;
+    border-radius:0 0 10px 10px; padding:10px 14px;
+    box-shadow:0 3px 0 #5D4037;
+    display:flex; align-items:center; justify-content:center; gap:10px;
   }
-  .arcade-deck-inner {
-    display:flex; align-items:center; justify-content:center; gap:14px;
+  .shelf-moss {
+    flex:1; height:6px; background:#8BC34A; border-radius:3px; opacity:.7;
   }
-  /* 摇杆 / 按钮 */
-  .joy-btn {
-    width:18px; height:18px;
-    background:linear-gradient(135deg, #ffe44d, #c9a100);
-    border:2px solid #8b6914;
-    box-shadow:0 0 8px #ffd70044, 0 3px 0 #00000066, inset 0 -2px 0 #8b691466;
-    image-rendering:pixelated;
+  .shelf-flower {
+    width:14px; height:14px; background:#FFD54F;
+    border-radius:50%; flex-shrink:0;
+    box-shadow:0 0 10px rgba(255,213,79,0.45);
   }
-  .joy-btn.sm { width:12px; height:12px; }
-  /* 投币口 */
-  .coin-slot {
-    width:32px; height:7px; background:#000;
-    border:2px solid #c9a100;
-    box-shadow:inset 0 0 4px #000, 0 0 8px #ffd70044;
-    image-rendering:pixelated;
-  }
-
-  /* ---- 下半身 ---- */
-  .arcade-lower {
-    position:relative; width:78%; margin:0 auto;
-    background:linear-gradient(180deg, #150528, #0d0015);
-    border-left:4px solid #ffd700; border-right:4px solid #ffd700;
-    border-bottom:4px solid #c9a100;
-    box-shadow:
-      -4px 0 0 #c9a100, 4px 0 0 #c9a100,
-      0 0 0 3px #1a0a2e;
-    padding:8px 8px 12px;
-  }
-  /* 装饰条纹 */
-  .lower-stripe {
-    height:4px; margin:4px 0;
-    background:repeating-linear-gradient(90deg, #ffd700 0px, #ffd700 4px, transparent 4px, transparent 8px);
-    opacity:.35; image-rendering:pixelated;
-  }
-  /* 像素侧边花纹 */
-  .side-art-row {
-    display:flex; justify-content:space-between; padding:4px 0;
-  }
-  .side-art-pixel {
-    width:8px; height:8px; background:#c9a100;
-    box-shadow:
-      8px 0 0 #8b6914, 16px 0 0 #c9a100,
-      0 8px 0 #8b6914, 8px 8px 0 #c9a100, 16px 8px 0 #8b6914;
-    image-rendering:pixelated; opacity:.6;
-  }
+  .shelf-flower.sm { width:10px; height:10px; background:#F8BBD0; box-shadow:0 0 8px rgba(248,187,208,0.4); }
 
   /* ---- 底座 ---- */
-  .arcade-base {
-    width:86%; height:14px; margin:0 auto;
-    background:linear-gradient(180deg, #2d1060, #1a0a2e);
-    border:4px solid #ffd700; border-top:3px solid #c9a100;
-    box-shadow:
-      -4px 4px 0 #b8860b, 4px 4px 0 #b8860b,
-      0 0 0 4px #0d0015;
-    image-rendering:pixelated;
+  .display-base {
+    width:80%; margin:0 auto;
+    background:linear-gradient(180deg, #6D4C41, #5D4037);
+    border-left:3px solid #4E342E; border-right:3px solid #4E342E;
+    border-bottom:3px solid #4E342E; padding:6px 8px 10px;
+  }
+  .wood-grain {
+    height:3px; margin:4px 0;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    border-radius:1px;
   }
 
-  /* ---- 脚撑 ---- */
-  .machine-feet {
-    display:flex; justify-content:space-between;
-    width:60%; margin:0 auto; padding:0 8px;
-  }
-  .machine-foot {
-    width:22px; height:8px;
-    background:#b8860b;
-    box-shadow:
-      0 -2px 0 #ffd700,
-      4px 2px 0 #8b6914, -4px 2px 0 #8b6914;
-    image-rendering:pixelated;
+  /* ---- 底座脚 ---- */
+  .display-foot {
+    width:88%; height:12px; margin:0 auto -4px;
+    background:linear-gradient(180deg, #5D4037, #4E342E);
+    border-radius:0 0 10px 10px; border:2px solid #4E342E;
+    box-shadow:0 3px 10px rgba(0,0,0,0.2);
   }
 
-  /* ---- 机身上方装饰 ---- */
-  .arcade-top-ears {
-    display:flex; justify-content:space-between;
-    width:82%; margin:0 auto -2px; padding:0 4px;
-  }
-  .arcade-ear {
-    width:12px; height:14px; background:#ffd700;
-    box-shadow:
-      -2px -2px 0 #c9a100, 2px -2px 0 #c9a100,
-      0 0 8px #ffd70066;
-    image-rendering:pixelated;
-  }
-
-  /* ===== 旋转闪烁 ===== */
+  /* ---- 滚轴旋转闪烁 ---- */
   .reel-frame.spinning {
-    animation:reelGlow .12s steps(2) infinite;
+    animation:reelNatureGlow .35s ease-in-out infinite;
   }
-  @keyframes reelGlow {
-    0%,100%{border-color:#ffd700;box-shadow:inset 0 0 12px #000000,-2px -2px 0 #c9a100,2px -2px 0 #c9a100,-2px 2px 0 #c9a100,2px 2px 0 #c9a100}
-    50%{border-color:#fff;box-shadow:inset 0 0 22px #ffd70044,-2px -2px 0 #fff,2px -2px 0 #fff,-2px 2px 0 #fff,2px 2px 0 #fff,0 0 10px #ffd70044}
+  @keyframes reelNatureGlow {
+    0%,100%{
+      border-color:#6D4C41;
+      box-shadow:inset 0 0 12px rgba(0,0,0,0.35), 0 3px 8px rgba(0,0,0,0.15);
+    }
+    50%{
+      border-color:#FFD54F;
+      box-shadow:
+        inset 0 0 22px rgba(255,213,79,0.3),
+        0 0 18px rgba(255,213,79,0.45),
+        0 3px 8px rgba(0,0,0,0.15);
+    }
   }
 
-  /* ===== 着陆闪光 ===== */
+  /* ---- 着陆闪光 ---- */
   .reel-frame.landed {
-    animation:landFlash .4s steps(3);
+    animation:natureLandFlash .5s ease-out;
   }
-  @keyframes landFlash {
-    0%{border-color:#fff;box-shadow:inset 0 0 28px #ffd70088,-2px -2px 0 #fff,2px -2px 0 #fff,-2px 2px 0 #fff,2px 2px 0 #fff,0 0 16px #ffd70088}
-    100%{border-color:#ffd700;box-shadow:inset 0 0 12px #000000,-2px -2px 0 #c9a100,2px -2px 0 #c9a100,-2px 2px 0 #c9a100,2px 2px 0 #c9a100}
+  @keyframes natureLandFlash {
+    0%{
+      border-color:#FFD54F;
+      box-shadow:
+        inset 0 0 32px rgba(255,213,79,0.5),
+        0 0 28px rgba(255,213,79,0.55);
+      transform:scale(1.08);
+    }
+    100%{
+      border-color:#6D4C41;
+      box-shadow:inset 0 0 12px rgba(0,0,0,0.35), 0 3px 8px rgba(0,0,0,0.15);
+      transform:scale(1);
+    }
   }
 
-  /* ===== 黄金粒子爆发 ===== */
-  .gold-burst {
+  /* ---- 花瓣爆发 ---- */
+  .petal-burst {
     position:fixed; pointer-events:none; z-index:100;
-    width:6px; height:6px; background:#ffd700;
-    animation:burstOut .6s steps(4) forwards;
-    image-rendering:pixelated;
+    width:10px; height:11px;
+    background:var(--pbc, #F8BBD0);
+    border-radius:50% 0 50% 0;
+    animation:petalBurst var(--pbdur, .7s) ease-out forwards;
   }
-  @keyframes burstOut {
-    0%{transform:translate(0,0) scale(1);opacity:1}
-    100%{transform:translate(var(--bx),var(--by)) scale(0);opacity:0}
+  @keyframes petalBurst {
+    0%   { transform:translate(0,0) rotate(0deg) scale(.6); opacity:1; }
+    100% { transform:translate(var(--bx),var(--by)) rotate(var(--br,180deg)) scale(.15); opacity:0; }
   }
 
-  /* ===== 按钮行 ===== */
-  .slot-bottom-row { display:flex; gap:10px; width:100%; margin-top:8px; }
-  .slot-bottom-row .pixel-btn { flex:1; font-size:10px; padding:14px 0; }
-  .back-btn-sm { font-size:10px !important; padding:14px 0 !important; background:linear-gradient(180deg, #4a1d8a, #2d1060) !important; color:#c9a100 !important; }
+  /* ---- 底部按钮 ---- */
+  .slot-bottom-row { display:flex; gap:10px; width:100%; margin-top:12px; }
+  .slot-bottom-row .nature-btn { flex:1; font-size:14px; padding:14px 0; }
   .retry-btn {
-    background:linear-gradient(180deg, #8b5e3c, #6b3fa0) !important;
-    color:#ffec8b !important; font-size:10px !important; padding:14px 0 !important;
+    background:linear-gradient(180deg, #81C784, #66BB6A) !important;
+    border-color:#388E3C !important; color:#FFF !important;
+    box-shadow:0 4px 0 #2E7D32, 0 5px 12px rgba(56,142,60,0.25) !important;
+    font-size:14px !important; padding:14px 0 !important;
+  }
+  .retry-btn:active {
+    background:linear-gradient(180deg, #66BB6A, #4CAF50) !important;
+  }
+
+  /* ============================================ */
+  /*  小皇帝和情绪 — 滑动面板                      */
+  /* ============================================ */
+
+  .emotion-list {
+    width:100%; display:flex; flex-direction:column; gap:10px;
+    max-height:55vh; overflow-y:auto; padding:4px 0;
+  }
+  .emotion-list::-webkit-scrollbar { width:4px; }
+  .emotion-list::-webkit-scrollbar-track { background:rgba(139,195,74,0.08); border-radius:2px; }
+  .emotion-list::-webkit-scrollbar-thumb { background:#A5D6A7; border-radius:2px; }
+
+  /* 情绪卡片 */
+  .emotion-item {
+    display:flex; flex-direction:column; gap:8px;
+    padding:14px 16px 12px;
+    background:linear-gradient(180deg, #FFFEF7, #F7F2E4);
+    border:2px solid #D7CCC8; border-radius:16px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.05);
+    transition:border-color .2s, box-shadow .2s;
+  }
+  .emotion-item.active {
+    border-color:var(--emo-color, #8BC34A);
+    box-shadow:0 2px 18px var(--emo-glow, rgba(139,195,74,0.3));
+  }
+
+  /* 顶部行：花苞 + 名称 + 数值 */
+  .emotion-top { display:flex; align-items:center; gap:10px; }
+
+  .emotion-bud {
+    width:14px; height:14px; flex-shrink:0;
+    background:var(--emo-color);
+    border-radius:50%;
+    box-shadow:0 0 8px var(--emo-glow);
+    transition:transform .15s, box-shadow .15s;
+  }
+  .emotion-bud.pulse {
+    animation:budBeat .35s ease-in-out infinite;
+  }
+  @keyframes budBeat {
+    0%,100%{transform:scale(1);box-shadow:0 0 8px var(--emo-glow);}
+    50%{transform:scale(1.5);box-shadow:0 0 18px var(--emo-glow),0 0 28px var(--emo-glow);}
+  }
+
+  .emotion-label {
+    font-family:'Noto Serif SC',serif; font-size:14px; font-weight:600;
+    color:#4E342E; letter-spacing:2px; flex:1;
+    transition:text-shadow .1s;
+  }
+
+  .emotion-value {
+    font-family:'Quicksand',sans-serif; font-size:14px; font-weight:700;
+    color:#8D6E63; min-width:26px; text-align:right;
+    transition:color .1s;
+  }
+
+  /* ===== 自然风滑块 ===== */
+  .emotion-slider-wrap { position:relative; width:100%; }
+
+  .emotion-slider {
+    -webkit-appearance:none; appearance:none;
+    width:100%; height:22px; background:transparent;
+    cursor:pointer; outline:none; margin:0;
+  }
+
+  .emotion-slider::-webkit-slider-runnable-track {
+    width:100%; height:8px;
+    background:linear-gradient(90deg,
+      var(--emo-color) var(--fill-pct,50%),
+      #E0D5C5 var(--fill-pct,50%)
+    );
+    border:2px solid #BCAAA4; border-radius:8px;
+    box-shadow:inset 0 2px 4px rgba(0,0,0,0.07);
+  }
+
+  .emotion-slider::-moz-range-track {
+    width:100%; height:8px;
+    background:linear-gradient(90deg,
+      var(--emo-color) var(--fill-pct,50%),
+      #E0D5C5 var(--fill-pct,50%)
+    );
+    border:2px solid #BCAAA4; border-radius:8px;
+    box-shadow:inset 0 2px 4px rgba(0,0,0,0.07);
+  }
+
+  .emotion-slider::-webkit-slider-thumb {
+    -webkit-appearance:none; appearance:none;
+    width:22px; height:22px; margin-top:-9px;
+    background:var(--emo-color);
+    border:3px solid #FFFEF7; border-radius:50%;
+    box-shadow:0 2px 8px rgba(0,0,0,0.18),0 0 12px var(--emo-glow);
+    cursor:pointer; transition:box-shadow .08s, transform .08s;
+  }
+  .emotion-slider::-webkit-slider-thumb:active {
+    transform:scale(1.2);
+    box-shadow:0 3px 14px rgba(0,0,0,0.22),0 0 22px var(--emo-glow);
+  }
+
+  .emotion-slider::-moz-range-thumb {
+    width:22px; height:22px;
+    background:var(--emo-color);
+    border:3px solid #FFFEF7; border-radius:50%;
+    box-shadow:0 2px 8px rgba(0,0,0,0.18),0 0 12px var(--emo-glow);
+    cursor:pointer;
+  }
+
+  /* 情绪间分割 */
+  .emotion-sep {
+    width:60%; height:2px; margin:0 auto;
+    background:linear-gradient(90deg, transparent, #AED581, transparent);
+    border-radius:1px;
+  }
+
+  /* 情绪粒子 */
+  .emo-particle {
+    position:fixed; pointer-events:none; z-index:100;
+    width:8px; height:8px;
+    background:var(--ep, #F8BBD0);
+    border-radius:50%;
+    animation:emoPop .55s ease-out forwards;
+  }
+  @keyframes emoPop {
+    0%{transform:translate(0,0) scale(.5);opacity:1;}
+    100%{transform:translate(var(--bx),var(--by)) scale(0);opacity:0;}
   }
 </style>
 </head>
 <body>
 
-<!-- 像素星星 -->
-<div class="stars" id="stars"></div>
-<!-- 金色光尘 -->
-<div class="dust" id="dust"></div>
+<!-- 自然场景背景 -->
+<div class="nature-scene" id="nature-scene"></div>
 
 <!-- ========== 主页 ========== -->
 <div class="page" id="page-home">
   <div class="container">
-    <div class="corner-decor">
+    <div class="spring-card">
       <h1 class="title">
-        <span class="icon-left">✦</span> Rach的宝盒 <span class="icon-right">✦</span>
+        <span class="icon-left">🌿</span> Rach的宝盒 <span class="icon-right">🌸</span>
       </h1>
-      <div class="divider-ornament"><div class="divider"></div></div>
+      <div class="spring-divider"></div>
     </div>
 
     <div class="btn-group">
-      <button class="pixel-btn btn-emperor" data-id="emperor" id="btn-emperor">
-        <span class="pixel-emperor">
-          <span class="emperor-sprite"></span>
-          小皇帝的评分
-        </span>
+      <button class="nature-btn btn-emperor" data-id="emperor" id="btn-emperor">
+        👑🌸 小皇帝的评分
       </button>
-      <button class="pixel-btn" data-id="B">B</button>
-      <button class="pixel-btn" data-id="C">C</button>
-      <button class="pixel-btn" data-id="D">D</button>
+      <button class="nature-btn" data-id="B">B</button>
+      <button class="nature-btn" data-id="C">C</button>
+      <button class="nature-btn" data-id="D">D</button>
     </div>
 
-    <div class="footer">✦ PRESS START ✦</div>
+    <div class="footer">🌱 春日的宝盒 🌱</div>
   </div>
 </div>
 
 <!-- ========== 输入分数页面 ========== -->
 <div class="page hidden" id="page-input">
   <div class="container">
-    <div class="corner-decor">
-      <div class="input-title">
-        <span class="pixel-emperor">
-          <span class="emperor-sprite"></span>
-          小皇帝的评分
-        </span>
-      </div>
-      <div class="divider-ornament"><div class="divider"></div></div>
+    <div class="spring-card">
+      <div class="input-title">🌸 小皇帝的评分</div>
+      <div class="spring-divider"></div>
       <div class="input-hint">输入你的分数 (0~999)</div>
     </div>
 
@@ -622,51 +774,49 @@
       </div>
     </div>
 
-    <button class="pixel-btn back-btn-sm" id="btn-input-back">◀ 返回宝盒</button>
+    <button class="nature-btn back-btn-sm" id="btn-input-back">◀ 返回宝盒</button>
   </div>
 </div>
 
-<!-- ========== 老虎机展示页面 ========== -->
+<!-- ========== 自然展示台页面 ========== -->
 <div class="page hidden" id="page-slot">
   <div class="container">
-    <div class="corner-decor">
-      <div class="slot-title-bar">
-        <span class="pixel-emperor">
-          <span class="emperor-sprite"></span>
-          小皇帝的评分
-        </span>
-      </div>
-      <div class="divider-ornament"><div class="divider"></div></div>
+    <div class="spring-card">
+      <div class="slot-title-bar">🌸 小皇帝的评分</div>
+      <div class="spring-divider"></div>
     </div>
 
-    <!-- 地面阴影 -->
-    <div class="machine-shadow"></div>
+    <!-- 自然展示台 -->
+    <div class="nature-display" style="width:100%;">
 
-    <!-- ===== 像素街机 ===== -->
-    <div class="arcade-machine">
-
-      <!-- 尖顶 + 耳朵 -->
-      <div class="arcade-top-ears">
-        <div class="arcade-ear"></div>
-        <div class="arcade-ear"></div>
+      <!-- 花冠 -->
+      <div class="floral-crown">
+        <div class="crown-flower"></div>
+        <div class="crown-flower center"></div>
+        <div class="crown-flower"></div>
       </div>
-      <div class="arcade-top-cap"></div>
 
-      <!-- 灯箱 Marquee -->
-      <div class="arcade-marquee">
-        <div class="slot-crown"></div>
+      <!-- 头部: 花苞灯 -->
+      <div class="display-header">
+        <div class="display-header-inner">
+          <div class="header-vine"></div>
+          <div class="header-vine"></div>
+        </div>
         <div class="slot-lights" id="slot-lights-bar">
-          <div class="slot-light" data-li="0"></div><div class="slot-light" data-li="1"></div>
-          <div class="slot-light" data-li="2"></div><div class="slot-light" data-li="3"></div>
-          <div class="slot-light" data-li="4"></div><div class="slot-light" data-li="5"></div>
+          <div class="slot-light" data-li="0"></div>
+          <div class="slot-light" data-li="1"></div>
+          <div class="slot-light" data-li="2"></div>
+          <div class="slot-light" data-li="3"></div>
+          <div class="slot-light" data-li="4"></div>
+          <div class="slot-light" data-li="5"></div>
           <div class="slot-light" data-li="6"></div>
         </div>
       </div>
 
-      <!-- 上半身 — 屏幕 -->
-      <div class="arcade-upper">
-        <div class="arcade-screen-bezel">
-          <div class="arcade-screen">
+      <!-- 屏幕区域 -->
+      <div class="display-body">
+        <div class="display-bezel">
+          <div class="display-screen">
             <div class="reels-wrapper">
               <div class="reel-frame" id="reel-frame-0">
                 <div class="reel-strip" id="reel-strip-0"></div>
@@ -680,95 +830,253 @@
             </div>
           </div>
         </div>
-        <div class="screen-label">S C O R E</div>
+        <div class="display-label">分 数</div>
       </div>
 
-      <!-- 操控台 (外凸) -->
-      <div class="arcade-deck">
-        <div class="arcade-deck-inner">
-          <div class="joy-btn sm"></div>
-          <div class="coin-slot"></div>
-          <div class="joy-btn"></div>
-        </div>
-      </div>
-
-      <!-- 下半身 -->
-      <div class="arcade-lower">
-        <div class="side-art-row">
-          <div class="side-art-pixel"></div>
-          <div class="side-art-pixel"></div>
-        </div>
-        <div class="lower-stripe"></div>
-        <div class="lower-stripe"></div>
+      <!-- 装饰搁板 -->
+      <div class="display-shelf">
+        <div class="shelf-flower sm"></div>
+        <div class="shelf-moss"></div>
+        <div class="shelf-flower"></div>
+        <div class="shelf-moss"></div>
+        <div class="shelf-flower sm"></div>
       </div>
 
       <!-- 底座 -->
-      <div class="arcade-base"></div>
+      <div class="display-base">
+        <div class="wood-grain"></div>
+        <div class="wood-grain"></div>
+        <div class="wood-grain"></div>
+      </div>
 
-    </div>
+      <!-- 底座脚 -->
+      <div class="display-foot"></div>
 
-    <!-- 脚撑 -->
-    <div class="machine-feet">
-      <div class="machine-foot"></div>
-      <div class="machine-foot"></div>
     </div>
 
     <!-- 底部按钮 -->
     <div class="slot-bottom-row">
-      <button class="pixel-btn back-btn-sm" id="btn-slot-back">◀ 返回</button>
-      <button class="pixel-btn retry-btn" id="btn-retry">⟳ 重新打分</button>
+      <button class="nature-btn back-btn-sm" id="btn-slot-back">◀ 返回</button>
+      <button class="nature-btn retry-btn" id="btn-retry">🌿 重新打分</button>
     </div>
   </div>
 </div>
 
-<script>
-  // ===== 生成星空 =====
-  (function() {
-    const starsEl = document.getElementById('stars');
-    let html = '';
-    for (let i = 0; i < 32; i++) {
-      const x = Math.random() * 100; const y = Math.random() * 100;
-      const dur = 2 + Math.random() * 4; const delay = Math.random() * 3;
-      html += `<div class="star" style="left:${x}%;top:${y}%;--dur:${dur}s;--delay:${delay}s;"></div>`;
-    }
-    starsEl.innerHTML = html;
-  })();
+<!-- ========== 小皇帝和情绪 ========== -->
+<div class="page hidden" id="page-emotion">
+  <div class="container">
+    <div class="spring-card">
+      <h1 class="title">
+        <span class="icon-left">🌿</span> 小皇帝和情绪 <span class="icon-right">🌸</span>
+      </h1>
+      <div class="spring-divider"></div>
+    </div>
 
-  // ===== 生成金色光尘 =====
+    <div class="emotion-list" id="emotion-list">
+
+      <div class="emotion-item" data-emotion="happy">
+        <div class="emotion-top">
+          <div class="emotion-bud" style="--emo-color:#FFD54F;--emo-glow:rgba(255,213,79,0.5);"></div>
+          <span class="emotion-label">开心</span>
+          <span class="emotion-value" id="val-happy">50</span>
+        </div>
+        <div class="emotion-slider-wrap">
+          <input type="range" class="emotion-slider" id="slider-happy" min="0" max="100" value="50"
+                 style="--emo-color:#FFD54F;--emo-glow:rgba(255,213,79,0.5);--fill-pct:50%;">
+        </div>
+      </div>
+      <div class="emotion-sep"></div>
+
+      <div class="emotion-item" data-emotion="excited">
+        <div class="emotion-top">
+          <div class="emotion-bud" style="--emo-color:#FFAB91;--emo-glow:rgba(255,171,145,0.5);"></div>
+          <span class="emotion-label">激动</span>
+          <span class="emotion-value" id="val-excited">50</span>
+        </div>
+        <div class="emotion-slider-wrap">
+          <input type="range" class="emotion-slider" id="slider-excited" min="0" max="100" value="50"
+                 style="--emo-color:#FFAB91;--emo-glow:rgba(255,171,145,0.5);--fill-pct:50%;">
+        </div>
+      </div>
+      <div class="emotion-sep"></div>
+
+      <div class="emotion-item" data-emotion="angry">
+        <div class="emotion-top">
+          <div class="emotion-bud" style="--emo-color:#EF5350;--emo-glow:rgba(239,83,80,0.45);"></div>
+          <span class="emotion-label">生气</span>
+          <span class="emotion-value" id="val-angry">50</span>
+        </div>
+        <div class="emotion-slider-wrap">
+          <input type="range" class="emotion-slider" id="slider-angry" min="0" max="100" value="50"
+                 style="--emo-color:#EF5350;--emo-glow:rgba(239,83,80,0.45);--fill-pct:50%;">
+        </div>
+      </div>
+      <div class="emotion-sep"></div>
+
+      <div class="emotion-item" data-emotion="hesitant">
+        <div class="emotion-top">
+          <div class="emotion-bud" style="--emo-color:#BCAAA4;--emo-glow:rgba(188,170,164,0.4);"></div>
+          <span class="emotion-label">犹豫</span>
+          <span class="emotion-value" id="val-hesitant">50</span>
+        </div>
+        <div class="emotion-slider-wrap">
+          <input type="range" class="emotion-slider" id="slider-hesitant" min="0" max="100" value="50"
+                 style="--emo-color:#BCAAA4;--emo-glow:rgba(188,170,164,0.4);--fill-pct:50%;">
+        </div>
+      </div>
+      <div class="emotion-sep"></div>
+
+      <div class="emotion-item" data-emotion="sad">
+        <div class="emotion-top">
+          <div class="emotion-bud" style="--emo-color:#81D4FA;--emo-glow:rgba(129,212,250,0.5);"></div>
+          <span class="emotion-label">忧伤</span>
+          <span class="emotion-value" id="val-sad">50</span>
+        </div>
+        <div class="emotion-slider-wrap">
+          <input type="range" class="emotion-slider" id="slider-sad" min="0" max="100" value="50"
+                 style="--emo-color:#81D4FA;--emo-glow:rgba(129,212,250,0.5);--fill-pct:50%;">
+        </div>
+      </div>
+      <div class="emotion-sep"></div>
+
+      <div class="emotion-item" data-emotion="worried">
+        <div class="emotion-top">
+          <div class="emotion-bud" style="--emo-color:#B39DDB;--emo-glow:rgba(179,157,219,0.5);"></div>
+          <span class="emotion-label">担忧</span>
+          <span class="emotion-value" id="val-worried">50</span>
+        </div>
+        <div class="emotion-slider-wrap">
+          <input type="range" class="emotion-slider" id="slider-worried" min="0" max="100" value="50"
+                 style="--emo-color:#B39DDB;--emo-glow:rgba(179,157,219,0.5);--fill-pct:50%;">
+        </div>
+      </div>
+      <div class="emotion-sep"></div>
+
+      <div class="emotion-item" data-emotion="love">
+        <div class="emotion-top">
+          <div class="emotion-bud" style="--emo-color:#F8BBD0;--emo-glow:rgba(248,187,208,0.5);"></div>
+          <span class="emotion-label">喜欢</span>
+          <span class="emotion-value" id="val-love">50</span>
+        </div>
+        <div class="emotion-slider-wrap">
+          <input type="range" class="emotion-slider" id="slider-love" min="0" max="100" value="50"
+                 style="--emo-color:#F8BBD0;--emo-glow:rgba(248,187,208,0.5);--fill-pct:50%;">
+        </div>
+      </div>
+
+    </div>
+
+    <button class="nature-btn back-btn-sm" id="btn-emotion-back">◀ 返回宝盒</button>
+  </div>
+</div>
+
+<script>
+  // ===== 生成自然场景 =====
   (function() {
-    const dustEl = document.getElementById('dust');
+    const scene = document.getElementById('nature-scene');
     let html = '';
-    for (let i = 0; i < 18; i++) {
-      const x = Math.random() * 100; const dur = 6 + Math.random() * 10;
-      const delay = Math.random() * 8;
-      html += `<div class="dust-particle" style="left:${x}%;bottom:-10px;--fdur:${dur}s;--fdelay:${delay}s;"></div>`;
+
+    // 白云 — 4朵
+    for (let i = 0; i < 4; i++) {
+      const top = 5 + Math.random() * 28;
+      const dur = 22 + Math.random() * 26;
+      const delay = Math.random() * 20;
+      const w = 50 + Math.random() * 45;
+      html += `<div class="cloud" style="top:${top}%;left:-120px;--cdur:${dur}s;animation-delay:${delay}s;width:${w}px;"></div>`;
     }
-    dustEl.innerHTML = html;
+
+    // 远山 — 3层
+    html += `<div class="hill hill-back"></div>`;
+    html += `<div class="hill hill-mid"></div>`;
+    html += `<div class="hill hill-front"></div>`;
+
+    // 树木 — 2棵
+    const treePositions = [
+      { style:'left:3%;right:auto;bottom:16vh', dur:4.5, delay:0 },
+      { style:'left:auto;right:2%;bottom:15vh', dur:5.5, delay:1.2 }
+    ];
+    treePositions.forEach((pos, i) => {
+      html += `<div class="tree" style="${pos.style};--tsway:${pos.dur}s;--tdelay:${pos.delay}s;">
+        <div class="tree-canopy"></div>
+        <div class="tree-trunk"></div>
+      </div>`;
+    });
+
+    // 草叶 — 40根
+    for (let i = 0; i < 40; i++) {
+      const x = Math.random() * 100;
+      const h = 20 + Math.random() * 50;
+      const dur = 2.5 + Math.random() * 4;
+      const delay = Math.random() * 3;
+      const greens = ['#9CCC65','#8BC34A','#7CB342','#AED581','#689F38'];
+      const gc = greens[Math.floor(Math.random() * greens.length)];
+      html += `<div class="grass-blade" style="left:${x}%;--gh:${h}px;--gc:${gc};--sdur:${dur}s;--sdelay:${delay}s;"></div>`;
+    }
+
+    // 落叶 — 28片
+    for (let i = 0; i < 28; i++) {
+      const x = Math.random() * 96;
+      const dur = 7 + Math.random() * 11;
+      const delay = Math.random() * 13;
+      const drift = -50 + Math.random() * 100;
+      const rot = Math.random() * 360;
+      const leafColors = ['#7CB342','#8BC34A','#9CCC65','#689F38','#F8BBD0','#F48FB1','#FFD54F'];
+      const lc = leafColors[Math.floor(Math.random() * leafColors.length)];
+      html += `<div class="falling-leaf" style="left:${x}%;--lc:${lc};--fdur:${dur}s;--fdelay:${delay}s;--ldrift:${drift}px;--lrot:${rot}deg;"></div>`;
+    }
+
+    // 花瓣 — 12片
+    for (let i = 0; i < 12; i++) {
+      const x = Math.random() * 94;
+      const dur = 11 + Math.random() * 14;
+      const delay = Math.random() * 16;
+      const drift = 30 + Math.random() * 90;
+      const rot = Math.random() * 60;
+      const petalColors = ['#F8BBD0','#F48FB1','#FFD54F','#FFF9C4'];
+      const pc = petalColors[Math.floor(Math.random() * petalColors.length)];
+      html += `<div class="floating-petal" style="left:${x}%;--pc:${pc};--pdur:${dur}s;--pdelay:${delay}s;--pdrift:${drift}px;--prot:${rot}deg;"></div>`;
+    }
+
+    // 草地小花 — 15朵
+    const flowerColors = ['#FFF','#FFF9C4','#F8BBD0','#FFD54F','#FCE4EC'];
+    for (let i = 0; i < 15; i++) {
+      const x = 2 + Math.random() * 96;
+      const fy = 3 + Math.random() * 14;
+      const fdur = 3 + Math.random() * 4;
+      const fdelay = Math.random() * 5;
+      const fc = flowerColors[Math.floor(Math.random() * flowerColors.length)];
+      html += `<div class="meadow-flower" style="left:${x}%;--mfy:${fy}px;--mfc:${fc};--mfdur:${fdur}s;--mfdelay:${fdelay}s;"></div>`;
+    }
+
+    scene.innerHTML = html;
   })();
 
   // ===== 页面导航 =====
   const pageHome  = document.getElementById('page-home');
   const pageInput = document.getElementById('page-input');
   const pageSlot  = document.getElementById('page-slot');
+  const pageEmotion = document.getElementById('page-emotion');
   let currentScore = 0;
 
   function hideAll() {
     pageHome.classList.add('hidden');
     pageInput.classList.add('hidden');
     pageSlot.classList.add('hidden');
+    pageEmotion.classList.add('hidden');
   }
 
-  function goHome()    { hideAll(); pageHome.classList.remove('hidden'); }
-  function goInput()   { hideAll(); pageInput.classList.remove('hidden'); resetInput(); }
-  function goSlot(sc)  { hideAll(); pageSlot.classList.remove('hidden'); startSlotShow(sc); }
+  function goHome()  { hideAll(); pageHome.classList.remove('hidden'); }
+  function goInput() { hideAll(); pageInput.classList.remove('hidden'); resetInput(); }
+  function goSlot(sc) { hideAll(); pageSlot.classList.remove('hidden'); startSlotShow(sc); }
+  function goEmotion() { hideAll(); pageEmotion.classList.remove('hidden'); }
 
-  // ===== 像素波纹 =====
+  // ===== 波纹 =====
   function createRipple(e) {
     const t = e.currentTarget.getBoundingClientRect();
     const cx = e.clientX || (t.left + t.width/2);
     const cy = e.clientY || (t.top + t.height/2);
     const r = document.createElement('div'); r.className='ripple';
-    r.style.left=(cx-8)+'px'; r.style.top=(cy-8)+'px';
+    r.style.left=(cx-10)+'px'; r.style.top=(cy-10)+'px';
     document.body.appendChild(r);
     r.addEventListener('animationend',()=>r.remove());
   }
@@ -776,18 +1084,17 @@
   function vibrate(ms) { if(navigator.vibrate) navigator.vibrate(ms); }
 
   // ===== 主页按钮 =====
-  document.querySelectorAll('#page-home .pixel-btn').forEach(btn => {
+  document.querySelectorAll('#page-home .nature-btn').forEach(btn => {
     btn.addEventListener('click', function(e) {
       const id = this.dataset.id;
       createRipple(e); vibrate(30);
       if (id === 'emperor') goInput();
+      else if (id === 'B') goEmotion();
       else console.log(`[宝盒] 按钮 ${id} 被点击`);
     });
   });
 
-  // ===========================================================
-  //  输入分数页面逻辑
-  // ===========================================================
+  // ===== 输入分数页面逻辑 =====
   const inputDisplay = document.getElementById('input-display');
   let inputBuf = '0';
 
@@ -822,9 +1129,7 @@
     createRipple(e); vibrate(20); goHome();
   });
 
-  // ===========================================================
-  //  老虎机展示页面逻辑
-  // ===========================================================
+  // ===== 老虎机展示逻辑 =====
   const ITEM_HEIGHT = 46;
   const ITEMS_PER_CYCLE = 10;
   const STRIP_REPEATS = 10;
@@ -867,23 +1172,17 @@
     });
     reelStrips.forEach(s => { s.style.transition = 'none'; s.style.transform = 'translateY(0px)'; });
     reelFrames.forEach(f => { f.classList.remove('spinning', 'landed'); });
-    // 重置灯条
     slotLightsBar.classList.remove('chasing');
     slotLights.forEach(l => l.classList.remove('lit'));
   }
 
   function startSlotShow(score) {
     resetReels();
-
-    // 短暂延迟后自动开始旋转
-    setTimeout(() => {
-      runSpin(score);
-    }, 400);
+    setTimeout(() => { runSpin(score); }, 400);
   }
 
   function runSpin(score) {
     isSpinning = true;
-    // 跑马灯追逐
     slotLightsBar.classList.add('chasing');
     slotLights.forEach(l => l.classList.remove('lit'));
     const digits = String(score).padStart(3, '0').split('').map(Number);
@@ -909,13 +1208,11 @@
         const stopTime = SPIN_DURATION + i * REEL_STOP_GAP;
 
         if (elapsed < stopTime) {
-          // 高速阶段 - 逐渐加速
           const rampUp = Math.min(1, elapsed / 600);
           reel.position += reel.speed * (0.6 + 0.4 * rampUp);
           const dp = ((Math.floor(reel.position) % TOTAL_ITEMS) + TOTAL_ITEMS) % TOTAL_ITEMS;
           reelStrips[i].style.transform = `translateY(-${dp * ITEM_HEIGHT}px)`;
         } else if (!reel._decelStarted) {
-          // 开始减速
           reel._decelStarted = true;
           reel._decelFrom = reel.position;
           reel._decelStartTime = now;
@@ -923,16 +1220,14 @@
           const cur = ((Math.floor(reel.position) % ITEMS_PER_CYCLE) + ITEMS_PER_CYCLE) % ITEMS_PER_CYCLE;
           let adv = reel.finalTarget - cur;
           if (adv <= 0) adv += ITEMS_PER_CYCLE;
-          adv += (2 + i) * ITEMS_PER_CYCLE; // 多转圈数逐级增加
+          adv += (2 + i) * ITEMS_PER_CYCLE;
 
           reel._decelTarget = Math.floor(reel.position) + adv;
           reel._decelDist = reel._decelTarget - reel.position;
           reel._decelDuration = 550 + i * 120;
         } else {
-          // 减速动画
           const dt = now - reel._decelStartTime;
           const t = Math.min(1, dt / reel._decelDuration);
-          // easeOutQuart - 更平滑的减速
           const eased = 1 - Math.pow(1 - t, 4);
           const pos = reel._decelFrom + reel._decelDist * eased;
           const dp = ((Math.floor(pos) % TOTAL_ITEMS) + TOTAL_ITEMS) % TOTAL_ITEMS;
@@ -947,8 +1242,8 @@
             reelFrames[i].classList.remove('spinning');
             reelFrames[i].classList.add('landed');
             vibrate(12);
-            spawnGoldBurst(reelFrames[i]);
-            setTimeout(() => reelFrames[i].classList.remove('landed'), 400);
+            spawnPetalBurst(reelFrames[i]);
+            setTimeout(() => reelFrames[i].classList.remove('landed'), 500);
           }
         }
       });
@@ -959,10 +1254,8 @@
         isSpinning = false;
         cancelAnimationFrame(animFrameId);
         animFrameId = null;
-        // 跑马灯停止 → 按分数比例点灯
         slotLightsBar.classList.remove('chasing');
         settleLights(score);
-        // 最终震动
         setTimeout(() => vibrate([15, 30, 15]), 200);
       }
     }
@@ -970,39 +1263,39 @@
     animFrameId = requestAnimationFrame(animate);
   }
 
-  // 金色粒子爆发
-  function spawnGoldBurst(el) {
+  // 花瓣爆发
+  function spawnPetalBurst(el) {
     const rect = el.getBoundingClientRect();
     const cx = rect.left + rect.width / 2;
     const cy = rect.top + rect.height / 2;
-    for (let i = 0; i < 10; i++) {
-      const angle = (Math.PI * 2 * i) / 10 + Math.random() * 0.3;
-      const dist = 20 + Math.random() * 30;
+    const colors = ['#F8BBD0','#F48FB1','#FFD54F','#FFF9C4','#DCEDC8','#FFAB91'];
+    for (let i = 0; i < 14; i++) {
+      const angle = (Math.PI * 2 * i) / 14 + Math.random() * 0.3;
+      const dist = 22 + Math.random() * 35;
       const bx = Math.cos(angle) * dist;
       const by = Math.sin(angle) * dist;
       const particle = document.createElement('div');
-      particle.className = 'gold-burst';
-      particle.style.left = (cx - 3) + 'px';
-      particle.style.top = (cy - 3) + 'px';
+      particle.className = 'petal-burst';
+      particle.style.left = (cx - 5) + 'px';
+      particle.style.top = (cy - 5) + 'px';
       particle.style.setProperty('--bx', bx + 'px');
       particle.style.setProperty('--by', by + 'px');
-      particle.style.animationDuration = (0.4 + Math.random() * 0.4) + 's';
+      particle.style.setProperty('--br', (Math.random() * 360) + 'deg');
+      particle.style.setProperty('--pbdur', (0.5 + Math.random() * 0.5) + 's');
+      particle.style.setProperty('--pbc', colors[Math.floor(Math.random() * colors.length)]);
       document.body.appendChild(particle);
       particle.addEventListener('animationend', () => particle.remove());
     }
   }
 
-  // 按分数比例点灯 (0~999)
+  // 按分数比例点灯 (0~999 → 0~7盏)
   function settleLights(score) {
-    const totalLights = slotLights.length; // 7
+    const totalLights = slotLights.length;
     const ratio = Math.min(1, Math.max(0, score / 999));
     const litCount = Math.round(ratio * totalLights);
     slotLights.forEach((light, i) => {
-      if (i < litCount) {
-        light.classList.add('lit');
-      } else {
-        light.classList.remove('lit');
-      }
+      if (i < litCount) light.classList.add('lit');
+      else light.classList.remove('lit');
     });
   }
 
@@ -1019,10 +1312,70 @@
     goInput();
   });
 
-  // ===== 全局 esc / 右滑 返回？ 不用，保持简单 =====
-
   // ===== 初始化 =====
   buildReelStrips();
+
+  // ===========================================================
+  //  小皇帝和情绪 — 滑动交互
+  // ===========================================================
+
+  const emotionColors = {
+    happy:'#FFD54F', excited:'#FFAB91', angry:'#EF5350',
+    hesitant:'#BCAAA4', sad:'#81D4FA', worried:'#B39DDB', love:'#F8BBD0'
+  };
+
+  function spawnEmoParticles(el, color) {
+    const rect = el.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    for (let i = 0; i < 8; i++) {
+      const angle = (Math.PI*2*i)/8 + Math.random()*0.3;
+      const dist = 14 + Math.random()*22;
+      const p = document.createElement('div');
+      p.className = 'emo-particle';
+      p.style.left = (cx-4)+'px'; p.style.top = (cy-4)+'px';
+      p.style.setProperty('--bx', Math.cos(angle)*dist+'px');
+      p.style.setProperty('--by', Math.sin(angle)*dist+'px');
+      p.style.setProperty('--ep', color);
+      p.style.animationDuration = (0.35+Math.random()*0.3)+'s';
+      document.body.appendChild(p);
+      p.addEventListener('animationend',()=>p.remove());
+    }
+  }
+
+  document.querySelectorAll('.emotion-slider').forEach(slider=>{
+    const item = slider.closest('.emotion-item');
+    const key = item.dataset.emotion;
+    const color = emotionColors[key];
+    const valSpan = document.getElementById('val-'+key);
+    const bud = item.querySelector('.emotion-bud');
+    let dragging = false;
+
+    slider.addEventListener('input', ()=>{
+      const v = parseInt(slider.value,10);
+      slider.style.setProperty('--fill-pct', v+'%');
+      valSpan.textContent = v;
+      valSpan.style.color = v>70 ? color : '#8D6E63';
+      const glow = Math.round(v*0.25);
+      item.querySelector('.emotion-label').style.textShadow =
+        '0 0 '+glow+'px '+color;
+      if (dragging && v%4===0) spawnEmoParticles(slider, color);
+    });
+
+    function start(){ dragging=true; item.classList.add('active'); bud.classList.add('pulse'); spawnEmoParticles(slider,color); }
+    function end(){ dragging=false; item.classList.remove('active'); bud.classList.remove('pulse'); setTimeout(()=>spawnEmoParticles(slider,color),80); }
+
+    slider.addEventListener('mousedown', start);
+    slider.addEventListener('touchstart', start, {passive:true});
+    slider.addEventListener('mouseup', end);
+    slider.addEventListener('touchend', end);
+    slider.addEventListener('touchcancel', end);
+    slider.addEventListener('mouseleave', ()=>{ if(dragging) end(); });
+  });
+
+  document.getElementById('btn-emotion-back').addEventListener('click', function(e){
+    createRipple(e); vibrate(20); goHome();
+  });
 </script>
 
 </body>
