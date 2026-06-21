@@ -6,205 +6,82 @@
 <title>Rach的宝盒</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+  /* ===== 樱花色彩变量 ===== */
+  :root {
+    --bg-base:    #fdf2f5;
+    --bg-deep:    #f8e4ea;
+    --surface:    rgba(255, 248, 250, 0.88);
+    --surface2:   rgba(255, 242, 246, 0.92);
+    --text:       #4a2530;
+    --text-light: #7a5560;
+    --text-muted: #a8808a;
+    --accent:     #e8909a;
+    --accent2:    #f0a8b0;
+    --accent-deep:#d4748c;
+    --dot-pink:   #c4627a;
+    --line-pink:  #d48498;
+    --rose:       #c8506a;
+    --rose-light: #e8a0a8;
+    --blush:      #f8d0d8;
+    --cream:      #fff8f5;
+    --shadow-sm:  0 2px 12px rgba(180, 90, 110, 0.08);
+    --shadow-md:  0 6px 28px rgba(180, 90, 110, 0.12);
+    --shadow-lg:  0 12px 40px rgba(160, 70, 90, 0.15);
+    --radius-sm:  14px;
+    --radius-md:  22px;
+    --radius-lg:  30px;
+  }
+
   body {
-    background: #0c0c16;
+    background: var(--bg-base);
     min-height: 100vh; min-height: 100dvh;
     display: flex; align-items: center; justify-content: center;
-    font-family: 'Press Start 2P', monospace;
+    font-family: 'Noto Serif SC', 'ZCOOL XiaoWei', serif;
     overflow-x: hidden; user-select: none; -webkit-user-select: none;
-    image-rendering: pixelated; image-rendering: crisp-edges;
   }
 
-  /* ===== 颜色变量 ===== */
-  :root {
-    --g0: #0c0c16; --g1: #181828; --g2: #242438; --g3: #303048;
-    --g4: #3c3c58; --g5: #484868; --g6: #585878; --g7: #707090; --gl: #8888a8;
-    --b0: #0d0812; --b1: #1c142a; --b2: #2c2040; --b3: #3c2c50; --b4: #4c3860;
-    --sky: #0a0a1a; --ui: #f0e4c8; --ui2: #e0d4b8; --uid: #3c2c50;
-    --gold: #d8a030; --gold2: #f0c840; --pink: #c84050; --pink2: #e06070;
-    --px: 4px;
-  }
-
-  /* ===== 场景容器 ===== */
-  .nature-scene { position:fixed; inset:0; pointer-events:none; z-index:0; }
-
-  /* ===== 像素树冠天花板 ===== */
-  .px-canopy { position:fixed; pointer-events:none; z-index:4; }
-  .px-canopy::after {
-    content:''; display:block; width:4px; height:4px;
-    box-shadow: var(--cs);
-  }
-  @keyframes canopyBob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-2px)} }
-
-  /* ===== 像素树干 ===== */
-  .px-tree { position:fixed; bottom:0; z-index:1; transform-origin:bottom center; }
-  .px-tree .trunk {
-    margin:0 auto;
-    background: var(--tb, #2c2040);
-    image-rendering: pixelated;
-  }
-  .px-tree .trunk::after {
-    content:''; display:block; width:4px; height:4px; position:relative;
-    top:var(--ctop, -20px); left:50%; transform:translateX(-50%);
-    box-shadow: var(--cshadow);
-  }
-  @keyframes pxSway {
-    0%,100% { transform:skewX(-0.4deg); }
-    25%     { transform:skewX(0.3deg); }
-    50%     { transform:skewX(0.6deg); }
-    75%     { transform:skewX(0.2deg); }
-  }
-
-  /* ===== 像素草地 ===== */
-  .px-grass-cont { position:fixed; bottom:0; left:0; right:0; height:30px; z-index:3; pointer-events:none; }
-  .px-grass-cont::after {
-    content:''; display:block; width:4px; height:4px;
-    box-shadow: var(--gs);
-  }
-  @keyframes pxGrass {
-    0%,100% { transform:skewX(-1deg); }
-    50%     { transform:skewX(1.5deg); }
-  }
-
-  /* ===== 像素落叶 ===== */
-  .px-leaf {
-    position:fixed; pointer-events:none; z-index:2;
-    width:6px; height:6px;
-    background: var(--lc, #e09820);
-    image-rendering: pixelated;
-    opacity:0;
-    animation: pxLeafFall var(--fdur, 8s) steps(8) infinite;
-    animation-delay: var(--fdelay, 0s);
-  }
-  @keyframes pxLeafFall {
-    0%   { transform:translateY(-6vh) translateX(0) rotate(0deg); opacity:0; }
-    5%   { opacity:0.9; }
-    40%  { transform:translateY(45vh) translateX(var(--ldx, 30px)) rotate(120deg); opacity:0.8; }
-    75%  { transform:translateY(78vh) translateX(calc(var(--ldx, 30px) * -0.5)) rotate(250deg); opacity:0.4; }
-    95%  { opacity:0.1; }
-    100% { transform:translateY(105vh) translateX(var(--ldx, 30px)) rotate(360deg); opacity:0; }
-  }
-
-  /* ===== 像素花瓣 ===== */
-  .px-petal {
-    position:fixed; pointer-events:none; z-index:2;
-    width:5px; height:5px;
-    background: var(--pc, #f0c040);
-    image-rendering: pixelated;
-    opacity:0;
-    animation: pxPetalDrift var(--pdur, 12s) steps(10) infinite;
-    animation-delay: var(--pdelay, 0s);
-  }
-  @keyframes pxPetalDrift {
-    0%   { transform:translate(0, -5vh) rotate(0deg); opacity:0; }
-    8%   { opacity:0.8; }
-    50%  { transform:translate(var(--pdx, 50px), 55vh) rotate(180deg); opacity:0.6; }
-    85%  { opacity:0.25; }
-    100% { transform:translate(calc(var(--pdx, 50px) * 1.5), 108vh) rotate(340deg); opacity:0; }
-  }
-
-  /* ===== 像素花朵 ===== */
-  .px-flower {
-    position:fixed; bottom:var(--fy, 12px); z-index:3; pointer-events:none;
-    width:4px; height:4px;
-    box-shadow: var(--fs);
-    animation: pxFlower var(--fdur, 3s) steps(4) infinite;
-    animation-delay: var(--fdelay, 0s);
-  }
-  @keyframes pxFlower {
-    0%,100%{transform:rotate(-3deg)}
-    50%{transform:rotate(3deg)}
-  }
-
-  /* ===== 像素灌木 ===== */
-  .px-bush {
-    position:fixed; pointer-events:none; z-index:3;
-  }
-  .px-bush::after {
-    content:''; display:block; width:4px; height:4px;
-    box-shadow: var(--bs);
-  }
-  @keyframes pxBushBob {
-    0%,100%{transform:translateY(0)}
-    50%{transform:translateY(-2px)}
-  }
-
-  /* ===== 像素藤曼 ===== */
-  .px-vine {
-    position:fixed; pointer-events:none; z-index:3;
-    width:2px;
-    background: linear-gradient(180deg, #4c1840 0%, #6b2060 60%, #8b3070 100%);
-    image-rendering: pixelated;
-    animation: pxVineSway var(--vdur, 5s) steps(4) infinite;
-    animation-delay: var(--vdelay, 0s);
-    transform-origin: top center;
-  }
-  .px-vine::after {
-    content:''; display:block; width:4px; height:4px; position:absolute;
-    bottom:0; left:-1px;
-    box-shadow: var(--vleaf);
-  }
-  @keyframes pxVineSway {
-    0%,100%{transform:rotate(-1deg)}
-    50%{transform:rotate(1.5deg)}
-  }
-
-  /* ===== 像素花茎（更高花朵） ===== */
-  .px-tall-flower {
-    position:fixed; pointer-events:none; z-index:3;
-    bottom: var(--tfy, 8px);
-    animation: pxFlower var(--tfdur, 3s) steps(4) infinite;
-    animation-delay: var(--tfdelay, 0s);
-    transform-origin: bottom center;
-  }
-  .px-tall-flower::before {
-    content:''; display:block; width:3px; height:var(--stem, 24px);
-    background: #3c2848;
-    margin:0 auto;
-    image-rendering: pixelated;
-  }
-  .px-tall-flower::after {
-    content:''; display:block; width:4px; height:4px;
-    box-shadow: var(--tfs);
+  /* ===== 纹理背景 Canvas ===== */
+  #texture-canvas {
+    position: fixed; inset: 0; z-index: 0;
+    pointer-events: none; opacity: 0.85;
   }
 
   /* ===== 页面容器 ===== */
   .page { position:relative; z-index:10; width:100%; display:flex; flex-direction:column; align-items:center; }
   .page.hidden { display:none; }
-  .container { width:100%; max-width:390px; padding:20px 14px; display:flex; flex-direction:column; align-items:center; gap:16px; }
+  .container { width:100%; max-width:390px; padding:20px 14px; display:flex; flex-direction:column; align-items:center; gap:18px; }
 
-  /* ===== 像素卡片 ===== */
+  /* ===== 卡片 ===== */
   .px-card {
     position:relative; width:100%; display:flex; flex-direction:column; align-items:center;
-    gap:12px; padding:24px 16px 20px;
-    background: var(--ui);
-    border: none;
-    border-radius: 0;
-    box-shadow:
-      0 0 0 3px var(--uid),
-      0 0 0 6px var(--b3),
-      0 0 0 9px var(--uid),
-      6px 6px 0 0 rgba(0,0,0,0.25);
-    image-rendering: pixelated;
+    gap:14px; padding:28px 20px 24px;
+    background: var(--surface);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(220, 160, 170, 0.25);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    transition: box-shadow .4s ease;
   }
 
   /* ===== 标题 ===== */
   .px-title {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 14px; color: #f0d8a0;
-    text-align: center; line-height: 1.8; letter-spacing: 1px;
-    text-shadow: 2px 2px 0 rgba(0,0,0,0.08);
+    font-family: 'ZCOOL XiaoWei', 'Noto Serif SC', serif;
+    font-size: 18px; color: var(--text);
+    text-align: center; line-height: 1.8; letter-spacing: 4px;
+    font-weight: 400;
   }
 
-  /* ===== 像素分割线 ===== */
+  /* ===== 分割线 ===== */
   .px-divider {
-    width: 80%; height: 4px;
-    background: var(--g3);
-    box-shadow: 0 4px 0 var(--g1), 0 8px 0 var(--g2);
-    image-rendering: pixelated;
+    width: 60%; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent2), var(--accent), var(--accent2), transparent);
+    border-radius: 1px;
+    opacity: 0.6;
   }
 
   /* ===== 按钮组 ===== */
@@ -212,65 +89,65 @@
 
   .px-btn {
     position:relative; display:flex; align-items:center; justify-content:center;
-    width:100%; padding:16px 0;
-    font-family:'Press Start 2P', monospace; font-size:11px;
-    color: #2c1a10;
-    background: var(--ui2);
-    border: none; border-radius: 0;
-    cursor: pointer; letter-spacing: 1px; outline: none;
-    box-shadow:
-      0 0 0 2px var(--uid),
-      0 0 0 4px var(--b3),
-      0 6px 0 0 var(--b2),
-      0 6px 0 2px var(--uid);
-    transition: transform .05s, box-shadow .05s;
-    image-rendering: pixelated;
+    width:100%; padding:17px 0;
+    font-family: 'Noto Serif SC', serif; font-size:14px; font-weight: 500;
+    color: var(--text);
+    background: var(--surface2);
+    border: 1px solid rgba(210, 150, 160, 0.3);
+    border-radius: var(--radius-md);
+    cursor: pointer; letter-spacing: 3px; outline: none;
+    box-shadow: var(--shadow-sm);
+    transition: all .25s cubic-bezier(.4,0,.2,1);
+    overflow: hidden;
   }
+  .px-btn::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(232,144,154,0.12), rgba(240,168,176,0.06));
+    opacity: 0; transition: opacity .25s;
+  }
+  .px-btn:hover::after { opacity: 1; }
   .px-btn:active {
-    transform: translateY(4px);
-    box-shadow:
-      0 0 0 2px var(--uid),
-      0 0 0 4px var(--b3),
-      0 2px 0 0 var(--b2),
-      0 2px 0 2px var(--uid);
+    transform: scale(0.97);
+    box-shadow: 0 1px 6px rgba(180, 90, 110, 0.06);
+    background: var(--blush);
   }
 
-  /* 皇帝按钮 - 金色像素 */
+  /* 皇帝按钮 - 玫瑰金色 */
   .px-btn-emperor {
-    background: #f8e8b8;
-    color: #2c1a10;
-    box-shadow:
-      0 0 0 2px #6b3808,
-      0 0 0 4px var(--gold),
-      0 6px 0 0 #6b3808,
-      0 6px 0 2px #6b3808;
+    background: linear-gradient(135deg, #fef5f5, #fde8ec, #fce0e6);
+    color: var(--rose);
+    font-size: 15px; font-weight: 600; letter-spacing: 5px;
+    border: 1.5px solid rgba(200, 80, 106, 0.3);
+    box-shadow: 0 4px 20px rgba(190, 80, 110, 0.12);
+  }
+  .px-btn-emperor::after {
+    background: linear-gradient(135deg, rgba(200,80,106,0.1), rgba(220,120,140,0.05));
   }
   .px-btn-emperor:active {
-    box-shadow:
-      0 0 0 2px #6b3808,
-      0 0 0 4px var(--gold),
-      0 2px 0 0 #6b3808,
-      0 2px 0 2px #6b3808;
+    background: linear-gradient(135deg, #fde8ec, #fad8e0);
+    box-shadow: 0 2px 10px rgba(180, 70, 100, 0.08);
   }
 
   /* ===== 底部信息 ===== */
   .px-footer {
-    margin-top:4px; font-family:'Press Start 2P', monospace;
-    font-size:9px; color: #9088a8; text-align:center; letter-spacing:1px;
-    animation: pxBlink 2.5s steps(1) infinite;
+    margin-top:6px; font-family: 'Noto Serif SC', serif;
+    font-size: 11px; color: var(--text-muted); text-align:center; letter-spacing:4px;
+    animation: softPulse 3s ease-in-out infinite;
+    font-weight: 300;
   }
-  @keyframes pxBlink { 0%,100%{opacity:0.5} 50%{opacity:1} }
+  @keyframes softPulse { 0%,100%{opacity:0.5} 50%{opacity:0.85} }
 
   /* ===== 波纹 ===== */
   .ripple {
-    position:fixed; width:16px; height:16px;
-    background: rgba(216,160,48,0.4); pointer-events:none; z-index:99;
-    animation: rippleOut .4s steps(6) forwards;
-    image-rendering: pixelated;
+    position:fixed; width:20px; height:20px;
+    border-radius: 50%;
+    background: rgba(200, 80, 106, 0.18);
+    pointer-events:none; z-index:99;
+    animation: rippleOut .5s cubic-bezier(.4,0,.2,1) forwards;
   }
   @keyframes rippleOut {
-    0%{transform:scale(0.5);opacity:.8}
-    100%{transform:scale(4);opacity:0}
+    0%{transform:scale(0.3);opacity:.7}
+    100%{transform:scale(5);opacity:0}
   }
 
   /* ============================================ */
@@ -278,416 +155,463 @@
   /* ============================================ */
 
   .px-input-title {
-    font-family:'Press Start 2P', monospace; font-size:12px;
-    color: #f0d8a0; text-align:center; letter-spacing:1px;
+    font-family: 'ZCOOL XiaoWei', 'Noto Serif SC', serif;
+    font-size: 15px; color: var(--text); text-align:center; letter-spacing:4px; font-weight: 400;
   }
   .px-input-hint {
-    font-size:9px; color: var(--b3); text-align:center; letter-spacing:1px;
-    font-family:'Press Start 2P', monospace;
+    font-size: 11px; color: var(--text-muted); text-align:center; letter-spacing:2px;
+    font-family: 'Noto Serif SC', serif; font-weight: 300;
   }
 
   /* 分数显示框 */
   .px-input-box {
     width:100%;
-    background: var(--ui);
-    border: none;
-    padding:14px;
-    box-shadow:
-      0 0 0 3px var(--uid),
-      0 0 0 6px var(--b3),
-      0 0 0 9px var(--uid);
-    image-rendering: pixelated;
+    background: var(--surface);
+    border: 1px solid rgba(210, 150, 160, 0.2);
+    border-radius: var(--radius-md);
+    padding:16px;
+    box-shadow: var(--shadow-sm);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
   .px-input-display {
-    font-family:'Press Start 2P', monospace; font-size:32px;
-    color: #f0d8a0;
-    background: var(--ui2);
-    border: none;
-    box-shadow:
-      inset 0 0 0 2px var(--b2),
-      inset 0 0 0 4px var(--ui);
-    padding:16px; text-align:center;
-    margin-bottom:14px; letter-spacing:3px;
-    image-rendering: pixelated;
+    font-family: 'ZCOOL XiaoWei', 'Noto Serif SC', serif;
+    font-size: 36px; font-weight: 400;
+    color: var(--text);
+    background: var(--surface2);
+    border: 1px solid rgba(210, 150, 160, 0.15);
+    border-radius: var(--radius-sm);
+    padding:18px; text-align:center;
+    margin-bottom:16px; letter-spacing:6px;
+    box-shadow: inset 0 2px 8px rgba(180, 100, 120, 0.06);
   }
 
   /* 数字键盘 */
-  .px-numpad { display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; }
+  .px-numpad { display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; }
 
   .px-key {
-    font-family:'Press Start 2P', monospace; font-size:16px;
-    color: #2c1a10;
-    background: var(--ui2);
-    border: none;
-    padding:14px 0; cursor:pointer; text-align:center;
-    box-shadow:
-      0 0 0 2px var(--uid),
-      0 4px 0 0 var(--b2),
-      0 4px 0 2px var(--uid);
-    transition:transform .04s, box-shadow .04s; outline:none;
-    image-rendering: pixelated;
+    font-family: 'Noto Serif SC', serif; font-size: 18px; font-weight: 500;
+    color: var(--text);
+    background: var(--surface2);
+    border: 1px solid rgba(210, 150, 160, 0.2);
+    border-radius: var(--radius-sm);
+    padding:15px 0; cursor:pointer; text-align:center;
+    box-shadow: var(--shadow-sm);
+    transition: all .15s cubic-bezier(.4,0,.2,1); outline:none;
   }
   .px-key:active {
-    transform:translateY(3px);
-    box-shadow: 0 0 0 2px var(--uid), 0 1px 0 0 var(--b2), 0 1px 0 2px var(--uid);
+    transform: scale(0.94);
+    background: var(--blush);
+    box-shadow: 0 1px 4px rgba(180, 90, 110, 0.04);
   }
   .px-key-del {
-    font-size:10px; background: #c84050; color: #fff;
-    box-shadow: 0 0 0 2px #802030, 0 4px 0 0 #802030, 0 4px 0 2px #802030;
+    font-size: 12px; background: #fde8ec; color: var(--rose);
+    border-color: rgba(200, 80, 106, 0.25);
   }
+  .px-key-del:active { background: #fad4dc; }
   .px-key-go {
-    font-size:12px;
-    background: #c86030; color: #fff;
-    box-shadow:
-      0 0 0 2px #803018,
-      0 4px 0 0 #803018,
-      0 4px 0 2px #803018,
-      0 0 12px rgba(216,96,48,0.4);
+    font-size: 14px; font-weight: 600;
+    background: linear-gradient(135deg, #fef0f2, #fde4e8);
+    color: var(--rose);
+    border-color: rgba(200, 80, 106, 0.35);
+    box-shadow: 0 4px 16px rgba(200, 80, 106, 0.1);
+    letter-spacing: 2px;
   }
+  .px-key-go:active { background: linear-gradient(135deg, #fde4e8, #fad4dc); }
 
   /* 输入页底部按钮 */
   .px-input-bottom { display:flex; gap:10px; width:100%; }
-  .px-input-bottom .px-btn { flex:1; font-size:10px; padding:12px 0; }
-  .px-back-btn { font-size:10px !important; padding:12px 0 !important; background: #a89888 !important; }
+  .px-input-bottom .px-btn { flex:1; font-size:12px; padding:14px 0; }
+  .px-back-btn { font-size: 12px !important; padding: 13px 0 !important; background: rgba(220,200,205,0.4) !important; }
 
   /* ============================================ */
-  /*  像素展示台                                   */
+  /*  展示台                                       */
   /* ============================================ */
 
   .px-slot-title {
-    font-family:'Press Start 2P', monospace; font-size:12px;
-    color: #f0d8a0; text-align:center; letter-spacing:1px;
+    font-family: 'ZCOOL XiaoWei', 'Noto Serif SC', serif;
+    font-size: 15px; color: var(--text); text-align:center; letter-spacing:4px; font-weight: 400;
   }
 
-  /* 花冠 */
+  /* 花冠 → 樱花装饰 */
   .px-crown {
     display:flex; justify-content:center; align-items:flex-end;
-    gap:4px; height:36px; margin-bottom:-4px; position:relative; z-index:2;
+    gap:8px; height:40px; margin-bottom:-2px; position:relative; z-index:2;
   }
   .px-crown-flower {
-    width:16px; height:20px; background:#8048b0;
-    box-shadow: -4px -4px 0 #a068d0, 4px -4px 0 #a068d0, 0 -8px 0 #9058c0;
-    image-rendering: pixelated;
+    width: 14px; height: 14px;
+    background: var(--accent-deep);
+    border-radius: 70% 30% 50% 50%;
+    box-shadow: 0 0 8px rgba(212,116,140,0.35);
+    animation: petalFloat 3s ease-in-out infinite;
   }
   .px-crown-flower.center {
-    width:24px; height:28px; background: var(--gold);
-    box-shadow: -4px -4px 0 var(--gold2), 4px -4px 0 var(--gold2), 0 -8px 0 var(--gold2), -8px 0 0 var(--gold2), 8px 0 0 var(--gold2);
+    width: 22px; height: 22px;
+    background: var(--accent);
+    border-radius: 60% 40% 55% 45%;
+    box-shadow: 0 0 14px rgba(232,144,154,0.4);
+    animation: petalFloat 2.5s ease-in-out .3s infinite;
+  }
+  .px-crown-flower:nth-child(3) { animation-delay: .6s; }
+  @keyframes petalFloat {
+    0%,100%{ transform: translateY(0) rotate(0deg); }
+    50%{ transform: translateY(-4px) rotate(3deg); }
   }
 
   /* 展示头部 */
   .px-display-head {
     width:84%; margin:0 auto;
-    background: var(--b2);
-    box-shadow: 0 0 0 3px var(--b1), 0 0 0 6px var(--b0);
-    padding:12px 10px 8px;
+    background: linear-gradient(180deg, #fef5f6, #fde8ec);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    border: 1px solid rgba(210, 150, 160, 0.2);
+    border-bottom: none;
+    box-shadow: 0 -2px 12px rgba(180, 90, 110, 0.06);
+    padding:14px 10px 10px;
     text-align:center; position:relative; z-index:1;
-    image-rendering: pixelated;
   }
 
   /* 花苞灯 */
-  .px-lights { display:flex; justify-content:center; gap:6px; margin-top:4px; }
+  .px-lights { display:flex; justify-content:center; gap:8px; margin-top:6px; }
   .px-light {
-    width:10px; height:10px;
-    background: var(--b0);
-    transition:background .2s, box-shadow .2s, transform .2s;
-    image-rendering: pixelated;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: rgba(200, 140, 150, 0.25);
+    transition: all .3s cubic-bezier(.4,0,.2,1);
   }
   .px-light.lit {
-    background: var(--gold);
-    box-shadow: 0 0 8px var(--gold), 0 0 16px rgba(232,192,64,0.5);
-    transform:scale(1.4);
+    background: var(--accent);
+    box-shadow: 0 0 8px rgba(232,144,154,0.5), 0 0 20px rgba(232,144,154,0.25);
+    transform: scale(1.3);
   }
   .px-lights.chasing .px-light {
-    animation: pxChase .6s steps(1) infinite;
+    animation: sakuraChase .65s ease-in-out infinite;
   }
   .px-lights.chasing .px-light:nth-child(1){animation-delay:0s}
-  .px-lights.chasing .px-light:nth-child(2){animation-delay:.07s}
-  .px-lights.chasing .px-light:nth-child(3){animation-delay:.14s}
-  .px-lights.chasing .px-light:nth-child(4){animation-delay:.21s}
-  .px-lights.chasing .px-light:nth-child(5){animation-delay:.28s}
-  .px-lights.chasing .px-light:nth-child(6){animation-delay:.35s}
-  .px-lights.chasing .px-light:nth-child(7){animation-delay:.42s}
-  @keyframes pxChase {
-    0%,12%  { background:var(--gold); box-shadow:0 0 10px var(--gold); transform:scale(1.4); }
-    13%,100%{ background:var(--b0); box-shadow:none; transform:scale(1); }
+  .px-lights.chasing .px-light:nth-child(2){animation-delay:.08s}
+  .px-lights.chasing .px-light:nth-child(3){animation-delay:.16s}
+  .px-lights.chasing .px-light:nth-child(4){animation-delay:.24s}
+  .px-lights.chasing .px-light:nth-child(5){animation-delay:.32s}
+  .px-lights.chasing .px-light:nth-child(6){animation-delay:.40s}
+  .px-lights.chasing .px-light:nth-child(7){animation-delay:.48s}
+  @keyframes sakuraChase {
+    0%,14%  { background:var(--accent); box-shadow:0 0 12px var(--accent2); transform:scale(1.3); }
+    15%,100%{ background:rgba(200,140,150,0.25); box-shadow:none; transform:scale(1); }
   }
 
   /* 展示机身 */
   .px-display-body {
     width:80%; margin:0 auto;
-    background: var(--b3);
-    padding:10px 8px 6px; position:relative;
-    image-rendering: pixelated;
+    background: linear-gradient(180deg, #fef5f7, #fdf0f3);
+    border-left: 1px solid rgba(210,150,160,0.2);
+    border-right: 1px solid rgba(210,150,160,0.2);
+    padding:12px 8px 8px; position:relative;
   }
 
   /* 屏幕框 */
   .px-bezel {
-    padding:6px;
-    background: var(--b1);
-    box-shadow: inset 0 0 0 2px var(--b0);
-    image-rendering: pixelated;
+    padding:8px;
+    background: #fef8f9;
+    border-radius: var(--radius-sm);
+    box-shadow: inset 0 2px 8px rgba(180,100,120,0.08);
+    border: 1px solid rgba(210,150,160,0.15);
   }
   .px-screen {
-    background: var(--ui);
-    box-shadow: inset 0 0 0 2px var(--b2), inset 0 0 0 4px var(--ui);
-    padding:8px 6px 4px;
-    image-rendering: pixelated;
+    background: var(--cream);
+    border-radius: 8px;
+    box-shadow: inset 0 2px 6px rgba(180,100,120,0.06);
+    padding:10px 6px 6px;
   }
 
   /* 滚轴 */
-  .px-reels { display:flex; justify-content:center; gap:8px; padding:4px 0; position:relative; z-index:1; }
+  .px-reels { display:flex; justify-content:center; gap:10px; padding:6px 0; position:relative; z-index:1; }
 
   .reel-frame {
-    position:relative; width:66px; height:48px;
-    background: var(--b0);
-    box-shadow: 0 0 0 2px var(--b2), inset 0 0 8px rgba(0,0,0,0.4);
+    position:relative; width:70px; height:52px;
+    background: #fef5f6;
+    border-radius: 10px;
+    border: 1.5px solid rgba(210,150,160,0.25);
+    box-shadow: inset 0 2px 10px rgba(180,100,120,0.08);
     overflow:hidden;
-    image-rendering: pixelated;
   }
   .reel-frame::before {
     content:''; position:absolute; top:0;left:0;right:0;height:40%;
-    background:linear-gradient(180deg, rgba(255,255,255,0.15), transparent);
-    z-index:3; pointer-events:none;
+    background:linear-gradient(180deg, rgba(255,255,255,0.4), transparent);
+    z-index:3; pointer-events:none; border-radius: 10px 10px 0 0;
   }
   .reel-frame::after {
     content:''; position:absolute; left:0;right:0; top:50%;
-    height:2px; background:var(--gold);
-    box-shadow:0 0 6px var(--gold);
+    height:1.5px; background:var(--accent);
+    box-shadow:0 0 8px rgba(232,144,154,0.3);
     z-index:3; pointer-events:none;
   }
 
   .reel-strip { position:absolute; left:0; width:100%; will-change:transform; }
   .reel-num {
     display:flex; align-items:center; justify-content:center;
-    height:44px;
-    font-family:'Press Start 2P', monospace; font-size:26px;
-    color: #f0e4c8;
-    text-shadow:2px 2px 0 rgba(0,0,0,0.5);
+    height:46px;
+    font-family: 'ZCOOL XiaoWei', 'Noto Serif SC', serif;
+    font-size: 28px; font-weight: 400;
+    color: var(--text);
   }
 
   /* 屏幕底部 */
   .px-display-label {
-    text-align:center; font-family:'Press Start 2P', monospace;
-    font-size:8px; color: var(--ui); letter-spacing:4px;
-    padding:4px 0 2px; opacity:.7;
+    text-align:center; font-family: 'Noto Serif SC', serif;
+    font-size: 9px; color: var(--text-muted); letter-spacing:6px;
+    padding:5px 0 3px; opacity:.7; font-weight: 300;
   }
 
   /* 装饰搁板 */
   .px-shelf {
     width:88%; margin:0 auto;
-    background: var(--b3);
-    box-shadow: 0 0 0 2px var(--b1), 0 0 0 5px var(--b0), 0 4px 0 0 var(--b2);
-    padding:8px 12px;
-    display:flex; align-items:center; justify-content:center; gap:8px;
-    image-rendering: pixelated;
+    background: linear-gradient(180deg, #fef5f7, #fdeef2);
+    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+    border: 1px solid rgba(210,150,160,0.18);
+    border-top: none;
+    box-shadow: 0 2px 8px rgba(180,90,110,0.05);
+    padding:10px 14px;
+    display:flex; align-items:center; justify-content:center; gap:10px;
   }
-  .px-shelf-moss { flex:1; height:6px; background: var(--g4); }
+  .px-shelf-moss { flex:1; height:1px; background: rgba(210,150,160,0.25); }
   .px-shelf-gem {
-    width:10px; height:10px; background: var(--gold);
-    box-shadow: 0 0 8px var(--gold); flex-shrink:0;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 10px rgba(232,144,154,0.3); flex-shrink:0;
   }
-  .px-shelf-gem.sm { width:8px; height:8px; background: var(--pink); box-shadow: 0 0 6px var(--pink); }
+  .px-shelf-gem.sm {
+    width: 7px; height: 7px;
+    background: var(--accent-deep);
+    box-shadow: 0 0 6px rgba(212,116,140,0.25);
+  }
 
   /* 底座 */
   .px-base {
     width:80%; margin:0 auto;
-    background: var(--b2);
-    box-shadow: 0 0 0 2px var(--b1), 0 0 0 5px var(--b0);
-    padding:6px 8px 8px;
-    image-rendering: pixelated;
+    background: linear-gradient(180deg, #fef3f5, #fde8ec);
+    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+    border: 1px solid rgba(210,150,160,0.15);
+    border-top: none;
+    box-shadow: 0 4px 12px rgba(180,90,110,0.06);
+    padding:8px 10px 10px;
   }
-  .px-base-line { height:3px; margin:4px 0; background: var(--b3); }
+  .px-base-line { height:1px; margin:5px 0; background: rgba(210,150,160,0.18); }
   .px-foot {
-    width:88%; height:10px; margin:0 auto -4px;
-    background: var(--b1);
-    box-shadow: 0 0 0 2px var(--b0), 0 3px 8px rgba(0,0,0,0.3);
-    image-rendering: pixelated;
+    width:88%; height: 12px; margin:0 auto -4px;
+    background: linear-gradient(180deg, #fdf0f3, #fde4e9);
+    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+    border: 1px solid rgba(210,150,160,0.12);
+    border-top: none;
+    box-shadow: 0 4px 14px rgba(180,90,110,0.06);
   }
 
   /* 滚轴动画 */
   .reel-frame.spinning {
-    animation: pxSpinGlow .3s steps(1) infinite;
+    animation: sakuraSpinGlow .35s ease-in-out infinite;
   }
-  @keyframes pxSpinGlow {
-    0%,100%{ box-shadow:0 0 0 2px var(--b2), inset 0 0 8px rgba(0,0,0,0.4); }
-    50%{ box-shadow:0 0 0 2px var(--gold), 0 0 14px var(--gold), inset 0 0 8px rgba(0,0,0,0.4); }
+  @keyframes sakuraSpinGlow {
+    0%,100%{ box-shadow:inset 0 2px 10px rgba(180,100,120,0.08); border-color:rgba(210,150,160,0.25); }
+    50%{ box-shadow:inset 0 2px 10px rgba(180,100,120,0.08), 0 0 16px rgba(232,144,154,0.3); border-color:rgba(232,144,154,0.5); }
   }
   .reel-frame.landed {
-    animation: pxLandFlash .4s steps(5) forwards;
+    animation: sakuraLandFlash .5s cubic-bezier(.4,0,.2,1) forwards;
   }
-  @keyframes pxLandFlash {
-    0%{ box-shadow:0 0 0 2px var(--gold), 0 0 20px var(--gold); transform:scale(1.08); }
-    100%{ box-shadow:0 0 0 2px var(--b2), inset 0 0 8px rgba(0,0,0,0.4); transform:scale(1); }
+  @keyframes sakuraLandFlash {
+    0%{ box-shadow:0 0 0 2px var(--accent), 0 0 24px rgba(232,144,154,0.4); transform:scale(1.06); }
+    100%{ box-shadow:inset 0 2px 10px rgba(180,100,120,0.08); border-color:rgba(210,150,160,0.25); transform:scale(1); }
   }
 
-  /* 像素爆发 */
+  /* 爆发粒子 */
   .px-burst {
     position:fixed; pointer-events:none; z-index:100;
-    width:6px; height:6px;
-    background:var(--bc, #e09820);
-    animation: pxBurstOut var(--bdur, .6s) steps(8) forwards;
-    image-rendering: pixelated;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--bc, #e8909a);
+    animation: sakuraBurstOut var(--bdur, .65s) cubic-bezier(.4,0,.2,1) forwards;
+    box-shadow: 0 0 4px rgba(232,144,154,0.4);
   }
-  @keyframes pxBurstOut {
-    0%   { transform:translate(0,0) scale(.5); opacity:1; }
-    100% { transform:translate(var(--bx),var(--by)) scale(.1); opacity:0; }
+  @keyframes sakuraBurstOut {
+    0%   { transform:translate(0,0) scale(.3); opacity:1; }
+    100% { transform:translate(var(--bx),var(--by)) scale(0); opacity:0; }
   }
 
   /* 底部按钮 */
-  .px-slot-bottom { display:flex; gap:10px; width:100%; margin-top:10px; }
-  .px-slot-bottom .px-btn { flex:1; font-size:10px; padding:12px 0; }
+  .px-slot-bottom { display:flex; gap:10px; width:100%; margin-top:12px; }
+  .px-slot-bottom .px-btn { flex:1; font-size:12px; padding:14px 0; }
   .px-retry-btn {
-    font-size:10px !important; padding:12px 0 !important;
-    background: #c86030 !important; color: #fff !important;
-    box-shadow: 0 0 0 2px #803018, 0 0 0 4px var(--g3), 0 6px 0 0 #803018, 0 6px 0 2px #803018 !important;
+    font-size: 12px !important; padding: 14px 0 !important;
+    background: linear-gradient(135deg, #fef0f2, #fde4e8) !important;
+    color: var(--rose) !important;
+    border-color: rgba(200,80,106,0.3) !important;
+    font-weight: 600 !important;
   }
 
   /* ============================================ */
-  /*  小皇帝和情绪 — 城堡木板 UI                   */
+  /*  小皇帝和情绪 — 和纸质感 UI                   */
   /* ============================================ */
 
   .px-emo-scroll {
-    width:100%; display:flex; flex-direction:column; gap:6px;
+    width:100%; display:flex; flex-direction:column; gap:8px;
     padding:2px 0;
   }
 
   .px-emo-card {
+    background: linear-gradient(180deg,
+      rgba(255,248,250,0.9) 0%,
+      rgba(254,240,244,0.92) 40%,
+      rgba(253,232,238,0.88) 100%);
+    padding:10px 16px 8px;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(210,150,160,0.2);
+    box-shadow: 0 2px 10px rgba(180,90,110,0.05);
+    transition: all .3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  /* 和纸纤维纹理 */
+  .px-emo-card::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 0;
     background:
-      repeating-linear-gradient(1deg, transparent, transparent 3px, rgba(80,40,15,0.06) 3px, rgba(80,40,15,0.06) 4px),
-      linear-gradient(180deg, #c4a058 0%, #b89050 25%, #a07840 50%, #8b6830 80%, #7a5828 100%);
-    padding:7px 14px 5px;
-    border-radius: 0;
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,0.12),
-      0 0 0 3px #5a3a20,
-      0 0 0 6px #3a2010,
-      4px 4px 0 0 rgba(0,0,0,0.3);
-    image-rendering: pixelated;
-    transition: box-shadow .2s;
+      radial-gradient(circle at 20% 30%, rgba(220,150,160,0.06) 0%, transparent 50%),
+      radial-gradient(circle at 70% 60%, rgba(210,140,150,0.04) 0%, transparent 40%),
+      radial-gradient(circle at 50% 20%, rgba(230,160,170,0.05) 0%, transparent 30%);
+    border-radius: var(--radius-sm);
   }
   .px-emo-card.flash {
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,0.12),
-      0 0 0 3px #5a3a20,
-      0 0 0 6px #3a2010,
-      4px 4px 0 0 rgba(0,0,0,0.3),
-      0 0 16px rgba(216,160,48,0.5);
+    box-shadow: 0 2px 10px rgba(180,90,110,0.05), 0 0 22px rgba(232,144,154,0.25);
+    border-color: rgba(232,144,154,0.4);
   }
 
   .px-emo-name {
-    font-family:'Press Start 2P', monospace; font-size:9px;
-    color: #2a1008; letter-spacing:2px; text-align:center;
-    text-shadow: 1px 1px 0 rgba(0,0,0,0.5), -1px -1px 0 rgba(255,220,180,0.1);
+    font-family: 'Noto Serif SC', serif; font-size: 11px; font-weight: 500;
+    color: var(--text); letter-spacing: 3px; text-align: center;
+    position: relative; z-index: 1;
   }
 
-  .px-emo-slider-wrap { position:relative; padding:4px 0 2px; }
+  .px-emo-slider-wrap { position:relative; padding:6px 0 3px; z-index: 1; }
 
   .px-emo-ticks {
     display:flex; justify-content:space-between;
-    padding:0 8px; margin-bottom:-2px;
+    padding:0 10px; margin-bottom:-1px;
     position:relative; z-index:2; pointer-events:none;
   }
   .px-emo-tick {
-    width:5px; height:5px;
-    background: #3a1c08;
-    box-shadow: inset 0 1px 0 rgba(0,0,0,0.6), 0 1px 0 rgba(255,220,180,0.1);
-    transition:background .15s, box-shadow .15s, transform .15s;
-    image-rendering: pixelated;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(180,130,140,0.3);
+    transition: all .2s cubic-bezier(.4,0,.2,1);
   }
   .px-emo-tick.near {
-    background: var(--tc); transform:scale(1.6);
-    box-shadow: 0 0 6px var(--tg), inset 0 1px 0 rgba(255,255,255,0.3);
+    background: var(--tc); transform:scale(1.7);
+    box-shadow: 0 0 8px var(--tg);
   }
 
   .emo-slider {
     -webkit-appearance:none; appearance:none;
-    width:100%; height:22px; background:transparent;
+    width:100%; height:24px; background:transparent;
     cursor:pointer; outline:none; margin:0;
     position:relative; z-index:3;
   }
   .emo-slider::-webkit-slider-runnable-track {
-    width:100%; height:5px;
-    background: #2a1808;
-    box-shadow: inset 0 2px 3px rgba(0,0,0,0.6), 0 1px 0 rgba(255,220,180,0.08);
-    border-radius: 0;
+    width:100%; height: 3px;
+    background: rgba(180,130,140,0.2);
+    border-radius: 2px;
+    box-shadow: inset 0 1px 3px rgba(160,100,120,0.08);
   }
   .emo-slider::-moz-range-track {
-    width:100%; height:5px;
-    background: #2a1808;
-    box-shadow: inset 0 2px 3px rgba(0,0,0,0.6), 0 1px 0 rgba(255,220,180,0.08);
-    border-radius: 0;
+    width:100%; height: 3px;
+    background: rgba(180,130,140,0.2);
+    border-radius: 2px;
+    box-shadow: inset 0 1px 3px rgba(160,100,120,0.08);
   }
   .emo-slider::-webkit-slider-thumb {
     -webkit-appearance:none; appearance:none;
-    width:18px; height:18px; margin-top:-6px;
-    background:var(--tc);
-    box-shadow: 0 0 0 2px rgba(0,0,0,0.5), 0 0 0 5px rgba(0,0,0,0.2), 0 2px 4px rgba(0,0,0,0.5);
-    cursor:pointer; transition:transform .1s;
-    image-rendering: pixelated;
+    width: 20px; height: 20px; margin-top: -9px;
+    border-radius: 50%;
+    background: var(--tc);
+    box-shadow: 0 2px 8px rgba(180,90,110,0.2), 0 0 0 3px rgba(255,255,255,0.5);
+    cursor:pointer; transition: transform .15s;
   }
   .emo-slider::-webkit-slider-thumb:active { transform:scale(1.2); }
   .emo-slider::-moz-range-thumb {
-    width:18px; height:18px;
-    background:var(--tc);
-    box-shadow: 0 0 0 2px rgba(0,0,0,0.5), 0 0 0 5px rgba(0,0,0,0.2), 0 2px 4px rgba(0,0,0,0.5);
-    cursor:pointer; image-rendering: pixelated;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--tc);
+    box-shadow: 0 2px 8px rgba(180,90,110,0.2), 0 0 0 3px rgba(255,255,255,0.5);
+    cursor:pointer;
   }
 
   .px-emo-labels {
     display:flex; justify-content:space-between;
-    padding:0 4px; margin-top:3px;
+    padding:0 6px; margin-top:4px; position: relative; z-index: 1;
   }
   .px-emo-label {
-    font-family:'Press Start 2P', monospace; font-size:6px;
-    color: #4a2810; letter-spacing:.5px;
-    text-shadow: 1px 1px 0 rgba(0,0,0,0.3), -1px -1px 0 rgba(255,200,150,0.06);
-    line-height:1.4; max-width:40%;
+    font-family: 'Noto Serif SC', serif; font-size: 8px; font-weight: 300;
+    color: var(--text-light); letter-spacing: 1px;
+    line-height:1.5; max-width:42%;
   }
   .px-emo-label:first-child { text-align:left; }
   .px-emo-label:last-child  { text-align:right; }
 
   .emo-pop {
     position:fixed; pointer-events:none; z-index:100;
-    width:5px; height:5px;
-    background:var(--ep, #e09820);
-    animation: emoPop .4s steps(6) forwards;
-    image-rendering: pixelated;
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--ep, #e8909a);
+    animation: emoPopOut .45s cubic-bezier(.4,0,.2,1) forwards;
+    box-shadow: 0 0 4px rgba(232,144,154,0.4);
   }
-  @keyframes emoPop {
-    0%{transform:translate(0,0) scale(.4);opacity:1;}
+  @keyframes emoPopOut {
+    0%{transform:translate(0,0) scale(.3);opacity:1;}
     100%{transform:translate(var(--bx),var(--by)) scale(0);opacity:0;}
   }
 
   /* 情绪页紧凑覆盖 */
-  #page-emotion .container { padding:10px 14px; gap:7px; }
-  #page-emotion .px-card { padding:10px 16px 8px; gap:6px; }
-  #page-emotion .px-card .px-divider { width:60%; }
-  #page-emotion .px-back-btn { padding:8px 0 !important; font-size:9px !important; background: #8a7060 !important; }
+  #page-emotion .container { padding:10px 14px; gap:9px; }
+  #page-emotion .px-card { padding:14px 18px 10px; gap:8px; }
+  #page-emotion .px-card .px-divider { width:50%; }
+  #page-emotion .px-back-btn { padding:10px 0 !important; font-size: 11px !important; background: rgba(220,200,205,0.35) !important; }
+
+  /* ===== 装饰性樱花斑点 ===== */
+  .decorative-spot {
+    position: fixed; pointer-events: none; z-index: 1;
+    border-radius: 50%;
+    background: rgba(220,140,155,0.06);
+    animation: spotDrift 20s ease-in-out infinite;
+  }
+  @keyframes spotDrift {
+    0%,100%{ transform: translate(0,0) scale(1); }
+    25%{ transform: translate(6px,-10px) scale(1.08); }
+    50%{ transform: translate(-4px,-5px) scale(0.94); }
+    75%{ transform: translate(-8px,4px) scale(1.04); }
+  }
 </style>
 </head>
 <body>
 
-<!-- 自然场景背景 -->
-<div class="nature-scene" id="nature-scene"></div>
+<!-- 纹理背景 Canvas -->
+<canvas id="texture-canvas"></canvas>
+
+<!-- 装饰性散落斑点 -->
+<div class="decorative-spot" style="top:5%;left:8%;width:180px;height:180px;animation-delay:0s;"></div>
+<div class="decorative-spot" style="top:60%;right:5%;width:140px;height:140px;animation-delay:-5s;"></div>
+<div class="decorative-spot" style="bottom:10%;left:15%;width:120px;height:120px;animation-delay:-10s;"></div>
+<div class="decorative-spot" style="top:30%;right:15%;width:100px;height:100px;animation-delay:-15s;"></div>
+<div class="decorative-spot" style="top:75%;right:25%;width:90px;height:90px;animation-delay:-3s;"></div>
 
 <!-- ========== 主页 ========== -->
 <div class="page" id="page-home">
   <div class="container">
     <div class="px-card">
-      <h1 class="px-title">* Rach的宝盒 *</h1>
+      <h1 class="px-title">Rach 的宝盒</h1>
       <div class="px-divider"></div>
     </div>
 
     <div class="btn-group">
       <button class="px-btn px-btn-emperor" data-id="emperor" id="btn-emperor">
-        * 小皇帝的评分 *
+        小皇帝的评分
       </button>
-      <button class="px-btn" data-id="B">* 小皇帝和情绪 *</button>
-      <button class="px-btn" data-id="C">* C *</button>
-      <button class="px-btn" data-id="D">* D *</button>
+      <button class="px-btn" data-id="B">小皇帝和情绪</button>
+      <button class="px-btn" data-id="C">C</button>
+      <button class="px-btn" data-id="D">D</button>
     </div>
 
-    <div class="px-footer">* 春日的宝盒 *</div>
+    <div class="px-footer">春日的宝盒</div>
   </div>
 </div>
 
@@ -695,7 +619,7 @@
 <div class="page hidden" id="page-input">
   <div class="container">
     <div class="px-card">
-      <div class="px-input-title">* 小皇帝的评分 *</div>
+      <div class="px-input-title">小皇帝的评分</div>
       <div class="px-divider"></div>
       <div class="px-input-hint">输入分数 (0~999)</div>
     </div>
@@ -718,7 +642,7 @@
       </div>
     </div>
 
-    <button class="px-btn px-back-btn" id="btn-input-back">* 返回宝盒 *</button>
+    <button class="px-btn px-back-btn" id="btn-input-back">返回宝盒</button>
   </div>
 </div>
 
@@ -726,11 +650,11 @@
 <div class="page hidden" id="page-slot">
   <div class="container">
     <div class="px-card">
-      <div class="px-slot-title">* 小皇帝的评分 *</div>
+      <div class="px-slot-title">小皇帝的评分</div>
       <div class="px-divider"></div>
     </div>
 
-    <!-- 像素展示台 -->
+    <!-- 展示台 -->
     <div style="width:100%;">
       <div class="px-crown">
         <div class="px-crown-flower"></div>
@@ -786,8 +710,8 @@
     </div>
 
     <div class="px-slot-bottom">
-      <button class="px-btn px-back-btn" id="btn-slot-back">* 返回 *</button>
-      <button class="px-btn px-retry-btn" id="btn-retry">* 重新打分 *</button>
+      <button class="px-btn px-back-btn" id="btn-slot-back">返回</button>
+      <button class="px-btn px-retry-btn" id="btn-retry">重新打分</button>
     </div>
   </div>
 </div>
@@ -796,14 +720,14 @@
 <div class="page hidden" id="page-emotion">
   <div class="container">
     <div class="px-card">
-      <h1 class="px-title" style="font-size:12px;">* 小皇帝和情绪 *</h1>
+      <h1 class="px-title" style="font-size:15px;">小皇帝和情绪</h1>
       <div class="px-divider"></div>
     </div>
 
     <div class="px-emo-scroll" id="emotion-scroll">
 
       <div class="px-emo-card" data-key="mood">
-        <div class="px-emo-name">心情</div>
+        <div class="px-emo-name">心 情</div>
         <div class="px-emo-slider-wrap">
           <div class="px-emo-ticks">
             <span class="px-emo-tick"></span><span class="px-emo-tick"></span>
@@ -819,7 +743,7 @@
       </div>
 
       <div class="px-emo-card" data-key="stress">
-        <div class="px-emo-name">压力</div>
+        <div class="px-emo-name">压 力</div>
         <div class="px-emo-slider-wrap">
           <div class="px-emo-ticks">
             <span class="px-emo-tick"></span><span class="px-emo-tick"></span>
@@ -835,7 +759,7 @@
       </div>
 
       <div class="px-emo-card" data-key="energy">
-        <div class="px-emo-name">精力</div>
+        <div class="px-emo-name">精 力</div>
         <div class="px-emo-slider-wrap">
           <div class="px-emo-ticks">
             <span class="px-emo-tick"></span><span class="px-emo-tick"></span>
@@ -851,7 +775,7 @@
       </div>
 
       <div class="px-emo-card" data-key="physical">
-        <div class="px-emo-name">体力</div>
+        <div class="px-emo-name">体 力</div>
         <div class="px-emo-slider-wrap">
           <div class="px-emo-ticks">
             <span class="px-emo-tick"></span><span class="px-emo-tick"></span>
@@ -867,7 +791,7 @@
       </div>
 
       <div class="px-emo-card" data-key="love">
-        <div class="px-emo-name">爱意</div>
+        <div class="px-emo-name">爱 意</div>
         <div class="px-emo-slider-wrap">
           <div class="px-emo-ticks">
             <span class="px-emo-tick"></span><span class="px-emo-tick"></span>
@@ -884,272 +808,182 @@
 
     </div>
 
-    <button class="px-btn px-back-btn" id="btn-emotion-back">* 返回宝盒 *</button>
+    <button class="px-btn px-back-btn" id="btn-emotion-back">返回宝盒</button>
   </div>
 </div>
 
 <script>
-  // ========== 像素叶子簇生成函数 ==========
-  const GREENS = ['#181828','#242438','#303048','#383858','#404068','#484878','#2c2c40','#3a3a50'];
-  const DARK_GREENS = ['#0c0c16','#141420','#181828','#1c1c30'];
-
-  function pxLeafCluster(w, h, density, colors) {
-    const shadows = [];
-    const count = Math.floor(w * h * density / 16);
-    const rx = w / 2, ry = h / 2;
-    for (let i = 0; i < count; i++) {
-      let px, py;
-      do {
-        px = (Math.random() - 0.5) * w;
-        py = (Math.random() - 0.5) * h;
-      } while ((px * px) / (rx * rx) + (py * py) / (ry * ry) > 1);
-      const sx = Math.round(px / 4) * 4;
-      const sy = Math.round(py / 4) * 4;
-      const c = colors[Math.floor(Math.random() * colors.length)];
-      shadows.push(`${sx}px ${sy}px 0 0 ${c}`);
-    }
-    return shadows.join(',');
-  }
-
-  function pxTreeCanopy(w, h) {
-    return pxLeafCluster(w, h, 1.8, GREENS);
-  }
-
-  // ===== 生成像素森林场景 =====
+  // ===========================================================
+  //  Canvas 纹理背景 — 斑点 + 线 + 斑块，带呼吸脉动
+  // ===========================================================
   (function() {
-    const scene = document.getElementById('nature-scene');
-    let html = '';
+    const canvas = document.getElementById('texture-canvas');
+    const ctx = canvas.getContext('2d');
+    let animId, w, h;
 
-    // ---- 像素树冠天花板 ----
-    // 多层重叠的像素叶子簇
-    const canopyLayers = [
-      // 顶部溢出层 (伸出页面顶端)
-      [2, -10, 160, 100, 2.3, GREENS, 4, true],
-      [28, -6, 150, 95, 2.1, GREENS, 4, true],
-      [50, -8, 170, 105, 2.4, GREENS, 4, true],
-      [72, -4, 155, 98, 2.2, GREENS, 4, true],
-      [95, -10, 140, 90, 2.0, GREENS, 4, true],
-      // 上层 — 天蓬主体
-      [10, 8, 130, 80, 1.8, GREENS, 4, false],
-      [35, 5, 145, 85, 1.9, GREENS, 4, false],
-      [60, 12, 135, 78, 1.7, GREENS, 4, false],
-      [85, 6, 140, 82, 1.8, GREENS, 4, false],
-      // 中层 — 向下延伸
-      [5, 28, 120, 75, 1.6, GREENS, 4, false],
-      [30, 24, 130, 80, 1.7, GREENS, 4, false],
-      [55, 30, 125, 72, 1.5, GREENS, 4, false],
-      [80, 26, 135, 78, 1.6, GREENS, 4, false],
-      // 中下层
-      [8, 44, 110, 65, 1.4, DARK_GREENS, 3, false],
-      [33, 40, 120, 70, 1.5, DARK_GREENS, 3, false],
-      [58, 46, 105, 62, 1.3, DARK_GREENS, 3, false],
-      [83, 42, 115, 68, 1.4, DARK_GREENS, 3, false],
-      // 底层 — 贴近树干顶部
-      [15, 58, 90, 55, 1.2, DARK_GREENS, 3, false],
-      [45, 54, 100, 60, 1.3, DARK_GREENS, 3, false],
-      [70, 60, 95, 52, 1.2, DARK_GREENS, 3, false],
-      [90, 56, 105, 58, 1.3, DARK_GREENS, 3, false],
-    ];
+    function resize() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = window.innerWidth * dpr;
+      canvas.height = window.innerHeight * dpr;
+      canvas.style.width = window.innerWidth + 'px';
+      canvas.style.height = window.innerHeight + 'px';
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.scale(dpr, dpr);
+      w = window.innerWidth;
+      h = window.innerHeight;
+      if (!animId) drawAndLoop();
+    }
 
-    canopyLayers.forEach(([cx, cy, cw, ch, density, colors, z, anim]) => {
-      const cs = pxLeafCluster(cw, ch, density, colors);
-      const animStyle = anim ? 'animation:canopyBob ' + (5 + Math.random() * 5) + 's steps(4) infinite;' : '';
-      html += `<div class="px-canopy" style="left:${cx}%;top:${cy}%;width:${cw}px;height:${ch}px;z-index:${z};--cs:${cs};${animStyle}animation-delay:${Math.random()*4}s;"></div>`;
-    });
+    // 伪随机数生成器 (确定性)
+    function seededRandom(seed) {
+      let s = seed;
+      return function() {
+        s = (s * 16807 + 0) % 2147483647;
+        return (s - 1) / 2147483646;
+      };
+    }
 
-    // ---- 像素星星/光点 ----
+    const rand = seededRandom(20260603);
+
+    // ---- 数据生成 ----
+    const dots = [];
+    const lines = [];
+    const blobs = [];
+
+    // 斑点 (极小、极密、呈微尘斑点状分布)
+    for (let i = 0; i < 5200; i++) {
+      dots.push({
+        x: rand() * 100,
+        y: rand() * 100,
+        r: 0.025 + rand() * 0.095,         // 缩小10倍的微尘斑点
+        baseAlpha: 0.03 + rand() * 0.09,   // 基础透明度
+        hue: 340 + rand() * 20,
+        sat: 28 + rand() * 30,
+        light: 52 + rand() * 32,
+        phase: rand() * Math.PI * 2,        // 呼吸相位偏移
+        speed: 0.3 + rand() * 0.5           // 呼吸速度微差
+      });
+    }
+
+    // 纤维线 (更细)
+    for (let i = 0; i < 38; i++) {
+      const startX = rand() * 100;
+      const startY = rand() * 100;
+      const points = [];
+      const numPts = 3 + Math.floor(rand() * 5);
+      let cx = startX, cy = startY;
+      for (let j = 0; j < numPts; j++) {
+        cx += (rand() - 0.5) * 18;
+        cy += (rand() - 0.5) * 14;
+        points.push({ x: cx, y: cy });
+      }
+      lines.push({
+        points,
+        baseAlpha: 0.025 + rand() * 0.055,
+        width: 0.3 + rand() * 0.7,
+        hue: 340 + rand() * 20,
+        sat: 20 + rand() * 30,
+        light: 58 + rand() * 25,
+        phase: rand() * Math.PI * 2,
+        speed: 0.25 + rand() * 0.45
+      });
+    }
+
+    // 不规则斑块
     for (let i = 0; i < 18; i++) {
-      const sx = Math.random() * 96;
-      const sy = Math.random() * 60;
-      const ss = 2 + Math.random() * 3;
-      const tg = ['#f8d870','#f8e090','#ffe8a0','#f8c850','#ffe0b0'][Math.floor(Math.random()*5)];
-      html += `<div style="position:fixed;left:${sx}%;top:${sy}%;width:${ss}px;height:${ss}px;background:${tg};z-index:0;image-rendering:pixelated;animation:pxBlink ${3+Math.random()*5}s steps(1) infinite;animation-delay:${Math.random()*3}s;"></div>`;
+      blobs.push({
+        x: rand() * 100,
+        y: rand() * 100,
+        rx: 20 + rand() * 80,
+        ry: 15 + rand() * 55,
+        baseAlpha: 0.012 + rand() * 0.035,
+        hue: 340 + rand() * 20,
+        sat: 15 + rand() * 25,
+        light: 60 + rand() * 25,
+        angle: rand() * Math.PI,
+        phase: rand() * Math.PI * 2,
+        speed: 0.2 + rand() * 0.35
+      });
     }
 
-    // ---- 背景树 (8棵, 远处) ----
-    for (let i = 0; i < 8; i++) {
-      const x = 3 + Math.random() * 94;
-      const h = 55 + Math.random() * 35;
-      const w = 8 + Math.floor(Math.random() * 6);
-      const tb = ['#141424','#18182c','#10101c'][Math.floor(Math.random()*3)];
-      const cw = 40 + Math.random() * 50;
-      const ch = 30 + Math.random() * 35;
-      const ctop = -(ch * 0.6);
-      const cs = pxTreeCanopy(cw, ch);
-      html += `<div class="px-tree" style="left:${x}%;z-index:0;opacity:0.55;animation:pxSway ${7+Math.random()*5}s steps(6) infinite;animation-delay:${Math.random()*5}s;">
-        <div class="trunk" style="width:${w}px;height:${h}vh;--tb:${tb};--ctop:${ctop}px;--cshadow:${cs};"></div>
-      </div>`;
+    // ---- 呼吸系数 ----
+    // 全局呼吸周期 ~5.5 秒；用正弦波模拟："吸气"变亮 → "呼气"变暗
+    function breath(phase, speed, t) {
+      // sin 范围 [-1, 1] → 映射到 [0.55, 1.0]，形成柔和的呼吸感
+      const raw = Math.sin(t * speed * 0.00114 + phase);
+      return 0.55 + (raw + 1) * 0.225;
     }
 
-    // ---- 中层树 (7棵) ----
-    for (let i = 0; i < 7; i++) {
-      const x = 5 + Math.random() * 90;
-      const h = 65 + Math.random() * 30;
-      const w = 10 + Math.floor(Math.random() * 8);
-      const cw = 55 + Math.random() * 60;
-      const ch = 35 + Math.random() * 45;
-      const ctop = -(ch * 0.55);
-      const cs = pxTreeCanopy(cw, ch);
-      html += `<div class="px-tree" style="left:${x}%;z-index:1;opacity:0.75;animation:pxSway ${5+Math.random()*4}s steps(6) infinite;animation-delay:${Math.random()*4}s;">
-        <div class="trunk" style="width:${w}px;height:${h}vh;--tb:#1c142a;--ctop:${ctop}px;--cshadow:${cs};"></div>
-      </div>`;
-    }
+    function draw(timestamp) {
+      ctx.clearRect(0, 0, w, h);
 
-    // ---- 前景树 (5棵, 粗壮) ----
-    const fgTrees = [
-      { x: 3, h: 88, w: 20 },
-      { x: 14, h: 85, w: 16 },
-      { x: 25, h: 90, w: 18 },
-      { x: 78, h: 87, w: 17 },
-      { x: 92, h: 89, w: 22 },
-    ];
-    fgTrees.forEach(t => {
-      const cw = 70 + Math.random() * 50;
-      const ch = 45 + Math.random() * 40;
-      const ctop = -(ch * 0.5);
-      const cs = pxTreeCanopy(cw, ch);
-      html += `<div class="px-tree" style="left:${t.x}%;z-index:2;animation:pxSway ${4+Math.random()*3}s steps(6) infinite;animation-delay:${Math.random()*3}s;">
-        <div class="trunk" style="width:${t.w}px;height:${t.h}vh;--tb:#2c2040;--ctop:${ctop}px;--cshadow:${cs};"></div>
-      </div>`;
-    });
+      // 基底渐变
+      const baseGrad = ctx.createLinearGradient(0, 0, w, h);
+      baseGrad.addColorStop(0, '#fdf2f5');
+      baseGrad.addColorStop(0.35, '#fef5f7');
+      baseGrad.addColorStop(0.65, '#fdf0f4');
+      baseGrad.addColorStop(1, '#fdf2f5');
+      ctx.fillStyle = baseGrad;
+      ctx.fillRect(0, 0, w, h);
 
-    // ---- 藤曼 (从前景树冠垂下) ----
-    const vineLeafColors = ['#8b3878','#9b4890','#7b2868','#6b2060','#ab58a0'];
-    fgTrees.forEach(t => {
-      const numVines = 2 + Math.floor(Math.random() * 4);
-      for (let v = 0; v < numVines; v++) {
-        const vx = t.x + (Math.random() - 0.5) * 8;
-        const vy = (100 - t.h) - Math.random() * 3; // 树冠底部%
-        const vh = 30 + Math.random() * 55; // 藤曼长度 vh
-        const vdur = 4 + Math.random() * 5;
-        const vdelay = Math.random() * 4;
-        // 藤曼末端像素叶子
-        const vLeafShadows = [];
-        for (let l = 0; l < 6; l++) {
-          const lx = (Math.random() - 0.5) * 12;
-          const ly = (Math.random() - 0.5) * 8;
-          const vlc = vineLeafColors[Math.floor(Math.random() * vineLeafColors.length)];
-          vLeafShadows.push(`${Math.round(lx/4)*4}px ${Math.round(ly/4)*4}px 0 0 ${vlc}`);
+      // 斑块
+      blobs.forEach(b => {
+        const bf = breath(b.phase, b.speed, timestamp);
+        ctx.save();
+        const bx = b.x / 100 * w;
+        const by = b.y / 100 * h;
+        ctx.translate(bx, by);
+        ctx.rotate(b.angle);
+        ctx.beginPath();
+        ctx.ellipse(0, 0, b.rx, b.ry, 0, 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(${b.hue}, ${b.sat}%, ${b.light}%, ${b.baseAlpha * bf})`;
+        ctx.fill();
+        ctx.restore();
+      });
+
+      // 纤维线
+      lines.forEach(l => {
+        const lf = breath(l.phase, l.speed, timestamp);
+        ctx.beginPath();
+        const first = l.points[0];
+        ctx.moveTo(first.x / 100 * w, first.y / 100 * h);
+        for (let i = 1; i < l.points.length; i++) {
+          const cp1x = l.points[i-1].x / 100 * w + (l.points[i].x - l.points[i-1].x) / 100 * w * 0.4;
+          const cp1y = l.points[i-1].y / 100 * h + (l.points[i].y - l.points[i-1].y) / 100 * h * 0.3;
+          const cp2x = l.points[i].x / 100 * w - (l.points[i].x - l.points[i-1].x) / 100 * w * 0.3;
+          const cp2y = l.points[i].y / 100 * h - (l.points[i].y - l.points[i-1].y) / 100 * h * 0.25;
+          ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, l.points[i].x / 100 * w, l.points[i].y / 100 * h);
         }
-        html += `<div class="px-vine" style="left:${vx}%;top:${vy}vh;height:${vh}px;--vdur:${vdur}s;--vdelay:${vdelay}s;--vleaf:${vLeafShadows.join(',')};"></div>`;
-      }
-    });
+        ctx.strokeStyle = `hsla(${l.hue}, ${l.sat}%, ${l.light}%, ${l.baseAlpha * lf})`;
+        ctx.lineWidth = l.width;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+      });
 
-    // ---- 像素草地 (使用box-shadow批量生成) ----
-    const grassShadows = [];
-    for (let i = 0; i < 80; i++) {
-      const gx = Math.random() * 100;
-      const gy = -(4 + Math.floor(Math.random() * 24));
-      const gc = GREENS[Math.floor(Math.random() * GREENS.length)];
-      grassShadows.push(`${gx}vw ${gy}px 0 ${gc}`);
-    }
-    html += `<div class="px-grass-cont" style="--gs:${grassShadows.join(',')};animation:pxGrass ${3+Math.random()*3}s steps(5) infinite;"></div>`;
-
-        // ---- 像素灌木丛 (结构化穹顶形状) ----
-    function pxBushShape(w, h) {
-      const shadows = [];
-      const dark  = ['#7a5008','#6b4008','#5a3004'];
-      const mid   = ['#a07018','#905810','#b08020'];
-      const light = ['#c89028','#b88020','#d0a030'];
-      const hl    = ['#e0b838','#f0c840','#f8d050'];
-      const rows = Math.floor(h / 4);
-      for (let row = 0; row < rows; row++) {
-        const y = -(row * 4);
-        const prog = row / Math.max(rows - 1, 1);
-        const curveFactor = 1 - Math.pow(prog, 1.6);
-        const rowHalfW = Math.floor(w * curveFactor / 2);
-        const startX = -Math.floor(rowHalfW / 4) * 4;
-        for (let x = startX; x <= rowHalfW; x += 4) {
-          const edgeRatio = Math.abs(x) / Math.max(rowHalfW, 1);
-          if (edgeRatio > 0.7 && Math.random() < edgeRatio * 0.55) continue;
-          let palette;
-          if (prog < 0.25) palette = dark;
-          else if (prog < 0.55) palette = mid;
-          else if (prog < 0.82) palette = light;
-          else palette = hl;
-          const c = palette[Math.floor(Math.random() * palette.length)];
-          shadows.push(x + 'px ' + y + 'px 0 0 ' + c);
-        }
-      }
-      for (let i = 0; i < Math.floor(w / 5); i++) {
-        const hx = Math.round((Math.random() - 0.5) * w * 0.5 / 4) * 4;
-        const hy = -(rows * 4) + Math.floor(Math.random() * 3) * 4;
-        shadows.push(hx + 'px ' + hy + 'px 0 0 ' + hl[Math.floor(Math.random()*hl.length)]);
-      }
-      return shadows.join(',');
+      // 斑点
+      dots.forEach(d => {
+        const bf = breath(d.phase, d.speed, timestamp);
+        ctx.beginPath();
+        ctx.arc(d.x / 100 * w, d.y / 100 * h, d.r, 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(${d.hue}, ${d.sat}%, ${d.light}%, ${d.baseAlpha * bf})`;
+        ctx.fill();
+      });
     }
 
-    const bushDefs = [
-      { x:3,  b:2, w:72, h:40 },
-      { x:11, b:1, w:56, h:32 },
-      { x:22, b:2, w:64, h:36 },
-      { x:33, b:1, w:80, h:44 },
-      { x:47, b:2, w:88, h:48 },
-      { x:58, b:1, w:60, h:34 },
-      { x:70, b:2, w:76, h:40 },
-      { x:80, b:1, w:52, h:30 },
-      { x:90, b:2, w:68, h:38 },
-      { x:96, b:1, w:48, h:28 },
-    ];
-
-    bushDefs.forEach(bp => {
-      const bs = pxBushShape(bp.w, bp.h);
-      html += '<div class="px-bush" style="left:' + bp.x + '%;bottom:' + bp.b + 'vh;--bs:' + bs + ';animation:pxBushBob ' + (4+Math.random()*4).toFixed(1) + 's steps(5) infinite;animation-delay:' + (Math.random()*3).toFixed(1) + 's;"></div>';
-    });
-
-    // ---- 像素高花 (有茎) ----
-    const tallFlowerColors = ['#f89820','#f8a838','#f8c050','#f88818','#f8c860','#ffe0a0','#f8e0c0','#f8b848'];
-    for (let i = 0; i < 18; i++) {
-      const tfx = 2 + Math.random() * 96;
-      const tfy = 8 + Math.random() * 32;
-      const stem = 16 + Math.floor(Math.random() * 30);
-      const tfc = tallFlowerColors[Math.floor(Math.random() * tallFlowerColors.length)];
-      const tfs = [
-        `-4px -4px 0 ${tfc}`, `4px -4px 0 ${tfc}`,
-        `-4px 4px 0 ${tfc}`, `4px 4px 0 ${tfc}`,
-        `0 -8px 0 ${tfc}`, `-8px 0 0 ${tfc}`,
-        `8px 0 0 ${tfc}`, `0 0 0 #f8c848`
-      ].join(',');
-      html += `<div class="px-tall-flower" style="left:${tfx}%;--tfy:${tfy}px;--stem:${stem}px;--tfs:${tfs};--tfdur:${3+Math.random()*3}s;--tfdelay:${Math.random()*3}s;"></div>`;
+    function loop(timestamp) {
+      draw(timestamp);
+      animId = requestAnimationFrame(loop);
     }
 
-    // ---- 像素花朵 (矮花, 前景) ----
-    const flowerColors = ['#f8d050','#e8b830','#c84050','#f8c040','#e8c860','#d8a828'];
-    for (let i = 0; i < 10; i++) {
-      const fx = 3 + Math.random() * 94;
-      const fy = 4 + Math.random() * 14;
-      const fc = flowerColors[Math.floor(Math.random() * flowerColors.length)];
-      const fs = [
-        `-4px -4px 0 ${fc}`, `4px -4px 0 ${fc}`,
-        `-4px 4px 0 ${fc}`, `4px 4px 0 ${fc}`,
-        `0 -8px 0 ${fc}`, `0 0 0 #f8d860`
-      ].join(',');
-      html += `<div class="px-flower" style="left:${fx}%;--fy:${fy}px;--fs:${fs};--fdur:${3+Math.random()*3}s;--fdelay:${Math.random()*3}s;"></div>`;
+    function drawAndLoop() {
+      if (animId) cancelAnimationFrame(animId);
+      animId = requestAnimationFrame(loop);
     }
 
-    // ---- 像素落叶 ----
-    const leafColors = ['#f89820','#f8a838','#f8c040','#e08818','#f8c850','#f8d060','#e8a030'];
-    for (let i = 0; i < 25; i++) {
-      const lx = Math.random() * 96;
-      const ldur = 6 + Math.random() * 10;
-      const ldelay = Math.random() * 12;
-      const ldx = -50 + Math.random() * 100;
-      const lc = leafColors[Math.floor(Math.random() * leafColors.length)];
-      html += `<div class="px-leaf" style="left:${lx}%;--lc:${lc};--fdur:${ldur}s;--fdelay:${ldelay}s;--ldx:${ldx}px;"></div>`;
-    }
-
-    // ---- 像素花瓣 ----
-    const petalColors = ['#f8c850','#f8d860','#f8e0a0','#f8d870','#f8b840'];
-    for (let i = 0; i < 10; i++) {
-      const px = Math.random() * 94;
-      const pdur = 10 + Math.random() * 12;
-      const pdelay = Math.random() * 14;
-      const pdx = 30 + Math.random() * 80;
-      const pc = petalColors[Math.floor(Math.random() * petalColors.length)];
-      html += `<div class="px-petal" style="left:${px}%;--pc:${pc};--pdur:${pdur}s;--pdelay:${pdelay}s;--pdx:${pdx}px;"></div>`;
-    }
-
-    scene.innerHTML = html;
+    w = window.innerWidth;
+    h = window.innerHeight;
+    drawAndLoop();
+    window.addEventListener('resize', resize);
   })();
 
   // ===== 页面导航 =====
@@ -1177,7 +1011,7 @@
     const cx = e.clientX || (t.left + t.width/2);
     const cy = e.clientY || (t.top + t.height/2);
     const r = document.createElement('div'); r.className='ripple';
-    r.style.left=(cx-8)+'px'; r.style.top=(cy-8)+'px';
+    r.style.left=(cx-10)+'px'; r.style.top=(cy-10)+'px';
     document.body.appendChild(r);
     r.addEventListener('animationend',()=>r.remove());
   }
@@ -1364,15 +1198,15 @@
     animFrameId = requestAnimationFrame(animate);
   }
 
-  // 像素爆发
+  // 樱花粒子爆发
   function spawnPixelBurst(el) {
     const rect = el.getBoundingClientRect();
     const cx = rect.left + rect.width / 2;
     const cy = rect.top + rect.height / 2;
-    const colors = ['#f8c040','#f8d860','#e09820','#f8e0a0','#c84050','#f8d8b0'];
-    for (let i = 0; i < 12; i++) {
-      const angle = (Math.PI * 2 * i) / 12 + Math.random() * 0.3;
-      const dist = 20 + Math.random() * 30;
+    const colors = ['#e8909a','#f0a8b0','#d4748c','#f0b0b8','#d88090','#f8c0c8','#e8a0a8','#f8d0d8'];
+    for (let i = 0; i < 14; i++) {
+      const angle = (Math.PI * 2 * i) / 14 + Math.random() * 0.3;
+      const dist = 22 + Math.random() * 34;
       const bx = Math.cos(angle) * dist;
       const by = Math.sin(angle) * dist;
       const p = document.createElement('div');
@@ -1381,7 +1215,7 @@
       p.style.top = (cy - 3) + 'px';
       p.style.setProperty('--bx', bx + 'px');
       p.style.setProperty('--by', by + 'px');
-      p.style.setProperty('--bdur', (0.4 + Math.random() * 0.4) + 's');
+      p.style.setProperty('--bdur', (0.5 + Math.random() * 0.5) + 's');
       p.style.setProperty('--bc', colors[Math.floor(Math.random() * colors.length)]);
       document.body.appendChild(p);
       p.addEventListener('animationend', () => p.remove());
@@ -1418,11 +1252,11 @@
   // ===========================================================
 
   const emoConfig = {
-    mood:     { color:'#D4A830', glow:'rgba(212,168,48,0.35)' },
-    stress:   { color:'#9B6DC0', glow:'rgba(155,109,192,0.35)' },
-    energy:   { color:'#D85030', glow:'rgba(216,80,48,0.35)' },
-    physical: { color:'#6898B8', glow:'rgba(104,152,184,0.35)' },
-    love:     { color:'#D07080', glow:'rgba(208,112,128,0.35)' }
+    mood:     { color:'#e8909a', glow:'rgba(232,144,154,0.4)' },
+    stress:   { color:'#c8a0b0', glow:'rgba(200,160,176,0.4)' },
+    energy:   { color:'#d88090', glow:'rgba(216,128,144,0.4)' },
+    physical: { color:'#b898a8', glow:'rgba(184,152,168,0.4)' },
+    love:     { color:'#e07080', glow:'rgba(224,112,128,0.4)' }
   };
 
   function spawnEmoPop(el, color) {
